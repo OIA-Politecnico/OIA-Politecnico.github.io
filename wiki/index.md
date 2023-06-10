@@ -13,19 +13,24 @@ Al hablar sobre usar la consola, se presupone un entorno basado en Linux.
 
 ## Índice
 
-- [A1 Introducción a la OIA]( A1-Introducción-a-la-OIA.md )
-- [A2 Aprendiendo a Programar (en C++)]( A2-Aprendiendo-a-Programar-(en-C➕➕).md )
-- [A2 Estructuras de Datos en C++]( A2-Estructuras-de-Datos-en-C➕➕.md )
-- [A2 Introducción a la línea de comandos]( A2-Introducción-a-la-línea-de-comandos.md )
-- [A2 Lenguaje C++ para usuarios de C]( A2-Lenguaje-C➕➕-para-usuarios-de-C.md )
-- [A2 Setup para programar en windows]( A2-Setup-para-programar-en-windows.md )
-- [A2 Temario de nivel 1]( A2-Temario-de-nivel-1.md )
-- [C1 Complejidad asintótica]( C1-Complejidad-asintótica.md )
-- [C1 Técnicas algorítmicas]( C1-Técnicas-algorítmicas.md )
-- [C2 Búsqueda binaria]( C2-Búsqueda-binaria.md )
-- [C2 Criba de Eratóstenes (Algoritmo)]( C2-Criba-de-Eratóstenes-(Algoritmo).md )
-- [C2 Optimizacion de DP  (Mochila   Knapsack)]( C2-Optimizacion-de-DP--(Mochila---Knapsack).md )
-- [C2 Primalidad en O(raiz(N))]( C2-Primalidad-en-O(raiz(N)).md )
-- [C2 Teoría de grafos]( C2-Teoría-de-grafos.md )
-- [C2 Union find (estructura de datos)]( C2-Union-find-(estructura-de-datos).md )
-- [C2 bucketing, sqrt decomposition]( C2-bucketing,-sqrt-decomposition.md )
+### Introducción
+
+- [Introducción a la OIA]( introduccion )
+- [Aprendiendo a Programar (en C++)]( aprendiendo-a-programar )
+- [Estructuras de Datos en C++]( estructuras-cpp )
+- [Introducción a la línea de comandos]( linea-de-comandos )
+- [Lenguaje C++ para usuarios de C]( cpp-para-usuarios-de-C )
+- [Setup para programar en windows]( programar-en-windows )
+- [Temario de nivel 1]( temario-de-nivel-1 )
+
+### Algoritmos y estructuras de datos para OIA
+
+- [Complejidad asintótica]( complejidad )
+- [Técnicas algorítmicas]( tecnicas )
+- [Búsqueda binaria]( busqueda-binaria )
+- [Criba de Eratóstenes (Algoritmo)]( criba )
+- [Optimizacion de DP  (Mochila   Knapsack)]( knapsack )
+- [Primalidad en O(raiz(N))]( primalidad-sqrt )
+- [Teoría de grafos]( grafos )
+- [Union find (estructura de datos)]( union-find )
+- [bucketing, sqrt decomposition]( sqrt-decomposition )

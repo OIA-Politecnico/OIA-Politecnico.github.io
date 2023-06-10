@@ -6,8 +6,8 @@ En el sitio encontrarás información sobre la OIA, una wiki con contenidos de t
 
 ## Secciones principales
 
-- [Competencias semanales](editorial/index.md)
-- [Contenidos de teoría](wiki/index.md)
+- [Competencias semanales](editorial)
+- [Contenidos de teoría](wiki)
 
 ## Enlaces útiles
 
