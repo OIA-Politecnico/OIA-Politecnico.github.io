@@ -1,14 +1,14 @@
-Esta es una wiki de programación competitiva, dirigida a estudiantes del politécnico
-que participan del taller de OIA. Incluye información sobre C++, algoritmos, y
-consejos para tener en cuenta a la hora de competir. Aparte, en el mismo repositorio
-hay un curso de C++, el lenguaje de programación que se usa en OIA e IOI.
+# OIA politécnico
 
-## Sobre el apunte
+¡Bienvenido al sitio de OIA en el politécnico!
 
-En el apunte se dan ejercicios. Los que están marcados con un (\*) son particularmente difíciles.
+En el sitio encontrarás información sobre la OIA, una wiki con contenidos de teoría y práctica, y tutoriales de la competencias semanales.
 
-Al hablar sobre usar la consola, se presupone un entorno basado en Linux.
- 
+## Secciones principales
+
+- [Competencias semanales](editorial/index.md)
+- [Contenidos de teoría](wiki/index.md)
+
 ## Enlaces útiles
 
 - [Juez de la OIA](http://juez.oia.unsam.edu.ar/) - Sitio para leer y enviar soluciones a problemas de la OIA
