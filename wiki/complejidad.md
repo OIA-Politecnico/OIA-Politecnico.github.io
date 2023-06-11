@@ -115,9 +115,31 @@ int f5(int n) {
           res = res + 1;
   return res;
 }
+```
 
+## Ejercicios adicionales
+
+```c++
 // (*)
 int f6(int n) {
+	int res = 0;
+	for (int i = 0; i * i < n; ++i) {
+		res = res + 1;
+	}
+	return res;
+}
+
+// (*)
+int f7(int n) {
+	int res = 0;
+	for (int i = 0; i * i < n; ++i) {
+		res = res + 1;
+	}
+	return res;
+}
+
+// (*)
+int f8(int n) {
   int res = 0;
   for (int i = 1; i < n; i = i * 2)
       res = res + 1;
@@ -125,10 +147,21 @@ int f6(int n) {
 }
 
 // (*)
-int f7(int n) {
+int f9(int n) {
   int res = 0;
   for (int i = n; i > 0; i = i / 2)
       res = res + 1;
   return res;
+}
+
+// (*)
+int f10(int n) {
+	int res = 0;
+	for (int i = 1; i < n; ++i) {
+		for (int j = 0; j < n; j += i) {
+			res = res + 1;
+		}
+	}
+	return res;
 }
 ```

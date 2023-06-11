@@ -19,7 +19,7 @@ Al hablar sobre usar la consola, se presupone un entorno basado en Linux.
 - [Aprendiendo a Programar (en C++)]( aprendiendo-a-programar )
 - [Estructuras de Datos en C++]( estructuras-cpp )
 - [Introducción a la línea de comandos]( linea-de-comandos )
-- [Lenguaje C++ para usuarios de C]( cpp-para-usuarios-de-C )
+- [Lenguaje C++ para usuarios de C]( cpp-para-usuarios-de-c )
 - [Setup para programar en windows]( programar-en-windows )
 - [Temario de nivel 1]( temario-de-nivel-1 )
 
@@ -27,10 +27,29 @@ Al hablar sobre usar la consola, se presupone un entorno basado en Linux.
 
 - [Complejidad asintótica]( complejidad )
 - [Técnicas algorítmicas]( tecnicas )
-- [Búsqueda binaria]( busqueda-binaria )
-- [Criba de Eratóstenes (Algoritmo)]( criba )
-- [Optimizacion de DP  (Mochila   Knapsack)]( knapsack )
+
+#### Matematica - Algoritmos con enteros
 - [Primalidad en O(raiz(N))]( primalidad-sqrt )
+- [Criba de Eratóstenes (Algoritmo)]( criba )
+
+#### Busqueda
+- [Búsqueda binaria]( busqueda-binaria )
+
+#### Recursion
+- Fuerza bruta y backtracking
+- Programación dinámica
+- Divide y conquista
+- [Optimizacion de DP (Mochila Knapsack)]( knapsack )
+
+#### Teoria de grafos
 - [Teoría de grafos]( grafos )
-- [Union find (estructura de datos)]( union-find )
+- Recorridos
+- Caminos minimos
+- Arbol recubridor
+- Caminos eulerianos y hamiltonianos
+
+#### Estructuras de datos
+- [Tabla aditiva]( tabla-aditiva )
+- [Union-find]( union-find )
 - [bucketing, sqrt decomposition]( sqrt-decomposition )
+- Segment Tree

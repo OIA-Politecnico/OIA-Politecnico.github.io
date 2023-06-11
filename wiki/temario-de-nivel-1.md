@@ -34,7 +34,7 @@
 ### Algoritmos con enteros
 
 - Cambio de base
-- Test de primalidad (buscar divisores hasta la raiz) https://github.com/SebastianMestre/taller-oia/wiki/C2-Primalidad-en-O(raiz(N))
+- Test de primalidad ( [buscar divisores hasta la raiz](primalidad-sqrt) )
 - Factorizacion (buscando divisores)
 
 ### Manipulacion de arreglos

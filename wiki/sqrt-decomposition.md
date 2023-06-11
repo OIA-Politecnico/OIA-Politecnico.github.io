@@ -17,7 +17,7 @@ Para las operaciones de tipo 1, modificamos el array directamente. Complejidad `
 
 Para las operaciones de tipo 2, hacemos un for de `l` hasta `r`. Complejidad `O(N)`.
 
-Alternativamente, se pueden usar sumas parciales con los costos intercambiados.
+Alternativamente, se pueden usar [sumas parciales]( tabla-aditiva ) con los costos intercambiados.
 
 Ambos enfoques son muy lentos cuando N y Q son grandes y hay una mezcla homogenea de operaciones de tipo 1 y 2.
 
@@ -49,11 +49,12 @@ void init() {
 	forn(i, n) B[i/K] += A[i];
 }
 
+// suma de l hasta r (sin incluir r)
 int query(int l, int r) {
 	int lb = l/K, rb = r/K, res = 0;
-	if (lb == rb) {
+	if (lb == rb) { // ambas puntas en el mismo bloque
 		forr(i,l,r) res += A[i];
-	} else {
+	} else { // puntas en distintos bloques
 		forr(i,l,(lb+1)*K) res += A[i];
 		forr(i,lb+1,rb)    res += B[i];
 		forr(i,rb*K,r)     res += A[i];
@@ -64,6 +65,6 @@ int query(int l, int r) {
 void update(int p, int x) {
 	int pb = p/K;
 	A[p] = x; B[pb] = 0;
-	for (int i = 0; i < K; ++i) B[pb] += A[pb*K + i];
+	forn(i, K) B[pb] += A[pb*K + i];
 }
 ```

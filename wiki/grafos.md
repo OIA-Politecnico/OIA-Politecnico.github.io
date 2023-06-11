@@ -37,7 +37,8 @@ vector<int> grafo[MAXN];
 grafo[u].push_back(v);
 
 // borrar arista (u->v) -- O(grado de u)
-// haciendo un for sobre grafo[u]
+grafo[u].erase(find(grafo[u].begin(), grafo[u].end(), v));
+// alternativamente, haciendo un for sobre grafo[u]
 
 // visitar vecinos de u  --  O(grado de u)
 for (int v : grafo[u])
@@ -89,7 +90,8 @@ vector<arista> grafo;
 grafo.push_back({u, v});
 
 // borrar arista (u->v) -- O(M)
-// haciendo un for sobre grafo
+grafo.erase(find(grafo.begin(), grafo.end(), arista{u,v}));
+// alternativamente, haciendo un for sobre grafo
 
 // visitar vecinos de u  --  O(M)
 for (arista e : grafo)
@@ -123,17 +125,78 @@ for (arista e : grafo)
 
 Un recorrido es un orden de los vértices de un grafo que tiene alguna característica especial
 
+Nos permiten procesar los vértices y aristas en órdenes específicos, partiendo de un vértice: “el origen”. Los principales recorridos son:
+
+- en profundidad (“DFS”): avanza hasta atorarse, después retrocede y vuelve a avanzar.
+- en anchura (“BFS”): visita los que están a 1 paso, después a 2, etc.
+- en distancia (“SPF” o “Dijkstra”): visita en orden de distancia según los pesos.
+
+Si todas las aristas tienen el mismo peso, el recorrido en distancia es equivalente al recorrido en anchura.
+
+Los tres tipos tipos de recorridos se pueden expresar con este pseudocódigo. El tipo de bolsa que usemos determina cuál recorrido se hace.
+
+```
+recorrer(src) {
+  b = crear_bolsa()
+  insertar_bolsa(b, src)
+  mientras b no está vacía {
+    u = extraer_bolsa(b)
+    marco u como visitado
+    por cada v, vecino de u que no fue visitado {
+      insertar_bolsa(b, v)
+    }
+  }
+}
+```
+
+
 ### DFS
 
 recorrido en profundidad
 
 Complejidad: `O(N+M)`
 
+```c++
+void dfs(int s) {
+    fill(visitado, visitado+N, false);
+    stack<int> b;
+    b.push(s);
+    while (!b.empty()) {
+        int u = b.top(); b.pop();
+        if (visitado[u]) continue;
+        visitado[u] = true;
+        for (int v : grafo[u]) {
+            b.push(v);
+        }
+
+        cout << u << “\n”;
+    }
+}
+```
+
 ### BFS
 
 recorrido en anchura
 
 Complejidad: `O(N+M)`
+
+```c++
+void bfs(int s) {
+    fill(visitado, visitado+N, false);
+    queue<int> b;
+    b.push(s);
+    while (!b.empty()) {
+        int u = b.front(); b.pop();
+        if (visitado[u]) continue;
+        visitado[u] = true;
+        for (int v : grafo[u]) {
+            b.push(v);
+        }
+
+        cout << u << “\n”;
+    }
+}
+```
 
 ### Dijkstra
 
@@ -207,7 +270,7 @@ Para hacerlo usamos el algoritmo de Kruskal
 
 La idea es simple: iteramos por las aristas de menor a mayor peso. Si una arista conecta nodos que todavia no están conectados, la agregamos al arbol. Caso contrario, la ignoramos.
 
-Para hacer esos chequeos de "están conectados o no", usamos [union find](https://github.com/SebastianMestre/taller-oia/wiki/T%C3%A9cnicas:-Union-find-(estructura-de-datos))
+Para hacer esos chequeos de "están conectados o no", usamos [union find]( union-find )
 
 ```c++
 struct arista { int u, v, peso; };

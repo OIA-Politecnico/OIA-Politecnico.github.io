@@ -5,10 +5,8 @@ estas son las que más sirven en OIA.
 
 # Complejidad Asintótica
 
-La complejidad asíntotica (o complejidad, a secas) es una forma de medir a grandes rasgos
+La [complejidad asíntotica]( complejidad ) (o complejidad, a secas) es una forma de medir a grandes rasgos
 la eficiencia de un programa.
-
-https://github.com/SebastianMestre/taller-oia/wiki/C1-Complejidad-asint%C3%B3tica
 
 ## Fuerza Bruta / Backtracking (Brute Force / Backtracking)
 
@@ -147,16 +145,12 @@ sort(vec.begin(), vec.end());
 
 ## Búsqueda Binaria (Binary Search)
 
-La búsqueda binaria es un principio que permite encontrar la mejor opcion entre miles de millones de posibilidades en muy poco tiempo. Esto se logra descartando la gran mayoria de estas opciones sin necesidad de considerarlas.
+La [búsqueda binaria]( busqueda-binaria ) es un principio que permite encontrar la mejor opcion entre miles de millones de posibilidades en muy poco tiempo. Esto se logra descartando la gran mayoria de estas opciones sin necesidad de considerarlas.
 
 Muchos problemas se pueden resolver completamente usando busqueda binaria o alguna de sus variaciones.
 
-https://github.com/SebastianMestre/taller-oia/wiki/C2-B%C3%BAsqueda-binaria
-
 ## Algoritmos Sobre Grafos
 
-A diferencia de otras técnicas que nos permiten encontrar soluciones eficientes a problemas, pero que ya se podían resolver de formas menos eficientes, los algoritmos de grafos nos dan la posibilidad de resolver problemas que no serían posibles de otra forma.
+A diferencia de otras técnicas que nos permiten encontrar soluciones eficientes a problemas, pero que ya se podían resolver de formas menos eficientes, los [algoritmos de grafos]( grafos ) nos dan la posibilidad de resolver problemas que no serían posibles de otra forma.
 
 Esto lo logran almacenacenando redes de información en nuestros programas, lo cual nos habilita a procesar datos relacionandolos con otros datos que existen en el programa. (Por ejemplo, un pais y sus paises limitrofes).
-
-https://github.com/SebastianMestre/taller-oia/wiki/C2-Teor%C3%ADa-de-grafos
