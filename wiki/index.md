@@ -11,6 +11,8 @@ En el apunte se dan ejercicios. Los que están marcados con un (\*) son particul
 
 Al hablar sobre usar la consola, se presupone un entorno basado en Linux.
 
+Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítmicas".
+
 ## Índice
 
 ### Introducción
