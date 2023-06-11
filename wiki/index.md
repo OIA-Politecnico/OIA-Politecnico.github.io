@@ -27,6 +27,7 @@ Al hablar sobre usar la consola, se presupone un entorno basado en Linux.
 
 - [Complejidad asintótica]( complejidad )
 - [Técnicas algorítmicas]( tecnicas )
+- [Algoritmos golosos]( greedy )
 
 #### Matematica - Algoritmos con enteros
 - [Primalidad en O(raiz(N))]( primalidad-sqrt )
@@ -36,8 +37,8 @@ Al hablar sobre usar la consola, se presupone un entorno basado en Linux.
 - [Búsqueda binaria]( busqueda-binaria )
 
 #### Recursion
-- Fuerza bruta y backtracking
-- Programación dinámica
+- [Fuerza bruta y backtracking]( backtracking )
+- [Programación dinámica]( dp )
 - Divide y conquista
 - [Optimizacion de DP (Mochila Knapsack)]( knapsack )
 
@@ -53,3 +54,4 @@ Al hablar sobre usar la consola, se presupone un entorno basado en Linux.
 - [Union-find]( union-find )
 - [bucketing, sqrt decomposition]( sqrt-decomposition )
 - Segment Tree
+- Fenwick Tree - [presentación de Román Castellarin](https://www.oia.unsam.edu.ar/wp-content/uploads/2017/11/Fenwick-Trees.pdf)
