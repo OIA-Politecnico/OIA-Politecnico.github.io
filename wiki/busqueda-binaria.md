@@ -1,3 +1,5 @@
+# Búsqueda binaria
+
 Una propiedad binaria (o un predicado, o una condición) es monótona si vale hasta cierto punto y luego deja de valer o viceversa.
 Por ejemplo P(n) = "n < 5"
 P es true hasta 4 y a partir de 5 vale false
@@ -31,3 +33,62 @@ Algunas formas comunes de aplicarla son:
 - Buscar elementos en un arreglo ordenado
 - Ver a partir de qué valor anda un greedy
 - Mas generalmente: convertir un problema a su versión de decisión
+
+## Implementación de referencia
+
+```c++
+// Suponiendo que P(a) es false y P(b) es verdadero
+// Encuentra el punto de corte
+pair<int, int> busqueda_binaria(int a, int b) {
+	while (b - a > 1) {
+		int m = (a+b)/2;
+		if (P(m)) {
+			b = m;
+		} else {
+			a = m;
+		}
+	}
+
+	// en este punto esta garantizado que:
+	// - P(a) == false
+	// - P(b) == true
+	// - a + 1 = b
+	return {a, b};
+}
+```
+
+## Aplicacion a búsqueda en un array ordenado
+
+```c++
+// Encuentra x en un array ordenado
+// Devuelve el índice de la primera aparición de x, si la hay
+// Devuelve -1 si no hay ningún x
+int encontrar(int arr[], int n, int x) {
+
+	// Idea: búsqueda binaria con la condición "P(m) = arr[m] >= x"
+
+	int a = -1; // Me imagino que arr[-1] <  x
+	int b = n;  // Me imagino que arr[n]  >= x
+
+	while (b - a > 1) {
+		int m = (a+b)/2;
+		if (arr[m] >= x) {
+			b = m;
+		} else {
+			a = m;
+		}
+	}
+
+	// Ahora se que:
+	//   arr[b] >= x (o que b ==  n)
+	//   arr[a] <  x (o que a == -1)
+
+	// Para estar seguro, me fijo que b sea un indice valido y
+	// que el elemento en esa posicion realmente sea x
+	if (b != n && arr[b] == x) {
+		return b;
+	} else {
+		return -1;
+	}
+}
+```
