@@ -99,7 +99,7 @@ encuentro ninguno menor o igual a `raiz(X)`, ¡es porque el numero no tiene divi
 Esta idea permite cortar la búsqueda mucho antes: en vez de llegar hasta
 `X-1`, solo hace falta buscar hasta `raiz(X)`.
 
-```
+```c++
 bool es_primo(int X) {
     if (X == 1) return false;
     for (int k = 2; k <= sqrt(X); ++k)
@@ -112,7 +112,7 @@ Para que ande un poco más rápido, es recomendable usar la expresión `k*k <= X
 en vez de `k<=sqrt(X)`.
 
 
-```
+```c++
 bool es_primo(int X) {
     if (X == 1) return false;
     for (int k = 2; k*k <= X; ++k)
