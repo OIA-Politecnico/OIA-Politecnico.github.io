@@ -36,7 +36,7 @@ Para realizar una consulta, separa el rango pedido en unos pocos bloques y calcu
          [#]                  [#]
 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
           ^                       ^
-		  L                       R
+          L                       R
 ```
 
 
@@ -50,7 +50,7 @@ Para realizar actualizaciones, recalcula todos los bloques que cubren una posici
                [#]
 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
                 ^
-		        I
+                I
 ```
 
 ## Detalles de implementación
