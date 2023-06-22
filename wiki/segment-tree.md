@@ -121,7 +121,7 @@ int query_aux(int i, int l, int r) {
 	if (qr <= l && r <= qr) return st[i];
 
 	// rango fuera de la consulta, ignorar
-	if (r <= qr || ql <= l) return 0;
+	if (r <= ql || qr <= l) return 0;
 
 	// interseccion parcial, divido en sub-rangos
 	int m = (l+r)/2;
@@ -169,7 +169,7 @@ void init() {
 int ql, qr;
 int query_aux(int i, int l, int r) {
 	if (qr <= l && r <= qr) return st[i];
-	if (r <= qr || ql <= l) return INT_MAX;                // ***
+	if (r <= ql || qr <= l) return INT_MAX;                // ***
 	int m = (l+r)/2;
 	return min(query_aux(i*2,l,m), query_aux(i*2+1,m,r));  // ***
 }
@@ -293,7 +293,7 @@ void init() {
 int ql, qr;
 Ceros query_aux(int i, int l, int r) {
 	if (qr <= l && r <= qr) return st[i];
-	if (r <= qr || ql <= l) return neutro;
+	if (r <= ql || qr <= l) return neutro;
 	int m = (l+r)/2;
 	return unir(query_aux(i*2,l,m), query_aux(i*2+1,m,r));
 }
