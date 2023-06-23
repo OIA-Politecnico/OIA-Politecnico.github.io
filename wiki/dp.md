@@ -119,3 +119,25 @@ int f(int n) {
     if (n >= 2) return tabla[n] = f(n-1) + f(n-2);
 }
 ```
+
+### Problemas
+
+- <https://cses.fi/problemset/task/1633>
+- <https://cses.fi/problemset/task/1637>
+- <https://cses.fi/problemset/task/1744>
+- (\*) <https://cses.fi/problemset/task/2413>
+- (\*) <https://cses.fi/problemset/task/2181>
+
+## 📝 DP sobre arrays y cadenas 📝
+
+> 📝 Qué es el estado de una DP 📝
+>
+> 📝 Indices como estado de la DP 📝
+>
+> 📝 Explicar un problema famoso 📝
+
+Algunos problemas famosos:
+
+- longest increasing subsequence
+- longest common subsequence
+- edit distance
