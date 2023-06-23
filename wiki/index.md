@@ -46,9 +46,9 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 
 #### Teoria de grafos
 - [Teoría de grafos]( grafos )
-- Recorridos
+- [Recorridos]( recorridos )
 - Caminos minimos
-- Arbol recubridor
+- [Arbol recubridor]( spanning-tree )
 - Caminos eulerianos y hamiltonianos
 
 #### Estructuras de datos
