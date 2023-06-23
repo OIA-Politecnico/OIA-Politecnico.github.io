@@ -13,17 +13,19 @@ vertices pueden representar ciudades, y las aristas pueden significar que hay
 una ruta entre dos ciudades. (otros ejemplos: tableros y jugadas, personas y
 amistades, etc.)
 
-> 📝 agregar varias imagenes de grafos 📝
+![arbol]( img/tree.png )
+![dag]( img/dag.png )
 
 Llamamos N a la cantidad de vértices y M a la cantidad de aristas.
 
 ## Representación en código
 
-La forma mas común de representar un grafo ([aunque hay otras]( representar-grafos )) en un programa es usando *listas de
-adyacencia*: por cada vertice guardo una lista con todos los vertices a los que
-está conectado por una arista.
+La forma mas común de representar un grafo en un programa
+([aunque hay otras]( representar-grafos )) es usando *listas de adyacencia*: por
+cada vertice guardo una lista con todos los vertices a los que está conectado
+por una arista.
 
-> 📝 agregar una imagen del grafo de abajo (es el del flyer) 📝
+![grafo simple]( img/flyer-graph.png )
 
 ```c++
 int n = 10;
@@ -39,6 +41,9 @@ grafo[7] = {2, 4, 5};
 grafo[8] = {2, 6};
 grafo[9] = {4, 6};
 ```
+
+El principal motivo de usar esta representación es que permite
+[recorrer el grafo]( recorridos ) eficientemente.
 
 ## Problemas con grafos
 
