@@ -141,6 +141,14 @@ int update(int i, int x) {
 }
 ```
 
+### Problemas
+
+- <https://cses.fi/problemset/task/1648>
+- <https://cses.fi/problemset/task/1651>
+- <https://cses.fi/problemset/task/1144>
+- <https://cses.fi/problemset/task/1749>
+- (\*) <https://cses.fi/problemset/task/1734>
+
 ## Otras operaciones
 
 Si bien lo presentamos como una forma mas "balanceada" de hacer sumas en rango, ¡el segment tree es mucho más poderoso!
@@ -183,6 +191,12 @@ int update(int i, int x) {
 	while (i /= 2) st[i] = min(st[i*2], st[i*2+1]);        // ***
 }
 ```
+
+### Problemas
+
+- <https://cses.fi/problemset/task/1649>
+- Dominando operaciones - Nacional 2019 Nivel 3
+- <https://cses.fi/problemset/task/1143>
 
 ## Aplicación muy avanzada para contar cantidad de ceros consecutivos
 
@@ -343,6 +357,7 @@ int main() {
 ### Problemas relacionados
 
 - Responder consultas del estilo contar(l, r) = "mayor seguidilla de elementos consecutivos iguales"
+- <https://cses.fi/problemset/task/1190>
 - Responder consultas del estilo maximo(l, r) = "maxima suma de un sub-rango de [l..r)"
 
 ## Segment tree con estructuras de datos
