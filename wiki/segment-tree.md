@@ -340,4 +340,119 @@ int main() {
 }
 ```
 
+### Problemas relacionados
 
+- Responder consultas del estilo contar(l, r) = "mayor seguidilla de elementos consecutivos iguales"
+- Responder consultas del estilo maximo(l, r) = "maxima suma de un sub-rango de [l..r)"
+
+## Segment tree con estructuras de datos
+
+Como vimos en la sección anterior, el segment tree es más potente cuando
+guardamos más información en cada nodo. La conclusión lógica de esto es que
+podemos lograr una estructura extremadamente potente si guardamos una
+estructura que ya es potente por si misma en cada nodo.
+
+Un ejemplo *piola* de esto es guardar un mapa de frecuencias en cada nodo.
+Osea, que cada nodo tenga un map que dice cuantas veces aparece cada valor en
+ese rango.
+
+Ahora viene lo bueno: con esta estructura armada podemos responder consultar del
+estilo contar(l, r, x) = "cantidad de apariciones de x en el rango [l, r)".
+
+```c++
+int const ST_LEN = 1 << 20;
+map<int,int> st[ST_LEN*2]; // frecuencias
+int arr[ST_LEN];           // valores de las hojas
+```
+
+En este caso, la operación asociativa sería tomar la "union" de los dos maps,
+sumando los valores de las claves que tienen en común.
+
+```c++
+map<int, int> union(map<int,int> const& a, map<int,int> const& b) {
+	map<int, int> result;
+	for (auto const& [k, v] : a) result[k] += v;
+	for (auto const& [k, v] : b) result[k] += v;
+	return result;
+}
+```
+
+Si bien podríamos implementar la operación de update de esa manera, es mucho
+más eficiente actualizar cada map "a mano".
+
+```c++
+void update_maps(int i, int x, int c) {
+	i += ST_LEN;
+	while (i /= 2) st[i][x] += c;
+}
+```
+
+Después, para darle un valor inicial, es conveniente llenar el arreglo con un
+valor especial que nunca se vaya a consultar.
+
+La alternativa sería iniciar la estructura con datos reales, pero eso es un
+poco más complicado y propenso a errores.
+
+```c++
+int const VALOR_QUE_NO_SE_USA = -1;
+
+void init() {
+	forn(i, ST_LEN) {
+		arr[i] = VALOR_QUE_NO_SE_USA;
+		update_maps(i, VALOR_QUE_NO_SE_USA, 1);
+	}
+}
+
+void update(int i, int x) {
+	update_maps(i, arr[i], -1); // elimino valor viejo
+	arr[i] = x;
+	update_maps(i, arr[i], 1);  // agrego valor nuevo
+}
+```
+
+Para las consultas pasa algo similar. En principio, sabemos que
+`union(a, b)[x] == a[x] + b[x]`. Aparte `union` puede ser una operación
+extremadamente costosa. Así que, en cambio, hacemos al revés: accedemos a la
+cantidad de apariciones en cada map, y despues simplemente devolvemos la suma.
+
+En otras palabras, es mucho mas eficiente calcular "cual sería el resultado si
+construyeramos la union de los maps" que realmente construir la union de los
+maps.
+
+```c++
+int ql, qr, qx;
+int query_aux(int i, int l, int r) {
+	if (ql <= l && r <= qr) return st[i][qx];
+	if (r <= ql || qr <= l) return 0;
+	int m = (l+r)/2;
+	return query_aux(i*2, l, m) + query_aux(i*2+1, m, r);
+}
+
+int query(int l, int r, int x) {
+	ql = l; qr = r; qx = x;
+	return query_aux(1, 0, ST_LEN);
+}
+
+/* Version lenta
+
+int ql, qr;
+map<int, int> query_aux(int i, int l, int r) {
+	if (ql <= l && r <= qr) return st[i];
+	if (r <= ql || qr <= l) return {};
+	int m = (l+r)/2;
+	return union(query_aux(i*2, l, m), query_aux(i*2+1, m, r));
+}
+
+int query(int l, int r, int x) {
+	ql = l; qr = r;
+	return query_aux(1, 0, ST_LEN)[x];
+}
+
+
+*/
+```
+
+### Otras estructuras que se suelen usar (para googlear)
+
+- "Mergesort tree": un array con los elementos ordenados. (queries de k-esimo elemento, cantidad de elementos menores a x, etc)
+- "Segment tree 2D": otro segment tree. (queries de suma/minimo/maximo/etc en rectangulos)
