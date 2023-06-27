@@ -1,24 +1,31 @@
 
 # Segment Tree
 
-Segment tree es una estructura de datos que permite hacer consultas en rango y modificaciones.
+*Segment tree* es una estructura de datos que permite hacer consultas en rango y
+modificaciones muy rápidamente.
 
 ```
 consultar(L, R)  { return A[L] + A[L+1] + ... + A[R-2] + A[R-1]; }
 actualizar(I, X) { A[I] = X; }
 ```
 
-Ya vimos que esto se puede lograr con actualizaciones en O(1) y consultas en O(N) sin usar ninguna estructura especial. (osea, es rapido cuando hay muchas actualizaciones y pocas consultas)
+Ya vimos que esto se puede lograr con actualizaciones en O(1) y consultas en
+O(N) sin usar ninguna estructura especial. (es rápido cuando hay muchas
+actualizaciones y pocas consultas)
 
-Tambien vimos que se puede con actualizaciones en O(N) y consultas en O(1) usando tabla aditiva. (rápido cuando hay pocas actualizaciones y muchas consultas)
+Tambien vimos que se puede con actualizaciones en O(N) y consultas en O(1),
+usando [tabla aditiva]( tabla-aditiva ). (rápido cuando hay pocas
+actualizaciones y muchas consultas)
 
-¿Pero qué hacemos cuándo hay cantidades de consultas y actualizaciones del mismo orden?
+Pero, ¿qué hacemos cuándo hay cantidades similares de consultas y
+actualizaciones?
 
-¡Acá viene el segment tree!, que tiene complejidad O(log N) tanto para consultas como para actualizaciones.
+¡Acá viene el *segment tree*!, que tiene complejidad O(log N) tanto para
+consultas como para actualizaciones.
 
-Internamente, precaclula los resultados en bloques cuyo tamaño son distintas potencias de dos.
+Internamente, precalcula los resultados de bloques cuyo tamaño son distintas
+potencias de dos:
 
-> 📝 Agregar un diagrama de verdad 📝
 
 ```
 [                      16                      ]
@@ -28,7 +35,10 @@ Internamente, precaclula los resultados en bloques cuyo tamaño son distintas po
 [1][1][1][1][1][1][1][1][1][1][1][1][1][1][1][1]
 ```
 
-Para realizar una consulta, separa el rango pedido en unos pocos bloques y calcula la respuesta sumando esos bloques.
+<br>
+
+Para realizar una consulta, separa el rango pedido en unos pocos bloques y
+calcula la respuesta sumando esos bloques:
 
 ```
             [##########]
@@ -39,8 +49,11 @@ Para realizar una consulta, separa el rango pedido en unos pocos bloques y calcu
           L                       R
 ```
 
+<br>
 
-Para realizar actualizaciones, recalcula todos los bloques que cubren una posicion. Para que esto sea rápido, se asegura de que cada posición esté cubierta por pocos bloques.
+Para realizar una actualización, recalcula todos los bloques que cubren una
+posición. Para que esto sea rápido, se asegura de que cada posición esté
+cubierta por pocos bloques:
 
 ```
 [##############################################]
@@ -55,19 +68,25 @@ Para realizar actualizaciones, recalcula todos los bloques que cubren una posici
 
 ## Detalles de implementación
 
-Para lograr todo lo que se explica arriba, el segment tree guarda sus datos en forma de arbol: Cada bloque de tamaño 4 es igual a la suma de dos bloques de tamaño 2, cada uno de tamaño 8 se forma con dos bloques de tamaño 4, y así sucesivamente.
+Para lograr todo lo que se explica arriba, el *segment tree* guarda sus datos en
+forma de árbol: cada bloque de tamaño 4 es igual a la suma de dos bloques de
+tamaño 2, cada uno de tamaño 8 se forma con dos bloques de tamaño 4, y así
+sucesivamente.
 
-Resulta que hay una forma muy cortita de implementar esta lógica usando un *arbol binario implicito*. Osea, en vez de representar ese arbol en memoria, como haríamos con un grafo cualquiera, vamos a seguir algunas reglas que nos permiten usar un simple arreglo:
+Resulta que hay una forma muy cortita de implementar esta lógica usando un
+**arbol binario implicito**. O sea, en vez de representar ese arbol en memoria,
+como haríamos con un grafo cualquiera, vamos a seguir algunas reglas que nos
+permiten usar un simple arreglo:
 
-- El nodo 0 no se usa.
-- El nodo 1 es la raíz.
+- El nodo 0 no se usa
+- El nodo 1 es la raíz
 - El nodo `2*x` es el hijo izquierdo del nodo `x`
 - El nodo `2*x+1` es el hijo derecho del nodo `x`
-- Para todo `x!=1`, el nodo `x/2` (redondeado hacia abajo) es el padre del nodo `x`.
+- Para todo `x>1`, el nodo `x/2` (redondeado hacia abajo) es el padre del nodo
+  `x`
 
-Siguiendo esto, tenemos el siguiente arbol:
+Siguiendo estas reglas, tenemos el siguiente árbol:
 
-> 📝 Agregar un diagrama de verdad 📝
 
 ```
              1
@@ -82,7 +101,11 @@ Siguiendo esto, tenemos el siguiente arbol:
   8  9 10 11 12 13 14 15
 ```
 
-Así, la raiz representa el rango completo. Su hijo izquierdo representa la primera mitad y su hijo derecho representa la segunda. Aparte, cada hoja representa posiciones especificas del rango.
+<br>
+
+Así, la raíz representa el rango completo. Su hijo izquierdo representa la
+primera mitad y su hijo derecho representa la segunda. Aparte, cada hoja
+representa posiciones puntuales del rango:
 
 ```
 [                       1                      ]
@@ -91,15 +114,27 @@ Así, la raiz representa el rango completo. Su hijo izquierdo representa la prim
 [  8 ][  9 ][ 10 ][ 11 ][ 12 ][ 13 ][ 14 ][ 15 ]
 ```
 
-Para lograr una **consulta** recorremos el arbol de forma top-down, comenzando por la raiz.
+<br>
 
-- Si el nodo está completamente cubierto por la consulta, entonces lo usamos para formar la respuesta y devolvemos el valor de ese nodo.
-- Si el nodo está completamente fuera de la consulta, entonces no lo usamos para formar la respuesta y devolvemos 0.
-- En los casos restantes, el nodo cubre parcialmente la consulta y hace falta separarlo en dos mitades para lograr una separación adecuada. En ese caso devolvemos la suma de la consulta evaluada en el hijo izquierdo (`2*x`) y la consulta evaluada en el hijo derecho (`2*x+1`).
+## Operaciones
 
-Para lograr una **actualización** primero actualizamos la hoja correspondiente con la posición que se busca actualizar.
+Para lograr una **consulta** recorremos el arbol de forma top-down, comenzando
+por la raiz.
 
-Después recalculamos el valor del padre, y del padre del padre, y así hasta llegar a la raíz.
+- Si el nodo está completamente cubierto por la consulta, entonces lo usamos
+  para formar la respuesta y devolvemos el valor de ese nodo
+- Si el nodo está completamente fuera de la consulta, entonces no lo usamos para
+  formar la respuesta y devolvemos 0
+- En los casos restantes, el nodo cubre parcialmente la consulta y hace falta
+  separarlo en dos mitades para lograr una separación adecuada. En ese caso
+  devolvemos la suma de la consulta evaluada en el hijo izquierdo (`2*x`) y la
+  consulta evaluada en el hijo derecho (`2*x+1`)
+
+Para lograr una **actualización** primero actualizamos la hoja correspondiente
+con la posición que se busca actualizar.
+
+Después recalculamos el valor del nodo padre. Después del padre del padre, y así
+sucesivamente hasta llegar a la raíz.
 
 ## Implementación de referencia
 
@@ -151,9 +186,12 @@ int update(int i, int x) {
 
 ## Otras operaciones
 
-Si bien lo presentamos como una forma mas "balanceada" de hacer sumas en rango, ¡el segment tree es mucho más poderoso!
+Si bien lo presentamos como una forma mas "balanceada" de hacer sumas en rango,
+¡el *segment tree* es mucho más poderoso!
 
-A diferencia de la tabla aditiva, el segment tree se puede adaptar a muchas operaciones distintas. En particular, funciona con cualquier operación asociativa que tenga elemento neutro, y solo tenemos que cambiar 4 lineas.
+A diferencia de la tabla aditiva, el *segment tree* se puede adaptar a muchas
+operaciones distintas. En particular, funciona con cualquier operación
+asociativa que tenga elemento neutro, y solo tenemos que cambiar 4 lineas.
 
 Algunas operaciones asociativas conocidas (y su elemento neutro):
 
@@ -166,7 +204,8 @@ Algunas operaciones asociativas conocidas (y su elemento neutro):
 - producto modular (1)
 - mayor común divisor (depende del problema)
 
-Por ejemplo, haríamos así para calcular mínimos en rango (las lineas cambiadas tienen un `***`)
+Por ejemplo, haríamos así para calcular mínimos en rango (las lineas cambiadas
+tienen un `***`)
 
 ```c++
 int const ST_LEN = 1 << 20;
@@ -198,21 +237,72 @@ int update(int i, int x) {
 - Dominando operaciones - Nacional 2019 Nivel 3
 - <https://cses.fi/problemset/task/1143>
 
-## Aplicación muy avanzada para contar cantidad de ceros consecutivos
+## Optimización de DP
 
-Creo que, siendo que puede hacer consultas en rango de cualquier operacion asociativa, queda claro que segment tree es una estructura muy potente. Lo que no es nada obvio en un principio es lo potente que son algunas operaciones asociativas.
+Creo que, siendo que puede hacer consultas en rango de cualquier operacion
+asociativa, queda claro que el *segment tree* es una estructura muy general y
+adaptable. Lo que no es nada obvio en un principio es lo potente que son algunas
+operaciones asociativas.
 
-En particular, si no nos limitamos a guardar simples enteros, y vamos mas alla.
+Un ejemplo importante de esto es que las operaciónes de máximo y mínimo en rango
+se pueden usar para optimizar algunos algoritmos de programación dinámica.
+Cualquier DP de esta pinta se puede hacer más eficiente usando una consulta de
+maximo en rango:
 
-Digamos que queremos soportar la operacion contar(L, R) = "longitud de la mayor seguidilla de 0s consecutivos en el rango [L..R)".
+```c++
+int calcular_dp() {
+	for (int i = n-1; i >= 0; --i) {
+		int val = INT_MIN;
+
+		// suponiendo que i < inicio(i) < fin(i)
+		for (int j = inicio(i); j < fin(i); ++j) {
+			val = max(val, dp[j]);
+		}
+
+		dp[i] = calcular(val, i);
+	}
+	return dp[0];
+}
+```
+
+Simplemente haciendo esto:
+
+```c++
+int calcular_dp() {
+	for (int i = n-1; i >= 0; --i) {
+		int val = query(inicio(i), fin(i));
+		dp[i] = calcular(val, i);
+		update(i, dp[i]);
+	}
+	return dp[0];
+}
+```
+
+Y pasamos de complejidad O(N^2) a O(N\*log(N)).
+
+### Problemas
+
+- (\*) <https://codeforces.com/problemset/problem/1662/L>
+- (\*) <https://cses.fi/problemset/task/1145>
+
+## Aplicación avanzada para contar cantidad de ceros consecutivos
+
+Hasta ahora solo vimos operaciones sobre enteros, pero hay muchísimas
+operaciones asociativas que actuan sobre valores no-numéricos y el
+*segment tree* las soporta sin problemas.
+
+Digamos que queremos implementar la operacion contar(L, R) = "longitud de la
+mayor seguidilla de 0s consecutivos en el rango [L..R)".
 
 Vamos a diseñar una operación asociativa que se ajuste a este caso.
 
-Si tengo dos rangos pegados y quiero averiguar la longitud de la mayor seguidilla de 0s en la union de los dos rangos. Qué información necesito?
+Si tengo dos rangos pegados y quiero averiguar la longitud de la mayor
+seguidilla de 0s en la union de los dos rangos. Qué información necesito?
 
 - La mayor seguidilla del lado izquierdo
 - La mayor seguidilla del lado derecho
-- La mayor seguidilla que cruza (formada por el mayor sufijo del lado izquierdo, y el mayor prefijo del lado derecho)
+- La mayor seguidilla que cruza (formada por el mayor sufijo del lado izquierdo,
+  y el mayor prefijo del lado derecho)
 
 ```c++
 int unir(int mayor_izq, int mayor_sufijo_izq, int mayor_der, int mayor_prefijo_der) {
@@ -243,7 +333,8 @@ struct Ceros {
 };
 ```
 
-Calcular estas cosas no es demasiado complicado. Comenzamos por calcular la longitud y la condición `todo_cero`:
+Calcular estas cosas no es demasiado complicado. Comenzamos por calcular la
+longitud y la condición `todo_cero`:
 
 ```c++
 Ceros unir(Ceros a, Ceros b) {
@@ -276,9 +367,11 @@ Ceros unir(Ceros a, Ceros b) {
 }
 ```
 
-Puede ser sorprendente, pero esta operación también es asociativa, por lo que, si encontramos un elemento neutro, ¡podemos usarla en un segment tree!
+Puede ser sorprendente, pero esta operación también es asociativa, por lo que,
+si encontramos un elemento neutro, ¡podemos usarla en un *segment tree*!
 
-Verificarlo queda como ejercicio al lector, pero el elemento neutro es este: `Ceros { .longitud=0, .todo_cero=true, .izq=0, .der=0, .total=0}`
+Verificarlo queda como ejercicio al lector, pero el elemento neutro es este:
+`Ceros { .longitud=0, .todo_cero=true, .izq=0, .der=0, .total=0}`
 
 Como ultimo paso solo queda aplicar esta operación en un segment tree.
 
@@ -343,10 +436,14 @@ int main() {
 	int q; cin >> q;
 	forn(i, q) {
 		int t; cin >> t;
-		if (t == 1) { // dado un indice i (1<=i<=n) y un valor x, asigna el valor en ese indice
+		if (t == 1) {
+			// dado un indice i (1<=i<=n) y un valor x, asigna el
+			// valor en ese indice
 			int i, x; cin >> i >> x; i--;
 			asignar(i, x);
-		} else { // devuelve la mayor seguidilla de 0s consecutivos en el intervalo [l,r] (1<=l<=r<=n)
+		} else {
+			// devuelve la mayor seguidilla de 0s consecutivos en el
+			// intervalo [l,r] (1<=l<=r<=n)
 			int l, r; cin >> l >> r; l--;
 			cout << contar(l, r) << "\n";
 		}
@@ -356,9 +453,11 @@ int main() {
 
 ### Problemas relacionados
 
-- Responder consultas del estilo contar(l, r) = "mayor seguidilla de elementos consecutivos iguales"
+- Responder consultas del estilo contar(l, r) = "mayor seguidilla de elementos
+  consecutivos iguales en el rango `[l..r)`"
 - <https://cses.fi/problemset/task/1190>
-- Responder consultas del estilo maximo(l, r) = "maxima suma de un sub-rango de [l..r)"
+- Responder consultas del estilo maximo(l, r) = "maxima suma de un sub-rango de
+  `[l..r)`"
 
 ## Segment tree con estructuras de datos
 
@@ -469,5 +568,7 @@ int query(int l, int r, int x) {
 
 ### Otras estructuras que se suelen usar (para googlear)
 
-- "Mergesort tree": un array con los elementos ordenados. (queries de k-esimo elemento, cantidad de elementos menores a x, etc)
-- "Segment tree 2D": otro segment tree. (queries de suma/minimo/maximo/etc en rectangulos)
+- "Mergesort tree": un array con los elementos ordenados. (queries de k-esimo
+  elemento, cantidad de elementos menores a x, etc)
+- "Segment tree 2D": otro segment tree. (queries de suma/minimo/maximo/etc en
+  rectangulos)
