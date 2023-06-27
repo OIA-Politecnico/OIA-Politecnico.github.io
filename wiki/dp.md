@@ -120,7 +120,10 @@ int f(int n) {
 }
 ```
 
-Otra forma de pensar la programación dinámica es como una simple optimización
+Aunque todos los algorítmos de programación dinámica se pueden escribir de forma
+iterativa en vez de recursiva (y, de hecho, así corren más rápido), la realidad
+es que en OIA no suele surgir la necesidad de hacerlo. De ahí surge la
+perspectiva (muy útil) que la programación dinámica es una simple optimización
 para funciones recursivas.
 
 > 📝 ¿Qué es el espacio de estado de una DP? 📝
@@ -201,21 +204,32 @@ int dp(int i) {
 	return tabla[i] = max(op1, op2);
 }
 int respuesta() {
-	memset(tabla, -1, sizeof(tabla));
 	return dp(0);
 }
 ```
 
+> ¡Recordemos llenar la tabla de `-1` antes de llamar `respuesta()`!.
+
 <br>
 
+Las ideas habladas arriba se pueden extender fácilmente a arreglos
+multidimensionales, agregando más índices al estado de la DP.
 
-Algunos problemas famosos de DP en arreglos:
+### Problemas
+
+- [Par de pájaros]( https://juez.oia.unsam.edu.ar/task/93 ) / [Vuelo amoroso]( https://juez.oia.unsam.edu.ar/task/136 ) - Nacional 2009 Nivel 2 y 3
+- [Reconstruyendo el sendero]( https://juez.oia.unsam.edu.ar/task/116 ) - Nacional 2017 Nivel 2
+- (\*) [Al-Garín]( https://juez.oia.unsam.edu.ar/task/4 ) - Provincial 2017 Nivel 3
+
+Algunos problemas clásicos (para googlear):
 
 - longest increasing subsequence
 - longest common subsequence
 - edit distance
 
-## Longest increasing subsequence
+## Longest increasing subsequence (LIS)
+
+Veamos un ejemplo más. Esta vez un problema clásico.
 
 > Dado un array, calcular la logitud de su subsecuencia creciente más larga.
 >
