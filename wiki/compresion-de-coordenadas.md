@@ -23,7 +23,7 @@ sort(begin(compresion), end(compresion));
 
 // reemplazo coordenadas por indices
 forn(i, n) {
-	auto it = lower_bound(begin(compresion), end(compresion));
+	auto it = lower_bound(begin(compresion), end(compresion), pos[i]);
 	int idx = distance(begin(compresion), it);
 	pos[i] = idx;
 }
