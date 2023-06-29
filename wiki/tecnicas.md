@@ -6,18 +6,19 @@ estas son las que más sirven en OIA.
 # Complejidad Asintótica
 
 La [complejidad asíntotica]( complejidad ) (o complejidad, a secas) es una forma
-de medir a grandes rasgos la velocidad de un programa. Es una de las principales
-herramientas que usamos para ahorrar tiempo durante una prueba.
+de medir a grandes rasgos la velocidad de un programa, **incluso antes de que
+esté escrito**. Es una de las principales herramientas que usamos para ahorrar
+tiempo durante una prueba.
 
 Si pensamos una solución pero la complejidad es demasiado alta, no hace falta
 gastar tiempo en programarla y enviarla, porque sabemos que no va a dar muchos
-puntos.
+puntos. (Excepto para robar puntos)
 
 ## Ordenamiento
 
 Dado un array, casi siempre es buena idea ordenar sus elementos para lograr
-algoritmos más eficientes (siempre y cuando esto no cambie la respuesta al
-problema).
+algoritmos más eficientes. (Siempre y cuando esto no cambie la respuesta al
+problema)
 
 Ejemplos:
 
@@ -35,12 +36,18 @@ vector<int> vec = {10, 1, 5, 20};
 
 // ordena los elementos de `vec`
 sort(vec.begin(), vec.end());
+
+int arr[4] = {10, 1, 5, 20};
+
+// ordena los primeros dos elementos de `arr`
+sort(arr, arr + 2);
+
 ```
 
 ## Fuerza Bruta / Backtracking
 
 La forma más confiable de sacar un par de puntos en cualquier problema es usando
-[fuerza bruta o backtracking ]( backtracking ).
+[fuerza bruta o backtracking]( backtracking ).
 
 La fuerza bruta consiste en probar todas las soluciones posibles y quedarse con
 la mejor, o la unica que es correcta. Atacar un problema con fuerza bruta rara
@@ -87,15 +94,14 @@ problema total.
 
 Generalmente se usa para problemas sobre:
 
-- Tableros
 - Arreglos
+- Tableros
 - Grafos Aciclicos
 
 Un problema se puede resolver con programación dinámica cuando tiene
 "subestructura óptima", que significa mas o menos que la solución se puede
 construir combinando soluciones a subproblemas. (No es tan importante, pero se
 puede googlear)
-
 
 ## Búsqueda Binaria (Binary Search)
 
