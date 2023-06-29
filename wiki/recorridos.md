@@ -1,26 +1,24 @@
-# Grafos
+# Recorridos en grafos
 
-> Esta sección está en construcción
-
-Se dió una clase virtual el 1ro de Septiembre de 2022.
-
- - [grabación](https://youtu.be/LwBZqpEdem4)
- - [diapositivas](https://raw.githubusercontent.com/SebastianMestre/taller-oia/master/Diapositivas/2022-09-01%20Grafos%20Arboles%20DFS%20BFS%20Dijkstra%20FloodFill.pdf)
-
-## recorridos
-
-Un recorrido es un orden de los vértices de un grafo que tiene alguna
+Un recorrido es un orden de los vértices de un grafo, que tiene alguna
 característica especial.
 
-Nos permiten procesar los vértices y aristas en órdenes específicos, partiendo de un vértice: “el origen”. Los principales recorridos son:
+Nos permiten procesar los vértices y aristas en órdenes específicos, partiendo
+de un vértice distinguido, que llamamos "origen". Los principales recorridos
+son:
 
-- en profundidad (“DFS”): avanza hasta atorarse, después retrocede y vuelve a avanzar.
-- en anchura (“BFS”): visita los que están a 1 paso, después a 2, etc.
-- en distancia (“SPF” o “Dijkstra”): visita en orden de distancia según los pesos.
+- en profundidad (DFS): avanza por un camino arbitrario hasta atorarse, después
+  retrocede hasta encontrar un camino no explorado y vuelve a avanzar.
+- en anchura (BFS): visita los vértices que están a un paso del origen, después
+  a los que están a dos, a tres, etc.
+- en distancia (SPF o Dijkstra): En un grafo ponderado, visita los vértices en
+  orden de distancia al origen, según los pesos de las aristas.
 
-Si todas las aristas tienen el mismo peso, el recorrido en distancia es equivalente al recorrido en anchura.
+Si todas las aristas tienen el mismo peso, el recorrido en distancia es
+equivalente al recorrido en anchura.
 
-Los tres tipos tipos de recorridos se pueden expresar con este pseudocódigo. El tipo de bolsa que usemos determina cuál recorrido se hace.
+Los tres tipos tipos de recorridos se pueden expresar con este pseudocódigo. El
+tipo de bolsa que usemos determina cuál recorrido se hace:
 
 ```
 recorrer(src) {
@@ -36,7 +34,7 @@ recorrer(src) {
 }
 ```
 
-### DFS
+## DFS
 
 recorrido en profundidad
 
@@ -59,7 +57,7 @@ void dfs(int s) {
 }
 ```
 
-### BFS
+## BFS
 
 recorrido en anchura
 
@@ -82,9 +80,13 @@ void bfs(int s) {
 }
 ```
 
-## Aplicacion: separar en componentes conexas
+## Aplicacion: *flood fill*, separar en componentes conexas
 
-Para separar un grafo en componentes conexas, hacemos una serie de recorridos. Luego de cada recorrido, la componente conexa del vertice origen queda completamente marcada. Aprovechamos esto para no volver a visitarla. Así, terminamos haciendo un recorrido por componente, visitando cada vértice una sola vez.
+Para separar un grafo en componentes conexas, hacemos una serie de recorridos.
+Luego de cada recorrido, la componente conexa del vértice origen queda
+completamente marcada. Aprovechamos esto para no volver a visitarla. Así,
+terminamos haciendo un recorrido por componente, visitando cada vértice una
+sola vez.
 
 Complejidad: `O(N+M)`
 
