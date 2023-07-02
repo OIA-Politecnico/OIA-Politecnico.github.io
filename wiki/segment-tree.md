@@ -167,7 +167,7 @@ int query(int l, int r) {
 	return query_aux(1, 0, ST_LEN);
 }
 
-int update(int i, int x) {
+void update(int i, int x) {
 	i += ST_LEN;
 	// modifico la hoja
 	st[i] = x;
@@ -224,7 +224,7 @@ int query(int l, int r) {
 	ql = l; qr = r;
 	return query_aux(1, 0, ST_LEN);
 }
-int update(int i, int x) {
+void update(int i, int x) {
 	i += ST_LEN;
 	st[i] = x;
 	while (i /= 2) st[i] = min(st[i*2], st[i*2+1]);        // ***
