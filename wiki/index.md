@@ -30,6 +30,7 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 - [Complejidad asintótica]( complejidad )
 - [Técnicas algorítmicas]( tecnicas )
 - [Algoritmos golosos]( greedy )
+- [Ordenamiento]( ordenamiento )
 
 #### Matematica - Algoritmos con enteros
 - [Primalidad en O(raiz(N))]( primalidad-sqrt )
@@ -59,4 +60,6 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 - [bucketing, sqrt decomposition]( sqrt-decomposition )
 
 #### Varios
+
+- [Plantilla de programación competitiva]( template )
 - [Compresión de coordenadas]( compresion-de-coordenadas )
