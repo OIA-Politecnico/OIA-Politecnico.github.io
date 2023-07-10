@@ -1,9 +1,11 @@
+# Técnicas de resolución de problemas
+
 Para resolver problemas se suelen aplicar ideas conocidas. Entre algoritmos,
 estructuras de datos, y otras técnicas de programación, hay miles de ideas
 que podemos aplicar en programación competitiva pero, en mi experiencia,
 estas son las que más sirven en OIA.
 
-# Complejidad Asintótica
+## Complejidad Asintótica
 
 La [complejidad asíntotica]( complejidad ) (o complejidad, a secas) es una forma
 de medir a grandes rasgos la velocidad de un programa, **incluso antes de que
@@ -14,11 +16,20 @@ Si pensamos una solución pero la complejidad es demasiado alta, no hace falta
 gastar tiempo en programarla y enviarla, porque sabemos que no va a dar muchos
 puntos. (Excepto para robar puntos)
 
+## Plantilla de código
+
+Si bien no es una técnica de resolución de problemas, es crucial tener una buena
+[plantilla de código]( template ) para no arrancar siempre desde un archivo
+vacío.
+
+Una buena plantilla nos puede ayudar a programar más rápido, sin interrupciones
+y con menos errores.
+
 ## Ordenamiento
 
-Dado un array, casi siempre es buena idea ordenar sus elementos para lograr
-algoritmos más eficientes. (Siempre y cuando esto no cambie la respuesta al
-problema)
+Dado un array, casi siempre es buena idea
+[ordenar sus elementos]( ordenamiento ) para lograr algoritmos más eficientes.
+(Siempre y cuando esto no cambie la respuesta al problema)
 
 Ejemplos:
 
