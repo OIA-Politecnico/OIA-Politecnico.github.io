@@ -52,7 +52,7 @@ vamos sacando de la lista de pendientes).
 >
 > Aunque no hay un punto claro donde la lista es "demasiado grande", está bueno
 > establecer un corte a partir del cual dejamos de participar en contests. Por
-> ejemplo, 40 problemas. (Esto se puede ajustar seg
+> ejemplo, 40 problemas. (Esto se puede ajustar según haga falta)
 
 # Después de resolver un problema
 
