@@ -82,6 +82,9 @@ tratamos de no spoilearnos.
 - Vamos leyendo la explicación una frase a la vez (o una pista a la vez, si hay)
   y pensamos el problema un rato (5-10 minutos) despues de cada una.
 - Repetimos eso hasta que nos salga el problema.
+- Si el editorial menciona algún tema de teoría que no conocemos, este es el
+  momento de ir a aprenderlo (leer un par de tutoriales, meter un par de
+  problemas)
 - Una vez resuelto, hacemos lo que dice la sección anterior.
 
 # Conclusiones
