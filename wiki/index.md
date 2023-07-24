@@ -63,3 +63,4 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 
 - [Plantilla de programación competitiva]( template )
 - [Compresión de coordenadas]( compresion-de-coordenadas )
+- [Cómo entrenar para mejorar lo más posible]( entrenar )
