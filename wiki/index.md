@@ -62,5 +62,6 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 #### Varios
 
 - [Plantilla de programación competitiva]( template )
+- [Archivos base para el OIAJuez]( archivos-base )
 - [Compresión de coordenadas]( compresion-de-coordenadas )
 - [Cómo entrenar para mejorar lo más posible]( entrenar )
