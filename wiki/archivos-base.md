@@ -3,22 +3,22 @@
 
 ## Introducción
 
-En las competencias oficiales de OIA, el código que se entrega no debe realizar
-E/S. En cambio, se debe enviar un archivo que contiene una función que recibe
-los datos ya cargados en memoria, y los devuelve de la misma manera.
+En las competencias oficiales de OIA, **el código que se entrega no debe
+realizar E/S**. En cambio, se debe enviar un archivo que contiene una función
+que recibe los datos ya cargados en memoria, y los devuelve de la misma manera.
 
-Será el jurado quien se encargue de generar código que lea los datos y los pase a
-nuestro programa. Para garantizar la compatibilidad, el prototipo de la función
-debe cumplir exactamente con la descripción dada en el enunciado.
+El jurado se encarga de preparar código que lea los datos y los pase a nuestro
+programa. Para garantizar la compatibilidad, el prototipo de la función debe
+cumplir exactamente con la descripción dada en el enunciado.
 
 En una competencia oficial el jurado ofrece una plantilla con el prototipo
 adecuado para cada problema. Como competidores solo tenemos que rellenar la
 parte de adentro de la función.
 
-> **Es de vital importancia que nuestro programa NO realice entrada y salida.**
+> **Es de vital importancia que nuestra función NO realice entrada y salida.**
 >
-> Si nuestro programa usa cin/cout/scanf/printf el juez va a **rechazar nuestra
-> solución**.
+> Si enviamos un código que usa cin/cout/scanf/printf el juez va a **rechazar
+> nuestra solución**.
 
 Sin embargo los archivos base no siempre están disponible al resolver un
 problema en el juez OIA. Una parte de este articulo está dedicado a cómo armar
