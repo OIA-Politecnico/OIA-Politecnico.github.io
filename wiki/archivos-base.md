@@ -45,9 +45,9 @@ El segundo contiene todo el código que realiza entrada y salida, que podemos
 usar para testear nuestro programa. Tiene esta pinta:
 
 ```c++
-#include "electromovil.cpp"
 #include <iostream>
 using namespace std;
+vector<int> electromovil(int E, vector<int> ubicacion, vector<int> autonomia);
 int main() {
   int N, E;
   cin >> N >> E;
@@ -66,7 +66,7 @@ int main() {
 Para compilar el programa tenemos que ejecutar este comando en la terminal:
 
 ```sh
-g++ evaluadorElectromovil.cpp -o electromovil
+g++ evaluadorElectromovil.cpp electromovil.cpp -o electromovil
 ```
 
 Para ejecutarlo despues solo hace falta:
