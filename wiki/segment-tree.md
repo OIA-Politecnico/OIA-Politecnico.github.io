@@ -103,9 +103,9 @@ Siguiendo estas reglas, tenemos el siguiente árbol:
 
 <br>
 
-Así, la raíz representa el rango completo. Su hijo izquierdo representa la
+Así, la raíz representa el arreglo completo. Su hijo izquierdo representa la
 primera mitad y su hijo derecho representa la segunda. Aparte, cada hoja
-representa posiciones puntuales del rango:
+representa elementos individuales del arreglo:
 
 ```
 [                       1                      ]
@@ -139,7 +139,16 @@ sucesivamente hasta llegar a la raíz.
 ## Implementación de referencia
 
 ```c++
-int const ST_LEN = 1 << 20; // 2 elevado a la 20
+// ST_LEN será la cantidad de hojas del árbol.
+// Debe ser una potencia de dos mayor o igual al máximo N
+// necesario para el problema.
+//
+// Por ejemplo, si N puede ser a lo sumo 1 millón, ST_LEN
+// tendrá que ser 2 elevado a la 20.
+//
+// En la linea de abajo usamos un truquito para calcular
+// potencias de dos usando corrimientos de bits.
+int const ST_LEN = 1 << 20;
 int st[ST_LEN*2];
 
 void init() {
