@@ -13,12 +13,18 @@ son:
   a los que están a dos, a tres, etc.
 - en distancia (SPF o Dijkstra): En un grafo ponderado, visita los vértices en
   orden de distancia al origen, según los pesos de las aristas.
+- en distancia min-max (Prim): En un grafo ponderado, visita los vértices en
+  orden de distancia min-max al origen, según los pesos de las aristas.
+
+> TODO: explicar distancia min-max o sacarlo (no es tan importante)
 
 Si todas las aristas tienen el mismo peso, el recorrido en distancia es
 equivalente al recorrido en anchura.
 
-Los tres tipos tipos de recorridos se pueden expresar con este pseudocódigo. El
-tipo de bolsa que usemos determina cuál recorrido se hace:
+## Recorridos con bolsas
+
+Hay varios recorridos se pueden expresar con este pseudocódigo. El tipo de bolsa
+que usemos determina cuál recorrido se hace:
 
 ```
 recorrer(src) {
@@ -34,11 +40,32 @@ recorrer(src) {
 }
 ```
 
-## DFS
+### Aplicacion: *flood fill*, separar en componentes conexas
 
-recorrido en profundidad
+Es notable que un recorrido con bolsa siempre visita todos los nodos que son
+alcanzables desde `src`. (su componente conexa si el grafo no es dirigido)
 
-Complejidad: `O(N+M)`
+Esto tiene una consecuencia inmediata: para separar un grafo en componentes
+conexas, basta con hacer una serie de recorridos, uno por cada nodo que no haya
+sido visitado en un recorrido anterior.
+
+```c++
+int cantidad_de_componentes = 0;
+for (int u = 0; u < N; ++u) {
+    if (!visitado[u]) {
+        recorrer(u);
+        cantidad_de_componentes++;
+    }
+}
+```
+
+Esto puede parecer O(N^2) pero en realidad no lo es!
+
+Como solo lanzamos recorridos en vertices no visitados, cada componente se
+recorrerá una sola vez, por lo que cada vertice se visitará una sola vez,
+y tendremos complejidad `O(N+M)`.
+
+### DFS y BFS como recorridos con bolsa
 
 ```c++
 void dfs(int s) {
@@ -48,22 +75,11 @@ void dfs(int s) {
         int u = b.top(); b.pop();
         if (visitado[u]) continue;
         visitado[u] = true;
-        for (int v : grafo[u]) {
-            b.push(v);
-        }
-
-        cout << u << “\n”;
+        for (int v : grafo[u]) b.push(v);
+        cout << u << "\n";
     }
 }
-```
 
-## BFS
-
-recorrido en anchura
-
-Complejidad: `O(N+M)`
-
-```c++
 void bfs(int s) {
     queue<int> b;
     b.push(s);
@@ -71,32 +87,56 @@ void bfs(int s) {
         int u = b.front(); b.pop();
         if (visitado[u]) continue;
         visitado[u] = true;
-        for (int v : grafo[u]) {
-            b.push(v);
-        }
-
-        cout << u << “\n”;
+        for (int v : grafo[u]) b.push(v);
+        cout << u << "\n";
     }
 }
 ```
 
-## Aplicacion: *flood fill*, separar en componentes conexas
+Acá mostramos solamente el uso de pilas y colas para lograr recorridos DFS y BFS
+respectivamente, pero variando la bolsa se pueden lograr recorridos muy
+interesantes. Esto es especialmente útil para construir recorridos "máximos" y
+"mínimos".
 
-Para separar un grafo en componentes conexas, hacemos una serie de recorridos.
-Luego de cada recorrido, la componente conexa del vértice origen queda
-completamente marcada. Aprovechamos esto para no volver a visitarla. Así,
-terminamos haciendo un recorrido por componente, visitando cada vértice una
-sola vez.
+Por ejemplo, podriamos insertar los nodos a la bolsa acompañados de un número
+y usar una bolsa que siempre nos devuelva el nodo cuyo número sea mínimo.
 
-Complejidad: `O(N+M)`
+Este número se podría ser la suma de pesos de las aristas que se tomaron en el
+recorrido hasta llegar al nodo. (En este caso logramos un algoritmo que
+encuentra caminos de peso mínimo, conocido como algoritmo de Dijkstra), o podría
+ser el peso de la arista más pesada que se tomó para llegar al nodo (En este
+caso logramos otro algoritmo conocido, que calcula caminos "min-max").
 
-```c++
-int cantidad_de_componentes = 0;
-for (int u = 0; u < N; ++u) {
-    if (!visitado[u]) {
-        dfs(u);
-        cantidad_de_componentes++;
+Es aún más interesante cuando ajustamos el funcionamiento de la bolsa o los
+valores que insertamos acorde al problema que estamos resolviendo.
+
+### Problemas
+
+- [CSES - Building Roads](https://cses.fi/problemset/task/1666)
+- [CSES - Message Route](https://cses.fi/problemset/task/1667)
+- [CSES - Shortest Routes I](https://cses.fi/problemset/task/1671)
+- (\*) [CSES - Monsters](https://cses.fi/problemset/task/1194/)
+
+## DFS Canonico
+
+Si bien el código de arriba implementa un recorrido DFS, esa no es la forma más
+común de lograrlo. En cambio, solemos usar recursión para lograr un código más
+corto y más fácil de tunear.
+
+```
+void dfs(int u) {
+  visitado[u] = true;
+  for (int v : grafo[u]) {
+    if (!visitado[v]) {
+      dfs(v);
     }
+  }
 }
 ```
 
+Una de las ventajas de esto es que ahora tenemos en el codigo un lugar
+correspondiente al momento *ANTES* de que se visiten los vecinos y otro
+correspondiente al momento *DESPUÉS* de que se visiten todos los vecinos.
+
+Esto es útil un muchos algoritmos (órden topológico, puentes, puntos críticos,
+componentes biconexas, fuertemente conexas, etc.)
