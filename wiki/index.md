@@ -23,12 +23,15 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 - [Introducción a la línea de comandos]( linea-de-comandos )
 - [Lenguaje C++ para usuarios de C]( cpp-para-usuarios-de-c )
 - [Setup para programar en windows]( programar-en-windows )
+- [Cómo entrenar para mejorar lo más posible]( entrenar )
 - [Temario de nivel 1]( temario-de-nivel-1 )
+- [Archivos base para el OIAJuez]( archivos-base )
+- [Plantilla de programación competitiva]( template )
 
 ### Algoritmos y estructuras de datos para OIA
 
-- [Complejidad asintótica]( complejidad )
 - [Técnicas algorítmicas]( tecnicas )
+- [Complejidad asintótica]( complejidad )
 - [Algoritmos golosos]( greedy )
 - [Ordenamiento]( ordenamiento )
 
@@ -43,7 +46,7 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 - [Fuerza bruta y backtracking]( backtracking )
 - [Programación dinámica]( dp )
 - Divide y conquista
-- [Optimizacion de DP (Mochila Knapsack)]( knapsack )
+- [Optimizacion de DP (Mochila / Knapsack)]( knapsack )
 
 #### Teoria de grafos
 - [Teoría de grafos]( grafos )
@@ -58,10 +61,8 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 - [Segment Tree]( segment-tree )
 - Fenwick Tree - [presentación de Román Castellarin](https://www.oia.unsam.edu.ar/wp-content/uploads/2017/11/Fenwick-Trees.pdf)
 - [bucketing, sqrt decomposition]( sqrt-decomposition )
+- [Segment Tree con range updates (lazy propagation)]( lazy-propagation )
 
 #### Varios
 
-- [Plantilla de programación competitiva]( template )
-- [Archivos base para el OIAJuez]( archivos-base )
 - [Compresión de coordenadas]( compresion-de-coordenadas )
-- [Cómo entrenar para mejorar lo más posible]( entrenar )
