@@ -59,7 +59,7 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 - [Tabla aditiva]( tabla-aditiva )
 - [Union-find]( union-find )
 - [Segment Tree]( segment-tree )
-- Fenwick Tree - [presentación de Román Castellarin](https://www.oia.unsam.edu.ar/wp-content/uploads/2017/11/Fenwick-Trees.pdf)
+- [Fenwick Tree]( fenwick ) - [presentación de Román Castellarin](https://www.oia.unsam.edu.ar/wp-content/uploads/2017/11/Fenwick-Trees.pdf)
 - [bucketing, sqrt decomposition]( sqrt-decomposition )
 - [Segment Tree con range updates (lazy propagation)]( lazy-propagation )
 
