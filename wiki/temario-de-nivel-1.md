@@ -1,3 +1,20 @@
+
+# Sobre OIA nivel 1
+
+OIA Nivel 1 es una competencia de programación para principiantes donde el foco
+es solamente la correción de los programas (o sea, que los programas sean
+correctos) y no la eficiencia, como es en los niveles superiores.
+
+Puntos tomados de una charla con Agustín Gutierrez
+
+- el foco es la corrección, no la eficiencia -- casi cualquier cosa entra (sin
+  importar que tan lento sea)
+- todo sale con `vector` y `for`, puede llegar a servir `map` (para hacer código
+  mas fácil, no por eficiencia)
+- enseñanza basada en problemas
+
+# Temario
+
 ## Matemática
 
 - Enteros, operaciones aritmeticas, comparacion
@@ -54,8 +71,12 @@
 
 # Problemas de ejemplo
 
-- Construir un arreglo con ciertos elementos especiales de un conjunto (Ej: El maximo, los numeros primos, los divisibles por 7 y por 11, etc)
+- Construir un arreglo con ciertos elementos especiales de un conjunto (Ej: El
+  máximo, los numeros primos, los divisibles por 7 y por 11, etc)
 - Convertir numeros entre sistemas de numeracion
-- Realizar operaciones con n ́umeros y escribir sus resultados
-- Procesar un texto identificando cadenas que contienen ciertas subcadenas definidas
-- Procesar un texto identificando o corrigiendo palabras de acuerdo a un criterio definido (identificar palindromos, mayusculas/minusculas, letras prohibidas, etc)
+- Realizar operaciones con números y escribir sus resultados
+- Procesar un texto identificando cadenas que contienen ciertas subcadenas
+  definidas
+- Procesar un texto identificando o corrigiendo palabras de acuerdo a un
+  criterio definido (identificar palindromos, mayusculas/minusculas, letras
+  prohibidas, etc)
