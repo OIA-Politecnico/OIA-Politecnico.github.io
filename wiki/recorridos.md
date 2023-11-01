@@ -112,18 +112,19 @@ valores que insertamos acorde al problema que estamos resolviendo.
 
 ### Problemas
 
+- [OIA Nivel 3 Nacional - Número de Erdos-Darwin]( https://juez.oia.unsam.edu.ar/task/53 )
 - [CSES - Building Roads](https://cses.fi/problemset/task/1666)
 - [CSES - Message Route](https://cses.fi/problemset/task/1667)
 - [CSES - Shortest Routes I](https://cses.fi/problemset/task/1671)
 - (\*) [CSES - Monsters](https://cses.fi/problemset/task/1194/)
 
-## DFS Canonico
+## DFS típico
 
 Si bien el código de arriba implementa un recorrido DFS, esa no es la forma más
 común de lograrlo. En cambio, solemos usar recursión para lograr un código más
 corto y más fácil de tunear.
 
-```
+```c++
 void dfs(int u) {
   visitado[u] = true;
   for (int v : grafo[u]) {
@@ -140,3 +141,42 @@ correspondiente al momento *DESPUÉS* de que se visiten todos los vecinos.
 
 Esto es útil un muchos algoritmos (órden topológico, puentes, puntos críticos,
 componentes biconexas, fuertemente conexas, etc.)
+
+### Orden topológico
+
+El orden topológico de un grafo dirigido sin ciclos es una permutación de los
+vértices donde cada vértice aparece antes que todos los vértices a hacia los que
+tiene aristas (todas las aristas van de izquierda a derecha).
+
+En un DFS no podemos garantizar que al procesar un nodo u no se haya todavia
+procesado ninguno de sus vecinos, pero sí podemos garantizar un procesamiento
+DESPUÉS de que se haya procesado todos los vecinos. Esto nos permite construir
+un órden topologico inverso. Posteriormente lo podemos dar vuelta y obtener un
+orden topológico.
+
+```c++
+int n;
+vector<int> g[MAXN];
+
+vector<int> topologico_inverso;
+void dfs(int u) {
+  visitado[u] = true;
+  for (int v : grafo[u]) {
+    if (!visitado[v]) {
+      dfs(v);
+    }
+  }
+  topologico_inverso.push_back(u);
+}
+
+vector<int> orden_topologico() {
+  for (int u = 0; u < n; ++i) {
+    if (!visitado[u]) {
+      dfs(u);
+    }
+  }
+  vector<int> topologico = topologico_inverso;
+  reverse(begin(topologico), end(topologico));
+  return topologico;
+}
+```
