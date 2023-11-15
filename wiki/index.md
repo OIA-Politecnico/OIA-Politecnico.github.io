@@ -27,6 +27,7 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 - [Temario de nivel 1]( temario-de-nivel-1 )
 - [Archivos base para el OIAJuez]( archivos-base )
 - [Plantilla de programación competitiva]( template )
+- [Temas esenciales (Nivel 2 y 3)]( esenciales )
 
 ### Algoritmos y estructuras de datos para OIA
 
