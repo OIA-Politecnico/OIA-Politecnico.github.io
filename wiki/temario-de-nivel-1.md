@@ -50,7 +50,7 @@ Puntos tomados de una charla con Agustín Gutierrez
 
 ### Algoritmos con enteros
 
-- Cambio de base
+- [Cambio de base]( cambio-de-base )
 - Test de primalidad ( [buscar divisores hasta la raiz](primalidad-sqrt) )
 - Factorizacion (buscando divisores)
 

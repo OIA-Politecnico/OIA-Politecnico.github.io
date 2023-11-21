@@ -37,6 +37,7 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 - [Ordenamiento]( ordenamiento )
 
 #### Matematica - Algoritmos con enteros
+- [Cambio de base]( cambio-de-base )
 - [Primalidad en O(raiz(N))]( primalidad-sqrt )
 - [Criba de Eratóstenes (Algoritmo)]( criba )
 
