@@ -26,6 +26,7 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 - [Cómo entrenar para mejorar lo más posible]( entrenar )
 - [Temario de nivel 1]( temario-de-nivel-1 )
 - [Temario de nivel 2]( temario-de-nivel-2 )
+- [Temario de nivel 3]( temario-de-nivel-3 )
 - [Archivos base para el OIAJuez]( archivos-base )
 - [Plantilla de programación competitiva]( template )
 - [Temas esenciales (Nivel 2 y 3)]( esenciales )
