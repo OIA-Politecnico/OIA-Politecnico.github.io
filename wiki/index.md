@@ -68,3 +68,4 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 #### Varios
 
 - [Compresión de coordenadas]( compresion-de-coordenadas )
+- [Geometria computacional]( geometria )
