@@ -25,6 +25,7 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 - [Setup para programar en windows]( programar-en-windows )
 - [Cómo entrenar para mejorar lo más posible]( entrenar )
 - [Temario de nivel 1]( temario-de-nivel-1 )
+- [Temario de nivel 2]( temario-de-nivel-2 )
 - [Archivos base para el OIAJuez]( archivos-base )
 - [Plantilla de programación competitiva]( template )
 - [Temas esenciales (Nivel 2 y 3)]( esenciales )
