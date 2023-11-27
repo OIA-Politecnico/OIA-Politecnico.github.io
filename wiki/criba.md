@@ -1,27 +1,29 @@
-La [criba de Eratóstenes (Wikipedia)](https://es.wikipedia.org/wiki/Criba_de_Erat%C3%B3stenes) es un algoritmo eficiente para encontrar los divisores de todos los números hasta una cota.
+# Criba de Eratóstenes
 
-El algoritmo se basa en que es más fácil encontrar los múltiplos de un número que sus divisores.
+La [criba de Eratóstenes (Wikipedia)](https://es.wikipedia.org/wiki/Criba_de_Erat%C3%B3stenes)
+es un algoritmo eficiente para encontrar los divisores de todos los números
+hasta una cota. La idea clave es que es mucho más fácil encontrar los múltiplos
+de un número que sus divisores.
 
-Si iteramos por los multiplos "x" de un numero "p", entonces sabemos que "p" es divisor de "x" y lo podemos insertar en la lista de divisores de "x".
+**Observación:** un número "p" es divisor de un número "x" si y solo si "x" es
+múltiplo de "p".
 
-Luego de completar este proceso para todos los valores posibles de "p", cada numero tendrá todos sus divisores.
+Por cada valor posible de "p", el algoritmo recorre todos sus múltiplos "x" y
+guarda "p" en la lista de divisores de "x". Luego de completar este proceso,
+cada número tendrá todos sus divisores.
 
 ```c++
-// criba[x] va a contener todos los divisores de x
-// por ejemplo criba[12] = {1,2,3,4,6,12}
-vector<int> criba[MAXN];
+vector<int> divisores[MAXN];
 
 void init_criba() {
 
   for (int p = 1; p < MAXN; ++p) {
 
-    // itero por los multiplos de p
+    // itero por los múltiplos de p menores a MAXN
     for (int x = 0; x < MAXN; x += p) {
 
-      // x es multiplo de p
-      // por lo tanto p es divisor de x
-      // asique lo agrego a la lista de divisores
-      criba[x].push_back(p);
+      // x es múltiplo de p => p es divisor de x
+      divisores[x].push_back(p);
     }
   }
 }
@@ -29,37 +31,55 @@ void init_criba() {
 
 Analicemos la complejidad.
 
-El for de adentro itera desde `0` hasta `n`, haciendo saltos de longitud `p`. Entonces, hace a lo sumo `n/p` iteraciones. Tomando en cuenta que `p` toma los valores `1,2,3,...,n`, la cantidad total de iteraciones es a lo sumo `n/1 + n/2 + n/3 + ... + n/n`.
+El for de adentro itera desde `0` hasta `n`, haciendo saltos de longitud `p`.
+Entonces, hace a lo sumo `n/p` iteraciones. Tomando en cuenta que `p` toma los
+valores `1,2,3,...,n`, la cantidad total de iteraciones es a lo sumo
+`n/1 + n/2 + n/3 + ... + n/n`.
 
-Haciendo factor común `n` tenemos `n*(1/1 + 1/2 + 1/3 + ... + 1/n)`. Resulta que `1/1 + 1/2 + 1/3 + ... + 1/n` es aproximadamente `ln(n)` (ver [Número armónico (Wikipedia)](https://es.wikipedia.org/wiki/N%C3%BAmero_arm%C3%B3nico) para más información).
+Haciendo factor común `n` tenemos `n*(1/1 + 1/2 + 1/3 + ... + 1/n)`. Resulta que
+`1/1 + 1/2 + 1/3 + ... + 1/n` es aproximadamente `ln(n)` (ver [Número armónico
+(Wikipedia)](https://es.wikipedia.org/wiki/N%C3%BAmero_arm%C3%B3nico) para más
+información).
 
-Asique la cantidad total de iteraciones es aproximadamente `n*ln(n)`. Osea, la criba tiene complejidad `O(n*log(n))`
+Asique la cantidad total de iteraciones es aproximadamente `n*ln(n)`. Osea, la
+criba tiene complejidad `O(n*log(n))`.
 
 # Para buscar primos
 
-Una aplicación común de la criba es buscar números primos. (Esto es lo que explica el articulo de Wikipedia, asique si no está clara esta sección, puede servir revisarlo)
+Una aplicación común de la criba es buscar números primos. (Esto es lo que
+explica el articulo de Wikipedia, asique si no está clara esta sección, puede
+servir revisarlo)
 
-**Observacion:** un número es primo si tiene exactamente 2 divisores.
+**Definición:** un número es primo si tiene exactamente 2 divisores.
 
-Entonces, dada la criba que vimos arriba, podemos definir la función `es_primo` fácilmente:
+Entonces, dada la criba que vimos arriba, podemos definir la función `es_primo`
+fácilmente:
 
 ```c++
 bool es_primo(int x) {
-  return sz(criba[x]) == 2;
+  return divisores[x].size() == 2;
 }
 ```
 
-Esto es bastante bueno. Podemos responder si un numero menor a `MAXN` es primo o no en `O(1)`, a cambio de un precomputo (construir la criba) de tiempo `O(N*log(N))`.
+Esto es bastante bueno. Podemos responder si un número menor a `MAXN` es primo o
+no en `O(1)`, a cambio de un precomputo (construir la criba) de tiempo
+`O(N*log(N))`.
 
-Pero bueno, se puede tunear la criba para tener un precomputo más barato.
+Pero bueno, se puede tunear la criba para tener un precomputo más barato. Como
+primer paso, modificamos el algoritmo de la criba para que solo guarde un
+arreglo de booleanos.
 
-**Definicion:** Para todo numero "x", sus **divisores triviales** son 1 y "x".
+Vamos a mantener un array que tiene true en todos los números que ya sabemos que
+no son primos. Por cada número mayor a 1, marcamos que sus múltiplos son
+compuestos. Al llegar a un número que no fue marcado, es porque es primo.
 
-**Observacion:** Para cualquier numero "x" mayor a 1, este es compuesto si tiene un divisor no trivial.
+**Observacion:** Un número mayor a 1 es compuesto si tiene un divisor primo
+menor a si mismo.
 
-Con esa idea podemos tunear el algoritmo de la criba para solo guardar un arreglo de booleanos.
+Esta observación nos dice que no hace falta marcar los múltiplos de números
+compuestos, nos alcanza con marcar los múltiplos de números primos.
 
-En este caso, el for de adentro va a marcar todos los multiplos "no triviales" de "p"
+Con estas dos ideas, armamos el siguiente código:
 
 ```c++
 // criba[x] es true si x es mayor a 1 y tiene un divisor no trivial
@@ -67,11 +87,13 @@ bool criba[MAXN];
 
 void init_criba() {
 
-  // arrancamos en 2 para no marcar los multiplos de 1 (divisor trivial)
-  for (int p = 2; p < MAXN; ++p) {
+  criba[0] = true; // 0 no es primo
+  criba[1] = true; // 1 no es primo
 
-    // marcamos los multiplos no triviales de p como compuestos
-    // arrancamos en 2*p para no marcar a p mismo (divisor trivial)
+  for (int p = 2; p < MAXN; ++p) {
+    if (criba[p]) continue; // p no es primo, lo salteo
+
+    // p es primo, pero sus múltiplos mayores no
     for (int x = 2*p; x < MAXN; x += p) {
       criba[x] = true;
     }
@@ -79,92 +101,124 @@ void init_criba() {
 }
 
 bool es_primo(int x) {
-  return x > 1 && !criba[x];
+  return !criba[x];
 }
 ```
 
-Este algoritmo tiene la misma complejidad que el anterior pero es bastante más rápido en la práctica. Con una observación más podemos obtener una versión con mejor complejidad (y aún más rápida en la práctica).
+Agregar ese if baja la complejidad a `O(n*log(log(n)))`, pero no es fácil de
+demostrar.
 
-**Observacion:** Si x es multiplo de un numero compuesto, entonces también es multiplo de un número primo. (Porque todo compuesto es multiplo de un primo y la relación es transitiva).
+# Para factorizar numeros en primos
 
-De ahi concluimos que nunca hace falta marcar los multiplos de un numero compuesto, pues ya van a estar marcados por ser multiplos de un primo. Esto nos permite una optimización:
-
-```c++
-void init_criba() {
-
-  for (int p = 2; p < MAXN; ++p) {
-
-    // solo marco los multiplos de p si p es primo
-    if (!criba[p]) {
-
-      for (int x = 2*p; x < MAXN; x += p) {
-        criba[x] = true;
-      }
-    }
-  }
-}
-```
-
-Agregar ese if baja la complejidad a `O(n*log(log(n)))`, pero no es fácil de demostrar.
-
-# Para calcular el menor divisor no trivial
-
-Otro uso común de la criba es para buscar el menor divisor no trivial.
-
-Mientras que podemos simplemente acceder al segundo divisor que nos genera la criba básica (el primero es siempre 1), también es posible aplicar una optimización similar a la sección anterior.
-
-**Observación:** El menor divisor no trivial de un numero siempre es primo.
+Otro uso común de la criba es para encontrar los divisores primos de un numero.
 
 **Observación:** La criba descubre los divisores en orden de menor a mayor.
 
-Con estas dos ideas tenemos que
+**Observación:** Para todo numero, su menor divisor distinto a 1 es primo.
 
- - igual que antes, no hace falta mirar los multiplos de numeros compuestos (esto nos baja la complejidad a` O(n*log(log(n)))`).
- - la primera vez que se marca un numero, es a causa de su menor divisor no trivial.
+Esto nos da un algoritmo obvio para encontrar el menor divisor primo de un
+numero: Tomamos el segundo elemento de la lista de divisores ¡Resulta que esto
+es suficiente para encontrar todos los factores primos!
 
-Y surge esta implementación
+Si expresamos un número `n` según su factorización prima, tenemos una cosa así:
+
+```
+n = p1^e1 * p2^e2 * p3^e3 * ... * pk^ek
+
+donde p1, p2, p3, ..., pk son primos y estan ordenados de menor a mayor.
+```
+
+Como la criba nos permite encontrar p1 rápidamente, podemos calcular `n/p1`:
+
+```
+n/p1 = pi^(e1-1) * p2^e2 * p3^e3 * ... * pk^ek
+```
+
+Si justo e1 era igual a 1, entonces tenemos que
+
+```
+n/p1 = p2^e2 * p3^e3 * ... * pk^ek
+```
+
+Y por lo tanto el segundo elemento de la lista de divisores de `n/p1` va a ser p2.
+
+En otras palabras, si conocemos un factor primo de un numero, podemos borrarlo y
+buscar otro. Al repetir este proceso terminamos encontrandolos a todos,
+repetidos tantas veces como indica su exponente en la factorización (Si bien
+esto puede parecer una desventaja, en realidad suele ser lo que queremos).
 
 ```c++
-// si tiene, criba[x] es el menor divisor no trivial de x
-// si no tiene, (porque x es primo o ≤1), entonces criba[x] es 0
+vector<int> factorizar(int n) {
+	vector<int> factores;
+	while (n > 1) {
+		int p = divisores[n][1];
+		factores.push_back(p);
+		n /= p;
+	}
+	return factores;
+}
+```
+
+### Optimización
+
+Esto está bastante bien pero, como volvimos a usar la lista de divisores,
+tenemos mayor uso de memoria y tiempo. Pero no hay que preocuparse porque se
+puede optimizar igual de bien que antes.
+
+**Observación:** A nuestro algoritmo solo le interesa saber el minimo divisor
+primo de cada numero, no todos los divisores.
+
+De entrada esto nos dice que, igual que antes, no hace falta iterar por los
+múltiplos de los numeros compuestos, asique podemos conseguir la cota
+`O(n*log(log(n)))` tanto tiempo como en memoria.
+
+Pero aún más, como solo nos interesa el menor de ellos, solo necesitamos guardar
+un elemento por cada numero, por lo que podemos tener `O(n)` memoria. El truco es
+que guardamos un divisor por cada numero y, si ya fue asignado por un primo
+menor, no lo tocamos.
+
+```c++
+// si x≤1, criba[x] = 0
+// si no, criba[x] es el menor factor primo de x
 int criba[MAXN];
 
 void init_criba() {
+  criba[0] = 0;
+  criba[1] = 0;
   for (int p = 2; p < MAXN; ++p) {
+    if (criba[p] != 0) continue;
+    for (int x = p; x < MAXN; x += p) {
 
-    // solo necesito marcar los multiplos de primos
-    if (criba[p] == 0) {
-      for (int x = 2*p; x < MAXN; x += p) {
-
-        // Si x ya está marcado entonces ya tiene su menor
-        // divisor no trivial, así que no lo vuelvo a marcar.
-        if (criba[x] == 0) {
-          criba[x] = p;
-        }
-      }
+      // Si x ya está marcado entonces ya tiene su menor
+      // factor primo, así que no lo vuelvo a marcar.
+      if (criba[x] == 0) criba[x] = p;
     }
   }
 }
 
-int menor_divisor_no_trivial(int x) {
-
-  if (criba[x] == 0) {
-    // en este caso, x no tiene divisores no triviales
-    // delvolveremos lo que necesitemos en el problema particular.
-  }
-
-  return criba[x];
+vector<int> factorizar(int n) {
+	vector<int> factores;
+	for (; n > 1; n /= criba[n])
+		factores.push_back(criba[n]);
+	return factores;
 }
 ```
 
-# Para calcular el mayor divisor no trivial
+# Para calcular el mayor divisor propio
 
-**Observacion:** Si p es el mayor divisor no trivial de x y q es el menor, entonces p*q=x
+Otra idea que aparece en algunos problemas es la del mayor divisor propio (un
+divisor que no es el numero mismo). Resulta que esto es muy fácil de calcular.
 
-Osea, podemos usar las funciones de la sección anterior.
+La idea es que cualquier divisor de x se puede obtener tomando x y dividiendolo
+por algun otro divisor. En particular, si queremos el máximo divisor propio,
+vamos a querer dividir por el menor divisor posible (distinto a 1). Pero ya
+vimos en la anterior seccion que ese divisor es primo y se puede obtener
+fácilmente a partir de la criba.
+
+Entonces, si definimos `criba[x]` igual que en la sección anterior, tenemos que:
 
 ```c++
-int mayor_divisor_no_trivial(int x) {
-  return x / menor_divisor_no_trivial(x);
+int mayor_divisor_propio(int n) {
+	return n / criba[n];
 }
 ```
