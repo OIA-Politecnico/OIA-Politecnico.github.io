@@ -1,5 +1,5 @@
 
-# representaciones
+# Representaciones de grafos
 
 ## lista de adyacencia
 

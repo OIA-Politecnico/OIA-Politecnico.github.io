@@ -1,3 +1,6 @@
+
+# Test de primalidad
+
 Para saber si un numero `X` es primo, contamos cuantos divisores tiene. Si tiene exactamente 2, es primo. Para hacer esto, podemos iterar por todos los enteros desde `1` hasta `X`, y guardar en un contador cuantos de ellos dividen a `X`.
 
 Se puede mejorar bastante con dos ideas:

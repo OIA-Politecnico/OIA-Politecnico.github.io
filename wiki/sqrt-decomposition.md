@@ -1,3 +1,6 @@
+
+# Descomposición en raíz cuadrada (sqrt-decomposition)
+
 Se dió una clase virtual el 6 de octubre de 2022
 
 - [Diapositivas](https://raw.githubusercontent.com/SebastianMestre/taller-oia/master/Diapositivas/2022-10-6%20Rangos%20TablaAditiva%20SqrtDecomposition%20Bucketing.pdf)

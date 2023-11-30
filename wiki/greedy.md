@@ -1,3 +1,5 @@
+# Algoritmos golosos (greedy)
+
 Los algoritmos golosos consisten en tomar la mejor opción en cada paso, sin
 considerar lo que puede pasar después. Muchas veces no conviene usar algoritmos
 golosos porque tomar la mejor opción en un principio puede perjudicarnos más

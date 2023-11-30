@@ -1,3 +1,6 @@
+
+# C++ para usuarios de C
+
 En la olimpiada usamos C++, una version mejorada de C que trae varias cosas que nos facilitan la vida.
 
 Esta sección intenta dar los puntos más utiles de C++ (en cuanto a la OIA), para un estudiante que ya conoce C.

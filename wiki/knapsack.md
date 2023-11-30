@@ -1,7 +1,8 @@
 
 # 🚧 Página en construcción 🚧
+# Optimización de DP
 
-# El Problema
+## El Problema
 
 El problema de la mochila (mejor conocido como "knapsack problem") es uno de los más estudiados de la computación.
 
@@ -16,7 +17,7 @@ Hay muchas variantes y las más conocidas están dadas por las respuestas a las 
 
 Veamos el caso en el que no se puede tomar el mismo objeto más de una vez, ni se pueden tomar objetos parcialmente. Aparte, tomemos cotas de N<=1000 y T<=100000.
 
-# Primer intento: DP recursiva
+## Primer intento: DP recursiva
 
 Un enfoque que podemos tomar para este problema es DP recursiva. Por ejemplo, lo podríamos implementar como muestra abajo.
 
@@ -53,7 +54,7 @@ int run_mochila() {
 
 Aunque esto funciona y tiene una complejidad aceptable, es probable que si enviamos esta solución a un juez online recibamos TLE (límite de tiempo excedido).
 
-# Segundo intento: DP iterativa
+## Segundo intento: DP iterativa
 
 Un parche que solemos aplicar cuando una DP recursiva es demasiado lenta, es convertirla a forma iterativa.
 
@@ -98,7 +99,7 @@ Segundo, las computadoras modernas están más optimizadas para acceder a memori
 - El prefetcher, que intenta predecir direcciones de memoria que se leeran en el futuro, y las guarda en la caché antes de tiempo.
 
 
-# Solución 1: Transponer la matriz
+## Solución 1: Transponer la matriz
 
 Si el problema es que cada acceso a memoria es muy lejano al anterior, lo que podemos hacer es acercarlos. Una forma de hacer esto es transponer la matriz (intercambiamos los indices). Con ese cambio, cada salto de `t` a `t+1` nos llevará a la siguiente posicion de la misma fila, y no a la misma posición de la siguiente fila.
 
@@ -125,7 +126,7 @@ Con este cambio bastante pavo (ordenar los datos para poder recorrer por filas),
 
 Suele ser muy fácil cambiar un programa que procesa por columnas a uno que procesa por filas, asique está bueno tener esto en cuenta.
 
-# Solución 2: Usar dos filas
+## Solución 2: Usar dos filas
 
 Otra solución distinta viene de observar tres cosas:
 
@@ -158,7 +159,7 @@ Aparte de ser más amigable con la caché, esto reduce el uso de memoria de O(N*
 
 Evidentemente, este truco es más potente que el anterior (transponer la matriz), pero menos aplicable (solo sirve en problemas donde necesitamos pocas columnas).
 
-# Solución 3: Push DP
+## Solución 3: Push DP
 
 > 🚧 Seccion en construcción 🚧
 

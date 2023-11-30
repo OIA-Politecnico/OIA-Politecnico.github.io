@@ -1,5 +1,5 @@
 
-## Problemas de búsqueda
+# Problemas de búsqueda
 
 > TO-DO: reescribir esta sección basandose en problemas concretos
 

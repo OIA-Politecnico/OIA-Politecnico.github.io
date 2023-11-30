@@ -1,4 +1,4 @@
-## Árboles recubridores
+# Árboles recubridores
 
 Un árbol recubridor es un subgrafo recubridor que es árbol.
 
