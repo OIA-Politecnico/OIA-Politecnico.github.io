@@ -20,7 +20,7 @@ P = [ 1,  4, 10, 15, 17, 24, 25, 29]
 
 Ahora puedo calcular consultas de suma de rangos en O(1) restando un prefijo de otro.
 
-Por ejemplo, la suma del rango A[2, 5) (osea `A[2]+A[3]+A[4]`) es 17−4=13 (la suma del cero al cinco (sin incluir), menos la suma del cero al dos (sin incluir))
+Por ejemplo, la suma del rango A[2, 5) (osea `A[2]+A[3]+A[4]`) es 17-4=13 (la suma del cero al cinco (sin incluir), menos la suma del cero al dos (sin incluir))
 
 En otras palabras: `A[2]+A[3]+A[4] = (A[0]+A[1]+A[2]+A[3]+A[4]) - (A[0]+A[1])`
 
