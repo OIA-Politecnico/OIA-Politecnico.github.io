@@ -1,4 +1,56 @@
 
+# Backtracking
+
+- [CSES - Chessboard and Queens](https://cses.fi/problemset/task/1624)
+- [Codeforces - Help Caretaker](https://codeforces.com/contest/142/problem/C)
+- [OIA - Consigamos un solo color](https://juez.oia.unsam.edu.ar/task/112)
+
+Para resolver un problema, siempre podemos hacer la confiable estrategia de
+"probar todas las opciones y tomar la mejor".
+
+En pseudocodigo:
+
+```
+mejor_solucion = ...
+for (...) for (...) for (...) {
+	if (encontre_una_solucion_mejor) {
+		mejor_solucion = solucion_actual
+	}
+}
+```
+
+Como es super lento, esto no suele dar muchos puntos pero ocasionalmente se
+puede tunear para sacar algunos puntitos mas, agregandole ifs para no probar
+tantas opciones.
+
+```
+mejor_solucion = ...
+for (...) if (...) for (...) if (...) for (...) {
+	if (encontre_una_solucion_mejor) {
+		mejor_solucion = solucion_actual
+	}
+}
+```
+
+Aca vamos a ver como resolver problemas donde la cantidad de `for` anidados no
+es constante si no que depende del input, y algunas optimizaciones comunes que
+pueden hacer un programa millones de veces mas rapido.
+
+## Tecnicas:
+
+- Busqueda recursiva (en vez de anidar `for` a mano, usar recursion para anidar "N" veces)
+- Busqueda con orden (evitar probar permutaciones forzando c1 < c2 < ... < cn)
+- Branch and bound (cortar si es imposible superar la mejor solucion conocida hasta ahora)
+- Memorizacion / DP (guardar resultados de busquedas anteriores para no repetirlas)
+
+> TO-DO: completar este articulo (backtracking version 2)
+
+----------
+
+# Articulo viejo
+
+> A continuacion esta la version vieja del articulo. Es bastante confusa y verborragica... disculpas :^(.
+
 # Problemas de búsqueda
 
 > TO-DO: reescribir esta sección basandose en problemas concretos
