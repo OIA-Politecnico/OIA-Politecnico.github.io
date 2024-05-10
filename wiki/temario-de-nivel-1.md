@@ -43,7 +43,7 @@ Puntos tomados de una charla con Agustín Gutierrez
 
 ### Compuestas
 
-- Arreglos unidimensionales
+- [Arreglos unidimensionales]( arreglos )
 - Cadenas
 
 ## Algoritmos
@@ -54,7 +54,7 @@ Puntos tomados de una charla con Agustín Gutierrez
 - Test de primalidad ( [buscar divisores hasta la raiz](primalidad-sqrt) )
 - Factorizacion (buscando divisores)
 
-### Manipulacion de arreglos
+### [Manipulacion de arreglos]( arreglos )
 
 - llenar
 - desplazar
