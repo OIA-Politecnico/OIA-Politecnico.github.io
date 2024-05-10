@@ -60,6 +60,7 @@ Para empezar, se recomienda leer "Introducción a la OIA" y "Técnicas algorítm
 - Caminos eulerianos y hamiltonianos
 
 #### Estructuras de datos
+- [Arreglo]( arreglos )
 - [Tabla aditiva]( tabla-aditiva )
 - [Union-find]( union-find )
 - [Segment Tree]( segment-tree )
