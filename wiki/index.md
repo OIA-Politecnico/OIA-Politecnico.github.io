@@ -1,12 +1,12 @@
 # Wiki
 
-## Sobre la wiki
-
-Esta wiki tiene explicaciones de distintos temas de "teoría". Cada explicacion también tiene ejercicios. Los que están marcados con un (\*) son particularmente difíciles.
+Esta wiki tiene explicaciones y ejercicios de distintos temas de "teoría". Los
+ejercicios que están marcados con un (\*) son particularmente difíciles.
 
 Al hablar sobre usar la consola, se presupone un entorno basado en Linux.
 
-Podes arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y "Enlaces útiles".
+Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
+"Enlaces útiles".
 
 ## Índice
 
@@ -19,13 +19,11 @@ Podes arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y "En
 - [Introducción a la línea de comandos]( linea-de-comandos )
 - [Lenguaje C++ para usuarios de C]( cpp-para-usuarios-de-c )
 - [Setup para programar en windows]( programar-en-windows )
-- [Cómo entrenar para mejorar lo más posible]( entrenar )
 - [Temario de nivel 1]( temario-de-nivel-1 )
 - [Temario de nivel 2]( temario-de-nivel-2 )
 - [Temario de nivel 3]( temario-de-nivel-3 )
 - [Archivos base para el OIAJuez]( archivos-base )
 - [Plantilla de programación competitiva]( template )
-- [Temas esenciales (Nivel 2 y 3)]( esenciales )
 
 ### Algoritmos y estructuras de datos para OIA
 
@@ -68,3 +66,10 @@ Podes arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y "En
 
 - [Compresión de coordenadas]( compresion-de-coordenadas )
 - [Geometria computacional]( geometria )
+
+### Competitividad
+
+- [Temas esenciales (Nivel 2 y 3)]( esenciales )
+- [Estrategia de prueba]( estrategia )
+- [Cómo entrenar para mejorar lo más posible]( entrenar )
+
