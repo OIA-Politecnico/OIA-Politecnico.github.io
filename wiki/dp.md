@@ -407,3 +407,20 @@ memoria.
 
 Ejercicio (\*): Modificar el algoritmo para que tenga complejidad O(N \* X),
 donde `X` es el mayor valor del arreglo.
+
+## Ordenar
+
+En muchos problemas queremos probar todas las combinaciones de elementos tal que
+cada elemento sea mayor o igual al anterior, pero sin agarrar repetidos.
+
+Para esto parecería que necesitamos una DP cuyo estado es el conjunto de los
+elementos tomados.
+
+En realidad esto no siempre es así. Si ordenamos los elementos de menor a mayor,
+basta con solo considerar elementos que vienen después del ultimo elemento
+tomado. Esto permite que el estado sea sólo el índice del último elemento
+tomado.
+
+### Problemas
+
+- 53pts en "Buscando parejas" - Selectivo 2019 Día 1

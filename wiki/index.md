@@ -31,6 +31,7 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 - [Complejidad asintótica]( complejidad )
 - [Algoritmos golosos]( greedy )
 - [Ordenamiento]( ordenamiento )
+- [Two pointers]( two-pointers )
 
 #### Matematica - Algoritmos con enteros
 - [Cambio de base]( cambio-de-base )
