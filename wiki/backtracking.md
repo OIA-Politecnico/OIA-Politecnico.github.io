@@ -19,44 +19,47 @@ Enunciado: Colocar N reinas de ajedrez en un tablero de NxN sin que se amenacen.
 
 La solucion mas directa para un tamaño de tablero N constante, es poner N fors anidados que prueban las posiciones de las reinas.
 
-    void reinas() {
-    	int const N = 5;
-    	forn(i1, N*N) forn(i2, N*N) forn(i3, N*N) forn(i4, N*N) forn(i5, N*N) {
-    		if (!se_amenazan(i1, i2, i3, i4, i5)) {
-    			imprimir_tablero(i1, i2, i3, i4, i5);
-    			return;
-    		}
-    	}
-    }
-    // Implementar se_amenazan() e imprimir_tablero() queda de ejercicio :)
+```c++
+void reinas() {
+	int const N = 5;
+	forn(i1, N*N) forn(i2, N*N) forn(i3, N*N) forn(i4, N*N) forn(i5, N*N) {
+		if (!se_amenazan(i1, i2, i3, i4, i5)) {
+			imprimir_tablero(i1, i2, i3, i4, i5);
+			return;
+		}
+	}
+}
+// Implementar se_amenazan() e imprimir_tablero() queda de ejercicio :)
+```
 
 Esto no anda si la cantidad de reinas depende del input, pero se puede hacer lo mismo con recursion para manejar una cantidad variable de reinas.
 
-    int N; // tamaño del tablero
-	vector<int> posiciones;
+```c++
+int N; // tamaño del tablero
+vector<int> posiciones;
     
-    // n es la cantidad de reinas que falta poner
-	// la funcion devuelve si lo pudo hacer o no
-    bool colocar(int n) {
-    	if (n == 0) {
-    		if (se_amenazan(posiciones)) return false;
-			imprimir_tablero(posiciones);
-			return true;
-    	}
-
-    	forn(i, N*N) {
-    		posiciones[n-1] = i;
-    		if (colocar(n-1)) return true;
-    	}
-    	return false;
-    }
-
-	void reinas(int tamano) {
-		N = tamano;
-		posiciones.resize(tamano);
-		colocar(tamano);
+// n es la cantidad de reinas que falta poner
+// la funcion devuelve si lo pudo hacer o no
+bool colocar(int n) {
+	if (n == 0) {
+		if (se_amenazan(posiciones)) return false;
+		imprimir_tablero(posiciones);
+		return true;
 	}
 
+	forn(i, N*N) {
+		posiciones[n-1] = i;
+		if (colocar(n-1)) return true;
+	}
+	return false;
+}
+
+void reinas(int tamano) {
+	N = tamano;
+	posiciones.resize(tamano);
+	colocar(tamano);
+}
+```
 
 
 La idea es asignar la posicion de una reina, recursivamente poner el resto de las reinas y si no se pudo seguimos iterando probando nuevas posiciones.
@@ -72,16 +75,18 @@ Resolver el primer punto es facil. Si forzamos algun orden entre las reinas, no 
 
 Implementativamente, es facil de adaptar el programa: agregamos un parametro que indica la minima posicion a probar. Al recursionar, siempre pasamos la posicion elegida más uno.
 
-    bool colocar(int n, int i0) {
-		// ...
+```c++
+bool colocar(int n, int i0) {
+	// ...
 
-    	forr(i, i0, N*N) {
-    		posiciones[n-1] = i;
-    		if (colocar(n-1, i+1)) return true;
-    	}
+	forr(i, i0, N*N) {
+		posiciones[n-1] = i;
+		if (colocar(n-1, i+1)) return true;
+	}
 
-		// ...
-    }
+	// ...
+}
+```
 
 Al no probar permutaciones, dividimos la complejidad por `factorial(N)`. Con esto va rapido hasta N=15.
 
@@ -91,13 +96,15 @@ La idea es verificar si la configuracion elegida es válida en cada paso de la b
 
 Si modificamos `se_amenazan()` tal que tome el indice de la primera reina colocada, lo podemos codear fácil asi:
 
-    bool colocar(int n, int i0) {
-		if (se_amenazan(posiciones, n)) return false;
+```c++
+bool colocar(int n, int i0) {
+	if (se_amenazan(posiciones, n)) return false;
 
-		// ...
-    }
+	// ...
+}
+```
 
-En general no es facil analizar cuanto va a acelerar el programa este tipo de cosas, pero en este programa en particular, la optimizaciones nos permite acotar el programa a `O(factorial(N))`. (porque, al poner una pieza por fila y columna, el array de posiciones es una permutacion).
+En general no es facil analizar cuanto va a acelerar el programa este tipo de cosas, pero en este programa en particular, esta optimizacion nos permite acotar el programa a `O(factorial(N))`. (porque, al poner una pieza por fila y columna, el array de posiciones es una permutacion).
 
 Bueno, en realidad es menor que N factorial, pero se re complica el analisis :(.
 
@@ -109,18 +116,20 @@ Por ejemplo, podemos combinar el orden de las reinas con la idea de que cada rei
 
 Como esto codifica el orden en el parametro `n`, no hace falta pasar otro parametro `i0`.
 
-    bool colocar(int n) {
-		// ...
+```c++
+bool colocar(int n) {
+	// ...
 
-		int fila = N-n;
-    	forn(columna, N) {
-			int i = fila * N + columna;
-    		posiciones[n-1] = i;
-    		if (colocar(n-1)) return true;
-    	}
+	int fila = N-n;
+	forn(columna, N) {
+		int i = fila * N + columna;
+		posiciones[n-1] = i;
+		if (colocar(n-1)) return true;
+	}
 
-		// ...
-    }
+	// ...
+}
+```
 
 El chequeo de validez tambien se puede optimizar para este problema.
 
@@ -128,37 +137,39 @@ Si mantenemos un conjunto de columnas y diagonales amenazadas, podemos solo colo
 
 Como siempre nunca ponemos reinas que se amenazan, no hace falta verificarlo al principio de la funcion ni en el caso base.
 
-    bool col[MAXN];
-    bool diag1[MAXN];
-    bool diag2[MAXN];
-    bool colocar(int n) {
-    	if (n == 0) {
-    		// El tablero es valido por construccion :D
-    		imprimir_tablero();
-    		return true;
-    	}
+```c++
+bool col[MAXN];
+bool diag1[MAXN];
+bool diag2[MAXN];
+bool colocar(int n) {
+	if (n == 0) {
+		// El tablero es valido por construccion :D
+		imprimir_tablero();
+		return true;
+	}
     
-    	int fila = N-n;
-    	forn(columna, N) {
-    		int i = fila * N + columna;
+	int fila = N-n;
+	forn(columna, N) {
+		int i = fila * N + columna;
     
-    		int d1 = fila + columna;
-    		int d2 = fila - columna + (N-1);
+		int d1 = fila + columna;
+		int d2 = fila - columna + (N-1);
     
-    		if (col[columna] || diag1[d1] || diag2[d2]) continue;
+		if (col[columna] || diag1[d1] || diag2[d2]) continue;
     
-    		// marco como ocupadas
-    		col[columna] = diag1[d1] = diag2[d2] = true;
+		// marco como ocupadas
+		col[columna] = diag1[d1] = diag2[d2] = true;
     
-    		posiciones[n-1] = i;
-    		if (colocar(n-1)) return true;
+		posiciones[n-1] = i;
+		if (colocar(n-1)) return true;
     
-    		// marco como libres
-    		col[columna] = diag1[d1] = diag2[d2] = false;
-    	}
+		// marco como libres
+		col[columna] = diag1[d1] = diag2[d2] = false;
+	}
     
-    	return false;
-    }
+	return false;
+}
+```
 
 Un ultimo truco seria guardar los arreglos de booleanos con mascaras de bits y pasarlos como argumento de la recursion en vez de que sean globales, pero se pone bastante el feo el codigo.
 
@@ -186,31 +197,33 @@ La principal diferencia entre un problema de optimizacion y uno de busqueda es q
 
 Esto hace que los problemas de optimización sean, a grandes rasgos, más difíciles de optimizar que los de búsqueda.
 
-    int N, M;
-    bool tablero[MAXN][MAXN];
+```c++
+int N, M;
+bool tablero[MAXN][MAXN];
     
-    int tractores(int cantidad, int i0) {
+int tractores(int cantidad, int i0) {
     
-    	int mejor_calidad = cantidad;
-    	forr(i, i0, N*M) {
-    		forn(rotacion, 4) {
-    			if (!tractor_dentro_del_tablero(i, rotacion)) continue;
-    			if (tractor_solapa_tablero(i, rotacion)) continue;
+	int mejor_calidad = cantidad;
+	forr(i, i0, N*M) {
+		forn(rotacion, 4) {
+			if (!tractor_dentro_del_tablero(i, rotacion)) continue;
+			if (tractor_solapa_tablero(i, rotacion)) continue;
     
-    			poner_tractor(i, rotacion);
+			poner_tractor(i, rotacion);
     
-    			int calidad = tractores(cantidad+1, i+1);
-    			if (calidad > mejor_calidad) mejor_calidad = calidad;
+			int calidad = tractores(cantidad+1, i+1);
+			if (calidad > mejor_calidad) mejor_calidad = calidad;
     
-    			sacar_tractor(i, rotacion);
-    		}
-    	}
+			sacar_tractor(i, rotacion);
+		}
+	}
     
-    	return mejor_calidad;
-    }
-    // todas las funciones para manipular el tablero son ejercicios :shrug:
+	return mejor_calidad;
+}
+// todas las funciones para manipular el tablero son ejercicios :shrug:
+```
 
-Esto anda, pero toma 36 segundos en resolver el problema de 8x8.
+Esto anda, pero toma 36 segundos en resolver el caso de 8x8.
 
 La principal optimización se llama "branch and bound". La idea es calcular una cota superior a la calidad que se puede obtener en una rama de la busqueda. Si no es mayor a la mejor calidad ya encontrada (globalmente), no hace falta seguir explorando esa rama.
 
@@ -218,22 +231,24 @@ Por ejemplo, en este problema sabemos que un tractor ocupa 5 posiciones y la can
 
 La implementación es así:
 
-	int mejor_calidad_global = 0;
-    int tractores(int cantidad, int i0) {
+```c++
+int mejor_calidad_global = 0;
+int tractores(int cantidad, int i0) {
 
-    	int mejor_calidad = cantidad;
+	int mejor_calidad = cantidad;
 
-		int calidad_optimista = cantidad + (N*M-i0)/5;
-		if (calidad_optimista <= mejor_calidad_global)
-			return mejor_calidad;
+	int calidad_optimista = cantidad + (N*M-i0)/5;
+	if (calidad_optimista <= mejor_calidad_global)
+		return mejor_calidad;
     
-    	forr(i, i0, N*M) {
-			// ...
-    	}
-		
+	forr(i, i0, N*M) {
 		// ...
+	}
+		
+	// ...
     
-    }
+}
+```
 
 Esto baja el tiempo de 36 segundos a 6 segundos (Para N=8, M=8).
 
@@ -241,29 +256,50 @@ Esta optimización es muy sensible a la cota que logramos calcular. O sea, si ca
 
 Por ejemplo, intentemos solo contar casillas realmente libres mirando el tablero.
 
+```c++
+int tractores(int cantidad, int i0) {
+	// ...
 
-    int tractores(int cantidad, int i0) {
-		// ...
+	int libres = 0;
+	forr(i, i0, N*M) {
+		int fila = i / M, columna = i % M;
+		if (!tablero[fila][columna]) libres++;
+	}
+	int calidad_optimista = cantidad + libres/5;
 
-    	int libres = 0;
-    	forr(i, i0, N*M) {
-    		int fila = i / M, columna = i % M;
-    		if (!tablero[fila][columna]) libres++;
-    	}
-    	int calidad_optimista = cantidad + libres/5;
-
-    	// ...
-    }
+	// ...
+}
+```
 
 Con este cambio pasamos de 6 segundos a 0,3 segundos (N=8, M=8)
 
-Podemos hacer algunas cosas más, como no contar posiciones libres con sus 4 vecinos ocupados, pero el codigo se vuelve medio feo.
+Aparte de ser sensible a la cota que calculamos, también es sensible al orden en que se encuentran las soluciones. Por ejemplo, si logramos recorrer las posibles soluciones en orden creciente, nunca vamos a poder cortar ramas porque todas las ramas pueden llevar a una solución mejor. Esto se puede ver agarrando el código con todas las optimizaciones puestas hasta ahora pero eligiendo las posiciones de los tractores en orden inverso:
+
+```c++
+int tractores(int cantidad, int i0) {
+	// ...
+
+	// dforr va bajando de NM-1 hasta i0 en vez de ir subiendo
+	dforr(i, i0, N*M) {
+		forn(rotacion, 4) {
+			if (!tractor_dentro_del_tablero(i, rotacion)) continue;
+   			// ...
+		}
+	}
+    
+	// ...
+}
+```
+
+Con este cambio se vuelve lentísimo. Hay problemas de backtracking que se pueden resolver con solo elegir el orden correcto.
+
+Por ejemplo, [el problema del caballito](https://es.wikipedia.org/wiki/Problema_del_caballo), donde queremos encontrar un camino de caballo en un tablero de ajedrez, que toque cada posición del tablero exactamente una vez.
+
+En ese problema, si hacemos un backtracking que prefiere moverse hacia posiciones con la minima cantidad de vecinos disponibles, ese backtracking corre en tiempo lineal!
 
 ----------
 
-# Articulo viejo
-
-> A continuacion esta la version vieja del articulo. Es bastante confusa y verborragica... disculpas :^(.
+> A continuación está la versión vieja del articulo. Es bastante resumida y confusa... disculpas :^(.
 
 # Problemas de búsqueda
 
