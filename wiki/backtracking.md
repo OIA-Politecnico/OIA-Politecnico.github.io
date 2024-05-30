@@ -5,7 +5,7 @@
 - [Codeforces - Help Caretaker](https://codeforces.com/contest/142/problem/C)
 - [OIA - Consigamos un solo color](https://juez.oia.unsam.edu.ar/task/112) (\*)
 
-En un monton de problemas, la solución más directa es probar todas las posibilidades y quedarse con la mejor. La cantidad de posibilidades suele ser exponencial en el tamaño del problema asique esto no entra, pero con algunas optimizaciones puede entrar para N chico (incluso hasta N=100, dependiendo del problema)
+En un monton de problemas, la solución más directa es probar todas las posibilidades y quedarse con la mejor. La cantidad de posibilidades suele ser exponencial en el tamaño del problema asique esto muchas veces no entra, pero con algunas optimizaciones puede entrar para N chico (incluso hasta N=100, dependiendo del problema)
 
 Fundamentalmente, vamos a ver como convertir un programa lento que luce así:
 
@@ -71,19 +71,19 @@ Esto no anda si la cantidad de reinas depende del input, pero se puede hacer lo 
 ```c++
 int N; // tamaño del tablero
 vector<int> posiciones;
-    
-// n es la cantidad de reinas que falta poner
-// la funcion devuelve si lo pudo hacer o no
+
+// n es la cantidad de reinas ya colocadas
+// la funcion devuelve si pudo colocar N reinas sin que se amenacen o no
 bool colocar(int n) {
-	if (n == 0) {
+	if (n == N) {
 		if (se_amenazan(posiciones)) return false;
 		imprimir_tablero(posiciones);
 		return true;
 	}
 
 	forn(i, N*N) {
-		posiciones[n-1] = i;
-		if (colocar(n-1)) return true;
+		posiciones[n] = i;
+		if (colocar(n+1)) return true;
 	}
 	return false;
 }
@@ -91,7 +91,7 @@ bool colocar(int n) {
 void reinas(int tamano) {
 	N = tamano;
 	posiciones.resize(tamano);
-	colocar(tamano);
+	colocar(0);
 }
 ```
 
@@ -127,8 +127,8 @@ bool colocar(int n, int i0) {
 	// ...
 
 	forr(i, i0, N*N) {
-		posiciones[n-1] = i;
-		if (colocar(n-1, i+1)) return true;
+		posiciones[n] = i;
+		if (colocar(n+1, i+1)) return true;
 	}
 
 	// ...
@@ -141,7 +141,7 @@ Ahora resolvemos el segundo punto.
 
 La idea es verificar si la configuracion elegida es válida en cada paso de la busqueda en vez de solo al final.
 
-Si modificamos `se_amenazan()` tal que tome el indice de la primera reina colocada, lo podemos codear fácil asi:
+Si modificamos `se_amenazan()` tal que tome la cantidad de reinas colocada, lo podemos codear fácil asi:
 
 ```c++
 bool colocar(int n, int i0) {
@@ -159,7 +159,7 @@ Bueno, en realidad la complejidad es mucho menor que N factorial, pero se re com
 
 Estas dos optimizaciones tal cual se ven arriba se pueden aplicar a cualquier problema, pero es muy común tunearlas para el problema particular.
 
-Por ejemplo, podemos combinar el orden de las reinas con la idea de que cada reina va en una fila distinta y forzar a que `colocar(n)` siempre coloque una reina en la fila `N-n`:
+Por ejemplo, podemos combinar el orden de las reinas con la idea de que cada reina va en una fila distinta y forzar a que `colocar(n)` siempre coloque una reina en la fila `n`:
 
 Como esto codifica el orden en el parametro `n`, ya no hace falta el otro parametro `i0`.
 
@@ -167,11 +167,11 @@ Como esto codifica el orden en el parametro `n`, ya no hace falta el otro parame
 bool colocar(int n) {
 	// ...
 
-	int fila = N-n;
+	int fila = n;
 	forn(columna, N) {
 		int i = fila * N + columna;
-		posiciones[n-1] = i;
-		if (colocar(n-1)) return true;
+		posiciones[n] = i;
+		if (colocar(n+1)) return true;
 	}
 
 	// ...
@@ -187,31 +187,31 @@ bool col[MAXN];
 bool diag1[MAXN];
 bool diag2[MAXN];
 bool colocar(int n) {
-	if (n == 0) {
+	if (n == N) {
 		// El tablero es valido por construccion :D
 		imprimir_tablero();
 		return true;
 	}
-    
-	int fila = N-n;
+
+	int fila = n;
 	forn(columna, N) {
 		int i = fila * N + columna;
-    
+
 		int d1 = fila + columna;
 		int d2 = fila - columna + (N-1);
-    
+
 		if (col[columna] || diag1[d1] || diag2[d2]) continue;
-    
+
 		// marco como ocupadas
 		col[columna] = diag1[d1] = diag2[d2] = true;
-    
-		posiciones[n-1] = i;
-		if (colocar(n-1)) return true;
-    
+
+		posiciones[n] = i;
+		if (colocar(n+1)) return true;
+
 		// marco como libres
 		col[columna] = diag1[d1] = diag2[d2] = false;
 	}
-    
+
 	return false;
 }
 ```
@@ -244,29 +244,27 @@ La principal diferencia entre un problema de optimización y uno de busqueda es 
 
 Esto hace que los problemas de optimización sean, a grandes rasgos, más difíciles de optimizar que los de búsqueda.
 
-> En este código, el parametro `cantidad` guarda la cantidad de tractores ya colocados en vez de la cantidad de tractores restantes ya que no estamos intentando poner una cantidad fija si no todos los que se puedan.
-
 ```c++
 int N, M;
 bool tablero[MAXN][MAXN];
-    
-int tractores(int cantidad, int i0) {
-    
-	int mejor_calidad = cantidad;
+
+int tractores(int n, int i0) {
+
+	int mejor_calidad = n;
 	forr(i, i0, N*M) {
 		forn(rotacion, 4) {
 			if (!tractor_dentro_del_tablero(i, rotacion)) continue;
 			if (tractor_solapa_tablero(i, rotacion)) continue;
-    
+
 			poner_tractor(i, rotacion);
-    
-			int calidad = tractores(cantidad+1, i+1);
+
+			int calidad = tractores(n+1, i+1);
 			if (calidad > mejor_calidad) mejor_calidad = calidad;
-    
+
 			sacar_tractor(i, rotacion);
 		}
 	}
-    
+
 	return mejor_calidad;
 }
 // todas las funciones para manipular el tablero son ejercicios :shrug:
@@ -282,20 +280,20 @@ La implementación es así:
 
 ```c++
 int mejor_calidad_global = 0;
-int tractores(int cantidad, int i0) {
+int tractores(int n, int i0) {
 
-	int mejor_calidad = cantidad;
+	int mejor_calidad = n;
 
-	int calidad_optimista = cantidad + (N*M-i0)/5;
+	int calidad_optimista = n + (N*M-i0)/5;
 	if (calidad_optimista <= mejor_calidad_global)
 		return mejor_calidad;
-    
+
 	forr(i, i0, N*M) {
 		// ...
 	}
 		
 	// ...
-    
+
 }
 ```
 
@@ -306,7 +304,7 @@ El tiempo de ejecución puede variar mucho dependiendo de la cota que logremos c
 Por ejemplo, si contamos las casillas realmente libres mirando el tablero:
 
 ```c++
-int tractores(int cantidad, int i0) {
+int tractores(int n, int i0) {
 	// ...
 
 	int libres = 0;
@@ -314,7 +312,7 @@ int tractores(int cantidad, int i0) {
 		int fila = i / M, columna = i % M;
 		if (!tablero[fila][columna]) libres++;
 	}
-	int calidad_optimista = cantidad + libres/5;
+	int calidad_optimista = n + libres/5;
 
 	// ...
 }
@@ -331,7 +329,7 @@ O sea, si las primeras soluciones que se intentan son todas malas, no se van a s
 Esto se puede ver eligiendo las posiciones de los tractores en orden inverso:
 
 ```c++
-int tractores(int cantidad, int i0) {
+int tractores(int n, int i0) {
 	// ...
 
 	// dforr va bajando de NM-1 hasta i0 en vez de ir subiendo
@@ -341,7 +339,7 @@ int tractores(int cantidad, int i0) {
    			// ...
 		}
 	}
-    
+
 	// ...
 }
 ```
