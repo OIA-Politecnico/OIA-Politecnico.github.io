@@ -7,7 +7,27 @@
 
 En un monton de problemas, la solución más directa es probar todas las posibilidades y quedarse con la mejor. La cantidad de posibilidades suele ser exponencial en el tamaño del problema asique esto no entra, pero con algunas optimizaciones puede entrar para N chico (incluso hasta N=100, dependiendo del problema)
 
-Hay algunas diferencias entre problemas de busqueda (donde queremos construir algo que cumple una propiedad) y problemas de optimizacion (donde aparte queremos maximizar una funcion de puntaje), asique veamos uno y uno.
+Fundamentalmente, vamos a ver como convertir un programa lento que luce así:
+
+    for
+      for
+        for
+          if
+            if
+              if
+                ....
+
+En un programa mucho más rápido que tiene esta pinta:
+
+    for
+      if
+        for
+          if
+            for
+              if
+                ...
+
+Hay algunas diferencias entre problemas de busqueda (donde queremos construir algo que cumple una propiedad) y problemas de optimización (donde aparte queremos maximizar una funcion de puntaje), asique veamos uno y uno.
 
 # Problema de búsqueda: N Reinas
 
@@ -17,7 +37,21 @@ Enunciado: Colocar N reinas de ajedrez en un tablero de NxN sin que se amenacen.
 
 ## Solucion
 
-La solucion mas directa para un tamaño de tablero N constante, es poner N fors anidados que prueban las posiciones de las reinas.
+Vamos a numerar las posiciones del tablero de la siguiente manera:
+
+        0   1   2   3   4   5   6   7
+    0 [ 0][ 1][ 2][ 3][ 4][ 5][ 6][ 7]
+    1 [ 8][ 9][10][11][12][13][14][15]
+    2 [16][17][18][19][20][21][22][23]
+    3 [24][25][26][27][28][29][30][31]
+    4 [32][33][34][35][36][37][38][39]
+    5 [40][41][42][43][44][45][46][47]
+    6 [48][49][50][51][52][53][54][55]
+    7 [56][57][58][59][60][61][62][63]
+
+Así, se puede calcular el número de una posición a partir de su número de fila y de columna (`posicion = fila * N + columna`) y viceversa también (`fila = posicion / N; columna = posicion % N`).
+
+Entonces, la solución más directa (para un tamaño de tablero N constante) es poner N fors anidados que prueban las posiciones de las reinas.
 
 ```c++
 void reinas() {
@@ -61,19 +95,32 @@ void reinas(int tamano) {
 }
 ```
 
+La idea es asignar la posición de una reina, recursivamente poner el resto de las reinas y si no se pudo retrocedemos y seguimos probando con otras posiciones.
 
-La idea es asignar la posicion de una reina, recursivamente poner el resto de las reinas y si no se pudo seguimos iterando probando nuevas posiciones.
+Esto anda, pero para N=6 ya es super lento. Por suerte tiene un par de cosas que son obviamente lentas:
 
-Esto anda, pero para N=7 ya es super lento.
-
-Por suerte tiene un par de cosas que son obviamente lentas:
-
-- Para una misma configuracio de reinas, prueba todas las permutaciones
+- Para una misma configuración de reinas, prueba todas las permutaciones
 - Pone reinas en posiciones ya amenazadas
 
-Resolver el primer punto es facil. Si forzamos algun orden entre las reinas, no vamos a probar todas las permutaciones. Por ejemplo, podemos decidir que cada reina que colocamos va en una posicion mayor a todas las anteriores.
+O sea, no solo prueba configuraciones como esta, que ya era obviamente invalida al colocar la segunda reina:
 
-Implementativamente, es facil de adaptar el programa: agregamos un parametro que indica la minima posicion a probar. Al recursionar, siempre pasamos la posicion elegida más uno.
+    [R1][R2][R3][R4][R5]
+    [  ][  ][  ][  ][  ]
+    [  ][  ][  ][  ][  ]
+    [  ][  ][  ][  ][  ]
+    [  ][  ][  ][  ][  ]
+
+Si no que también prueba todas sus posibles variantes como por ejemplo esta:
+
+    [R4][R2][R1][R5][R3]
+    [  ][  ][  ][  ][  ]
+    [  ][  ][  ][  ][  ]
+    [  ][  ][  ][  ][  ]
+    [  ][  ][  ][  ][  ]
+
+Para resolver el primer punto forzamos algun orden entre las reinas así no probamos todas las permutaciones. Por ejemplo, podemos decidir que cada reina que colocamos va en una posición mayor a todas las anteriores.
+
+Implementativamente, es facil de adaptar el programa: agregamos un parametro que indica la primera posicion a probar. Al recursionar, pasamos la posición elegida más uno.
 
 ```c++
 bool colocar(int n, int i0) {
@@ -88,7 +135,7 @@ bool colocar(int n, int i0) {
 }
 ```
 
-Al no probar permutaciones, dividimos la complejidad por `factorial(N)`. Con esto va rapido hasta N=15.
+Al no probar permutaciones, se dividió la complejidad por `factorial(N)`. Con esto va rápido hasta N=8. No cambió tanto, pero es fácil de hacer y al combinarla con la proxima optimización se potencia bastante.
 
 Ahora resolvemos el segundo punto.
 
@@ -104,17 +151,17 @@ bool colocar(int n, int i0) {
 }
 ```
 
-En general no es facil analizar cuanto va a acelerar el programa este tipo de cosas, pero en este programa en particular, esta optimizacion nos permite acotar el programa a `O(factorial(N))`. (porque, al poner una pieza por fila y columna, el array de posiciones es una permutacion).
+En general no es fácil calcular cuánto va a acelerar el programa este tipo de cosas, pero en este programa en particular, esta optimización nos permite acotar el programa a `O(factorial(N))`. (porque, al poner una pieza por fila y columna, el array de posiciones es una permutacion).
 
-Bueno, en realidad es menor que N factorial, pero se re complica el analisis :(.
+Bueno, en realidad la complejidad es mucho menor que N factorial, pero se re complica el análisis :(.
 
 ## Optimizaciones especificas al problema
 
-Estas dos optimizaciones tal cual se ven arriba se pueden aplicar a cualquier problema, pero es muy comun tunearlas para el problema particular.
+Estas dos optimizaciones tal cual se ven arriba se pueden aplicar a cualquier problema, pero es muy común tunearlas para el problema particular.
 
 Por ejemplo, podemos combinar el orden de las reinas con la idea de que cada reina va en una fila distinta y forzar a que `colocar(n)` siempre coloque una reina en la fila `N-n`:
 
-Como esto codifica el orden en el parametro `n`, no hace falta pasar otro parametro `i0`.
+Como esto codifica el orden en el parametro `n`, ya no hace falta el otro parametro `i0`.
 
 ```c++
 bool colocar(int n) {
@@ -133,9 +180,7 @@ bool colocar(int n) {
 
 El chequeo de validez tambien se puede optimizar para este problema.
 
-Si mantenemos un conjunto de columnas y diagonales amenazadas, podemos solo colocar reinas en posiciones que no estan amenazadas.
-
-Como siempre nunca ponemos reinas que se amenazan, no hace falta verificarlo al principio de la funcion ni en el caso base.
+Si mantenemos un conjunto de columnas y diagonales amenazadas, podemos solo colocar reinas en posiciones que no estan amenazadas. Y, si nunca ponemos reinas que se amenazan, no hace falta verificarlo al principio de la funcion ni en el caso base.
 
 ```c++
 bool col[MAXN];
@@ -171,9 +216,11 @@ bool colocar(int n) {
 }
 ```
 
-Un ultimo truco seria guardar los arreglos de booleanos con mascaras de bits y pasarlos como argumento de la recursion en vez de que sean globales, pero se pone bastante el feo el codigo.
+> Un ultimo truco seria guardar los arreglos de booleanos con mascaras de bits y pasarlos como argumento de la recursion en vez de que sean globales, pero se pone bastante el feo el código.
 
-# Problema de optimizacion: tractores
+Estos trucos especificos al problema pueden servir para sumarle 4 o 5 al máximo N que puede manejar nuestro código. Parece poco, pero en problemas de backtracking es bastante.
+
+# Problema de optimización: tractores
 
 Enunciado: Colocar la mayor cantidad de tractores posibles en un tablero de NxM, sin que se solapen. Un tractor se puede rotar multiplos de 90 grados, y puede tener una de las siguientes formas:
 
@@ -183,19 +230,21 @@ Enunciado: Colocar la mayor cantidad de tractores posibles en un tablero de NxM,
 
 > Vamos a ver cómo calcular la máxima cantidad sin devolver la configuración que la logra, pero sería fácil cambiar el código para que también la devuelva.
 
-## Solucion
+## Solución
 
-De nuevo, la idea es hacer una función recursiva que va poniendo y sacando tractores. En los problemas de optimizacion aplican las mismas optimizaciones que a los problemas de busqueda:
+De nuevo, la idea es hacer una función recursiva que va poniendo y sacando tractores. En los problemas de optimización aplican las mismas optimizaciones que a los problemas de busqueda:
 
-- En vez de poner tractores en cualquier lugar, y verificar que sea una configuración válida (sin tractores solapados) al final, podemos evitar construir configuraciones invalidas
+- En vez de poner tractores en cualquier lugar, y verificar que sea una configuración válida (sin tractores solapados) al final, podemos evitar construir configuraciones inválidas
 
 - Para no probar permutaciones de la misma configuración, podemos forzar un orden entre los elementos (que la esquina superior izquierda de cada tractor esté en una posición mayor a la de todos los anteriores)
 
-Para que no sea completamente repetitivo, vamos a arrancar con esas optimizaciones ya implementadas.
+Para no ser completamente repetitivo, vamos a arrancar con esas optimizaciones ya implementadas.
 
-La principal diferencia entre un problema de optimizacion y uno de busqueda es que no podemos cortar la busqueda después de encontrar una configuración válida cualquiera, sino que tenemos que seguir explorando porque puede haber configuraciones mejores.
+La principal diferencia entre un problema de optimización y uno de busqueda es que no podemos cortar la busqueda después de encontrar una configuración válida cualquiera, sino que tenemos que seguir explorando porque puede haber configuraciones mejores.
 
 Esto hace que los problemas de optimización sean, a grandes rasgos, más difíciles de optimizar que los de búsqueda.
+
+> En este código, el parametro `cantidad` guarda la cantidad de tractores ya colocados en vez de la cantidad de tractores restantes ya que no estamos intentando poner una cantidad fija si no todos los que se puedan.
 
 ```c++
 int N, M;
@@ -227,7 +276,7 @@ Esto anda, pero toma 36 segundos en resolver el caso de 8x8.
 
 La principal optimización se llama "branch and bound". La idea es calcular una cota superior a la calidad que se puede obtener en una rama de la busqueda. Si no es mayor a la mejor calidad ya encontrada (globalmente), no hace falta seguir explorando esa rama.
 
-Por ejemplo, en este problema sabemos que un tractor ocupa 5 posiciones y la cantidad de posiciones libres desde `i0` en adelante es a lo sumo `N*M-i0`. Por lo tanto, siendo super optimistas, la máxima cantidad de tractores que podriamos llegar a colocar es `(N*M-i0)/5`.
+Por ejemplo, en este problema sabemos que un tractor ocupa 5 posiciones y la cantidad de posiciones libres desde `i0` en adelante es a lo sumo `N*M-i0`. Por lo tanto, siendo super optimistas, la máxima cantidad de tractores que podriamos llegar a poner es `(N*M-i0)/5`.
 
 La implementación es así:
 
@@ -252,9 +301,9 @@ int tractores(int cantidad, int i0) {
 
 Esto baja el tiempo de 36 segundos a 6 segundos (Para N=8, M=8).
 
-Esta optimización es muy sensible a la cota que logramos calcular. O sea, si calculamos una cota más ajustada, puede andar mucho más rápido.
+El tiempo de ejecución puede variar mucho dependiendo de la cota que logremos calcular. Si calculamos una cota más ajustada (o sea mas baja, pero que sigue siendo cota superior), el backtracking anda mucho más rápido.
 
-Por ejemplo, intentemos solo contar casillas realmente libres mirando el tablero.
+Por ejemplo, si contamos las casillas realmente libres mirando el tablero:
 
 ```c++
 int tractores(int cantidad, int i0) {
@@ -273,7 +322,13 @@ int tractores(int cantidad, int i0) {
 
 Con este cambio pasamos de 6 segundos a 0,3 segundos (N=8, M=8)
 
-Aparte de ser sensible a la cota que calculamos, también es sensible al orden en que se encuentran las soluciones. Por ejemplo, si logramos recorrer las posibles soluciones en orden creciente, nunca vamos a poder cortar ramas porque todas las ramas pueden llevar a una solución mejor. Esto se puede ver agarrando el código con todas las optimizaciones puestas hasta ahora pero eligiendo las posiciones de los tractores en orden inverso:
+El tiempo de ejecución no solo varía mucho según la cota que calculamos. También depende mucho del orden en que se prueban las distintas posibilidades.
+
+Si recorremos las posibles soluciones en orden creciente, nunca vamos a eliminar opciones porque todas las opciones futuras pueden llevar a una solución mejor.
+
+O sea, si las primeras soluciones que se intentan son todas malas, no se van a saltear las que son intermedias. En cambio, si primero se prueban algunas mas o menos buenas, se van a saltear todas las que son malas e intermedias.
+
+Esto se puede ver eligiendo las posiciones de los tractores en orden inverso:
 
 ```c++
 int tractores(int cantidad, int i0) {
@@ -291,249 +346,10 @@ int tractores(int cantidad, int i0) {
 }
 ```
 
-Con este cambio se vuelve lentísimo. Hay problemas de backtracking que se pueden resolver con solo elegir el orden correcto.
+Con este cambio se vuelve lentísimo.
 
-Por ejemplo, [el problema del caballito](https://es.wikipedia.org/wiki/Problema_del_caballo), donde queremos encontrar un camino de caballo en un tablero de ajedrez, que toque cada posición del tablero exactamente una vez.
+Hay problemas de backtracking que se pueden resolver con solo elegir el orden correcto. Por ejemplo, [el problema del caballito](https://es.wikipedia.org/wiki/Problema_del_caballo), donde queremos encontrar un camino de caballo en un tablero de ajedrez, que toque cada posición del tablero exactamente una vez.
 
-En ese problema, si hacemos un backtracking que prefiere moverse hacia posiciones con la minima cantidad de vecinos disponibles, ese backtracking corre en tiempo lineal!
+En ese problema, si hacemos un backtracking que primero intenta moverse hacia posiciones con la mínima cantidad de vecinos disponibles, termina corriendo en tiempo lineal!
 
-----------
-
-> A continuación está la versión vieja del articulo. Es bastante resumida y confusa... disculpas :^(.
-
-# Problemas de búsqueda
-
-> TO-DO: reescribir esta sección basandose en problemas concretos
-
-Encontrar valores (i,j,k,q) que cumplan alguna propiedad.
-
-### Fuerza bruta
-
-La técnica más confiable para sacar un par de puntos en este tipo de problema es la fuerza bruta. Esta consiste en probar todas las candidatas a solucion y quedarse con alguna que sea efectivamente una solucion al problema.
-
-La forma más común de hacer esto es con varios for anidados. Osea, los algoritmos de fuerza bruta tienen esta pinta:
-
-```c++
-vector<int> resolver() {
-  forn(i, n) {
-    forn(j, n) {
-      forn(k, n) {
-        forn(q, n) {
-          if (es_solucion_valida(i, j, k, q)) {
-            return {i, j, k, q};
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-La complejidad de este algoritmo es O(N ^ cantidad), que es extremadamente lento. Justamente por eso, atacar un problema con fuerza bruta rara vez nos va a dar un puntaje alto.
-
-### Backtracking
-
-Para mejorar esto usamos el backtracking, una estrategia donde descartamos muchas posibilidades de un tirón. Esto se implementa con varios ifs dentro de los bucles de la fuerza bruta.
-
-```c++
-vector<int> resolver() {
-  forn(i, n) {
-
-    // *** agregamos este if ***
-    if (i_es_invalido(i)) continue;
-
-    forn(j, n) {
-
-      // *** agregamos este if ***
-      if (j_es_invalido(i, j)) continue;
-
-      forn(k, n) {
-        forn(q, n) {
-          if (es_solucion_valida(i, j, k, q)) {
-              return {i, j, k, q};
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-La mayoria de las veces un if en el bucle externo optimiza más que un if en un bucle interno, por lo que puede ser util cambiar el orden de los bucles. Ojo! Esto no siempre se puede. Por ejemplo, en el codigo de arriba, necesitamos un valor de "i" para saber si "j" es invalido, por lo que no sería posible cambiar el orden de los bucles.
-
-Si encontramos buenas formas de optimizar el backtracking, a veces podemos robar un par de puntos más. Sin embargo, no suele ser suficiente para sacar “muchos” puntos en un problema. (Para eso existen las otras técnicas!)
-
-Problema: ["ocho reinas" (Wikipedia)]( https://es.wikipedia.org/wiki/Problema_de_las_ocho_reinas )
-
-Por otro lado, este código tiene un problema grande: hay un for por cada variable (i,j,k,q). Esto significa que no podemos resolver problemas donde la cantidad de variables es muy grande o depende de la entrada.
-
-### Fuerza bruta recursiva
-
-Esto se puede resolver con una función recursiva: definimos una función que como argumento toma un número que indica cuál variable debe asignar. Una vez asignado un valor, pasa a la siguiente variable, y así recursivamente.
-
-Luego de asignar todas las variables, verifica si la solucion es correcta y, en caso de serlo, termina la busqueda.
-
-```c++
-vector<int> valores;
-int cantidad;
-
-bool busqueda(int var) {
-  if (var == cantidad) {
-    if (es_solucion_valida(valores)) {
-      return true;
-    } else {
-      return false;
-    }
-  } else {
-    forn(valor, n) {
-      valores[var] = valor;
-      bool exito = busqueda(var+1);
-      if (exito) return true;
-    }
-    return false;
-  }
-}
-
-vector<int> resolver() {
-  valores.resize(cantidad);
-  busqueda(0);
-  return valores;
-}
-```
-
-Esto tiene todos los mismo problemas de tiempo de ejecucion que vimos con la fuerza bruta
-
-### Backtracking recursivo
-
-Para resolver esto, volvemos a recurrir a la idea del backtracking. En vez de verificar si la solucion es valida al final, podemos revisar si con los valores ya asignados es imposible construir una solucion valida.
-
-No hace falta que este chequeo sea infalible! Lo importante es dejar pasar **todas** las soluciones validas, y cortar la **mayor cantidad posible** de soluciones invalidas.
-
-```c++
-vector<int> valores;
-int cantidad;
-
-bool busqueda(int var) {
-  if (var == cantidad) {
-    if (es_solucion_valida(valores)) {
-      return true;
-    } else {
-      return false;
-    }
-  } else {
-
-    // *** agregamos este if ***
-    if (ya_es_imposible(valores, var)) return false;
-
-    forn(valor, n) {
-      valores[var] = valor;
-      bool exito = busqueda(var+1);
-      if (exito) return true;
-    }
-    return false;
-  }
-}
-
-vector<int> resolver() {
-  valores.resize(cantidad);
-  busqueda(0);
-  return valores;
-}
-```
-
-Problema: ["¡Consigamos un solo color!" Nacional Nivel 3 2012]( https://www.oia.unsam.edu.ar/_media/prob/c3a12n3p2.pdf )
-
-## Problemas de optimizacion
-
-Aparte de encontrar una solución válida, la fuerza bruta puede usarse para encontrar la mejor solución a un problema (la de menor costo, de menor tamaño, etc)
-
-En estos casos, el codigo es muy parecido:
-
-```c++
-vector<int> resolver() {
-  vector<int> valores = {0,0,0,0};
-  vector<int> mejor_solucion = {0,0,0,0};
-
-  forn(i,n) {
-    valores[0] = i;
-    forn(j,n) {
-      valores[1] = j;
-      forn(k,n) {
-        valores[2] = k;
-        forn(q,n) {
-          valores[3] = q;
-          if (costo(valores) < costo(mejor_solucion)) {
-            mejor_solucion = valores;
-          }
-        }
-      }
-    }
-  }
-
-  return mejor_solucion;
-}
-```
-
-Ahora, para optimizar es un poco distinto.
-
-Nos preguntamos si, con las variables asignadas hasta ahora, es imposible obtener un costo menor al que se tiene actualmente. Para hacer esto podemos calcular un costo optimista, correspondiente a una solucion "ideal" que se puede formar de ahora en adelante.
-
-Si esta solucion ideal no puede vencer a la que ya se encontró, entonces ninguna solución real podrá vencerla tampoco.
-
-```c++
-vector<int> resolver() {
-  vector<int> valores = {0,0,0,0};
-  vector<int> mejor_solucion = {0,0,0,0};
-
-  forn(i,n) {
-    valores[0] = i;
-    forn(j,n) {
-      valores[1] = j;
-
-      // *** agregamos este if ***
-      if (costo_optimista_ij(i, j) >= costo(mejor_solucion)) continue;
-
-      forn(k,n) {
-        valores[2] = k;
-        forn(q,n) {
-          valores[3] = q;
-          if (costo(valores) < costo(mejor_solucion)) {
-            mejor_solucion = valores;
-          }
-        }
-      }
-    }
-  }
-  return mejor_solucion;
-}
-```
-
-Y de la misma manera que antes, podemos extender esto a problemas con cantidades arbitrarias de variables usando recursion.
-
-```c++
-vector<int> valores;
-vector<int> mejor_solucion;
-int cantidad;
-
-void busqueda(int var) {
-  if (var == cantidad) {
-    if (costo(valores) < costo(mejor_solucion)) {
-      mejor_solucion = valores;
-    }
-  } else {
-    if (costo_optimista(valores, var) >= costo(mejor_solucion)) return;
-    forn(valor, n) {
-      valores[var] = valor;
-      busqueda(var+1);
-    }
-  }
-}
-
-vector<int> resolver() {
-  valores.resize(cantidad, 0);
-  mejor_solucion.resize(cantidad, 0);
-  busqueda(0);
-  return mejor_solucion;
-}
-```
-
+Si no sabemos qué orden elegir, una opción es usar un orden aleatorio. Esto no suele ser tan bueno, pero también evita casos super malos que pueden surgir al elegir siempre la primera opción disponible. (Aunque justo en el problema de los tractores es bastante bueno priorizar la menor posición disponible :^) )
