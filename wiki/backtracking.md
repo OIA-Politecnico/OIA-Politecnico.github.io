@@ -350,4 +350,4 @@ Hay problemas de backtracking que se pueden resolver con solo elegir el orden co
 
 En ese problema, si hacemos un backtracking que primero intenta moverse hacia posiciones con la mínima cantidad de vecinos disponibles, termina corriendo en tiempo lineal!
 
-Si no sabemos qué orden elegir, una opción es usar un orden aleatorio. Esto no suele ser tan bueno, pero también evita casos super malos que pueden surgir al elegir siempre la primera opción disponible. (Aunque justo en el problema de los tractores es bastante bueno priorizar la menor posición disponible :^) )
+Si no sabemos qué orden elegir, una opción es usar un orden aleatorio. Esto no suele ser tan bueno, pero también evita casos super malos que pueden surgir al elegir siempre la primera opción disponible. Por ejemplo, en el problema de las N reinas elegir un orden aleatorio funciona super bien, y nos permite resolver el problema para N=100 casi instantaneamente.
