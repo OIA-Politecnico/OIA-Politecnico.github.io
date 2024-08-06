@@ -58,6 +58,7 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 - [Arreglo]( arreglos )
 - [Tabla aditiva]( tabla-aditiva )
 - [Union-find]( union-find )
+- [Trie]( trie )
 - [Segment Tree]( segment-tree )
 - [Fenwick Tree]( fenwick ) - [presentación de Román Castellarin](https://www.oia.unsam.edu.ar/wp-content/uploads/2017/11/Fenwick-Trees.pdf)
 - [bucketing, sqrt decomposition]( sqrt-decomposition )
