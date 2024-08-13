@@ -6,7 +6,19 @@ Un Trie es un arbol donde cada subarbol contiene las strings que arrancan con
 cada caracter. O sea, en un subarbol están todas las strings que empiezan con
 'a', otro tiene las que empiezan con 'b', otro con 'c', etc.
 
+En el segundo nivel del arbol las strings se separan por su segundo caracter, en el tercero por el tercer caracter y así sucesivamente.
+
 Esta estructura nos permite insertar, eliminar y buscar strings en O(N).
+
+El trie sirve para resolver problemas que piden calcular cosas relacionadas a strings que tienen prefijos en común.
+
+## Problemas
+
+- [Oia selectivo 2009 - Formando equipo](https://juez.oia.unsam.edu.ar/task/51)
+
+## Implementación básica
+
+La forma del árbol es suficiente para representar las strings, asi que no hace falta guardarlas explícitamente.
 
 ```c++
 struct trie {
@@ -16,7 +28,6 @@ struct trie {
     void insertar(string s) {
         insertar(&s[0]);
     }
-
     void insertar(char* s) {
         if (*s == '\0') {
             es_final = true;
@@ -25,6 +36,9 @@ struct trie {
         }
     }
 
+    bool contiene(string s) {
+        return contiene(&s[0]);
+    };
     bool contiene(char* s) {
         if (*s == '\0') {
             return es_final;
