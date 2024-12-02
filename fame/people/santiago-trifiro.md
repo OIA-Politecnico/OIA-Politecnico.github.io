@@ -1,4 +1,5 @@
-<h1>Santiago Trifiro</h1>
+# Santiago Trifiro
+
 | Año | Nivel | Puesto |
 | --- | --- | --- |
 | 2022 | 2 | 10 |

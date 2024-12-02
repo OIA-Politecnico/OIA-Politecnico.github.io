@@ -1,4 +1,5 @@
-<h1>Leandro Alvarez</h1>
+# Leandro Alvarez
+
 | Año | Nivel | Puesto |
 | --- | --- | --- |
 | 2012 | 2 | 13 |

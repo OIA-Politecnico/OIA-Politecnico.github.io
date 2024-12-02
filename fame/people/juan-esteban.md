@@ -1,4 +1,5 @@
-<h1>Juan Esteban</h1>
+# Juan Esteban
+
 | Año | Nivel | Puesto |
 | --- | --- | --- |
 | 2023 | 1 | 2 |

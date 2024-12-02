@@ -1,4 +1,5 @@
-<h1>Juan Ignacio Suarez</h1>
+# Juan Ignacio Suarez
+
 | Año | Nivel | Puesto |
 | --- | --- | --- |
 | 2013 | 2 | 7 |

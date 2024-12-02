@@ -99,7 +99,8 @@ for p in ranking:
 		separator = map(lambda _: "---", fields)
 
 		lines = [];
-		lines.append(f'<h1>{p.name} {p.surname}</h1>')
+		lines.append(f'# {p.name} {p.surname}')
+		lines.append("")
 		lines.append("| " + " | ".join(fields) + " |");
 		lines.append("| " + " | ".join(separator) + " |");
 

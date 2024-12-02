@@ -1,4 +1,5 @@
-<h1>Juan Valero</h1>
+# Juan Valero
+
 | Año | Nivel | Puesto |
 | --- | --- | --- |
 | 2016 | 1 | 8 (E) |

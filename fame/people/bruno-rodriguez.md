@@ -1,4 +1,5 @@
-<h1>Bruno Rodriguez</h1>
+# Bruno Rodriguez
+
 | Año | Nivel | Puesto |
 | --- | --- | --- |
 | 2012 | 1 | 5 |

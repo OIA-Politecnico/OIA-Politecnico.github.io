@@ -1,4 +1,5 @@
-<h1>Sebastián Mestre</h1>
+# Sebastián Mestre
+
 | Año | Nivel | Puesto |
 | --- | --- | --- |
 | 2017 | 2 | 1 |

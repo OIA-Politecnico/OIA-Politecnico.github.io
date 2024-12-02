@@ -1,4 +1,5 @@
-<h1>Lucas Diaz</h1>
+# Lucas Diaz
+
 | Año | Nivel | Puesto |
 | --- | --- | --- |
 | 2012 | 1 | 3 |

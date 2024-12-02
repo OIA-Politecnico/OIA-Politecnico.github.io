@@ -1,4 +1,5 @@
-<h1>Lucas Ojeda</h1>
+# Lucas Ojeda
+
 | Año | Nivel | Puesto |
 | --- | --- | --- |
 | 2016 | 1 | 5 |

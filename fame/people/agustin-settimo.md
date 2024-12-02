@@ -1,4 +1,5 @@
-<h1>Agustín Settimo</h1>
+# Agustín Settimo
+
 | Año | Nivel | Puesto |
 | --- | --- | --- |
 | 2013 | 2 | 6 |
