@@ -4,6 +4,7 @@
 
 - [Grupo en VJudge]( https://vjudge.net/group/oiapolitecnico )
 - [Wiki]( wiki )
+- [Salón de la fama]( fame )
 
 El grupo en VJudge es un sitio que preparamos con problemas de practica y competencias semi-frecuentes.
 
