@@ -94,7 +94,7 @@ for p in ranking:
 	print(p.show())
 
 for p in ranking:
-	with open(f'./people/{p.uri_string()}', "w") as file:
+	with open(f'./people/{p.uri_string()}.md', "w") as file:
 		fields = ["Año", "Nivel", "Puesto"]
 		separator = map(lambda _: "---", fields)
 
