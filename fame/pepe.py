@@ -104,7 +104,12 @@ for p in ranking:
 		lines.append("| " + " | ".join(fields) + " |");
 		lines.append("| " + " | ".join(separator) + " |");
 
-		for year, level, rank, tie in p.participations:
-			lines.append(f'| {year} | {level} | {rank}{" (E)" if tie else ""} |')
+		for year, level, rank, tie in reversed(p.participations):
+			rank_decoration = ""
+			if 1 <= rank <= 3:
+				rank_decoration += [" (oro)", " (plata)", " (bronce)"][rank-1]
+			if tie:
+				rank_decoration += " (empate)"
+			lines.append(f'| {year} | {level} | {rank}{rank_decoration} |')
 
 		file.writelines(map(lambda s: f'{s}\n', lines))
