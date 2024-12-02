@@ -1,4 +1,5 @@
 import csv
+import unicodedata
 
 # Este script construye la tabla en markdown a partir de un csv (data.csv) con
 # las participaciones de todos los alumnos.
@@ -29,7 +30,7 @@ class Person:
 	def show(self):
 		return (
 			'| '
-			f'{self.name} {self.surname}'
+			f'[{self.name} {self.surname}]( people/{self.uri_string()} )'
 			' | '
 			f'{len(self.participations)}'
 			' | '
@@ -48,6 +49,16 @@ class Person:
 		participations = len(self.participations)
 		fullname = f'{self.name} {self.surname}'
 		return (-gold, -silver, -bronze, -participations, fullname)
+
+	# strip accents and other decorations
+	def uri_string(self):
+		name = self.name
+		surname = self.surname
+		key = f'{name}-{surname}'
+		normalized = unicodedata.normalize('NFKD', key)
+		normalized = normalized.replace(' ', '-')
+		normalized = normalized.lower()
+		return normalized.encode('ascii', 'ignore').decode('ascii')
 
 with open('data.csv') as csvfile:
 	reader = csv.reader(csvfile, delimiter=',')
@@ -72,10 +83,27 @@ ranking.sort(key=lambda p: p.sort_key())
 
 print("# Salón de la fama")
 print("")
-fields = ["Competidor", "Participaciones", "Oro", "Plata", "Bronce"]
-print("| ", " | ".join(fields), " |");
+print("Tabla de participaciones en el certamen nacional de OIA")
+print("")
+fields = ["Alumno", "Veces", "Oro", "Plata", "Bronce"]
+print("|", " | ".join(fields), "|");
 separator = map(lambda _: "---", fields)
-print("| ", " | ".join(separator), " |");
+print("|", " | ".join(separator), "|");
 
 for p in ranking:
 	print(p.show())
+
+for p in ranking:
+	with open(f'./people/{p.uri_string()}', "w") as file:
+		fields = ["Año", "Nivel", "Puesto"]
+		separator = map(lambda _: "---", fields)
+
+		lines = [];
+		lines.append(f'<h1>{p.name} {p.surname}</h1>')
+		lines.append("| " + " | ".join(fields) + " |");
+		lines.append("| " + " | ".join(separator) + " |");
+
+		for year, level, rank, tie in p.participations:
+			lines.append(f'| {year} | {level} | {rank}{" (E)" if tie else ""} |')
+
+		file.writelines(map(lambda s: f'{s}\n', lines))
