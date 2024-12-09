@@ -32,8 +32,9 @@ recorrer(src) {
   insertar_bolsa(b, src)
   mientras b no está vacía {
     u = extraer_bolsa(b)
+    si u fue visitado lo salteo
     marco u como visitado
-    por cada v, vecino de u que no fue visitado {
+    por cada v, vecino de u {
       insertar_bolsa(b, v)
     }
   }

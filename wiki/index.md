@@ -50,7 +50,7 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 #### Teoria de grafos
 - [Teoría de grafos]( grafos )
 - [Recorridos]( recorridos )
-- Caminos mínimos
+- [Caminos mínimos]( camino-minimo )
 - [Arbol recubridor]( spanning-tree )
 - Caminos eulerianos y hamiltonianos
 
