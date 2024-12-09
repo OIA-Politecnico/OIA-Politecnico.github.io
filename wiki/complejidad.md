@@ -1,169 +1,102 @@
-# Complejidad asintotica
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="mathjax-config.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-La complejidad asíntotica (o complejidad, a secas) es una forma de medir a grandes rasgos
-la eficiencia de un programa.
+## Complejidad computacional
 
-Al usar complejidad para medir programas, los agrupamos en grupos, que llamamos "clases de
-complejidad".
+Hablando en criollo muchas veces le decimos complejidad al
+[costo de un programa]( costo ). Esto es incorrecto. La complejidad
+computacional de un _problema_ (y no de un _programa_) es el minimo costo
+asintotico posible que tiene un _programa_ que resuelve ese _problema_.
 
-Estas son las ideas importantes de usar complejidad:
+Por ejemplo, para ordenar un arreglo es relativamente sencillo diseñar un
+programa que tiene costo \\(O(N^{2})\\). Tambien existen algoritmos más
+sofisticados que dan lugar a programas con costo \\(O(N \log (N))\\). Resulta
+que es imposible diseñar algoritmos más rapidos que esto (este hecho se puede
+demostrar matematicamente). Entonces, el problema de ordenar un arreglo tiene
+complejidad \\(O(N \log (N))\\).
 
-- Hay un orden fijo entre las clases de complejidad
-- Si un programa está en una clase de complejidad menor que otro, casi seguro que el primero es más rápido.
-- Si sabemos la clase de complejidad de un programa, podemos estimar el tiempo de ejecución que tendrá al enviarlo para evaluación.
+### P y NP
 
-Usando estas herramientas podemos darnos una idea de antemano, de qué complejidad
-tiene que tener la solución a un problema, y así descartamos muchas posibles ideas,
-sin tener que pensar en todos los detalles.
+**Definición**: \\(P\\) es el conjunto de todos los problemas cuya complejidad
+computacional es menor o igual a un polinomio (O sea, algo como \\(O(N)\\),
+\\(O(N^2)\\), \\(O(N^3)\\), \\(O(1)\\), \\(O(N \log (N))\\), etc.). Para no
+hacerlo tan largo, decimos que son los problemas que tienen complejidad
+polinomial.
 
-La complejidad está dada por una expresión que representa la cantidad de operaciones que realiza un programa.
+Los problemas que no pertenecen \\(P\\) serían aquellos cuya complejidad es
+mayor a cualquier polinomio. O sea, que cualquier programa que los resuelve
+tiene costo mayor a un polinomio, por ejemplo costo \\(O(2^{N})\\) u
+\\(O(N!)\\). Estos costos aparecen cuando hacemos programas que prueban todas
+las posiblidades para encontrar una solucion, por ejemplo haciendo
+[fuerza bruta o backtracking]( backtracking ).
 
-Mas concretamente, expresamos la complejidad cómo una función de algún parámetro de la entrada. Por
-lo general, el tamaño del conjunto de datos, al que solemos llamar n. Para indicar complejidad
-escribimos la ley de la función entre paréntesis, siguiendo la letra 'O'. Por ejemplo: O(n)
+Una forma de pensar en los problemas que no están en P, es "los que no te queda
+más opción que probar todas las posibilidades".
 
-Ejemplos:
+**Definición**: \\(NP\\) es el conjunto de todos los problemas para los cuales
+verificar si una solución dada es correcta tiene complejidad polinomial.
 
-La función de abajo tiene complejidad O(n), porque el bucle realiza n iteraciones.
+En la práctica, verificar si una solución dada es correcta suele ser bastante
+más fácil que encontrarla, y la teoría respalda parcialmente esta noción: P está
+contenido en NP. O sea, todos los problemas que están en P también están en NP.
+En otras palabras, si un problema se puede resolver en tiempo polinomial,
+entonces también se pueden verificar soluciones a ese problema en tiempo
+polinomial.
 
-```c++
-int suma(int datos[], int n) {
-    int resultado = 0;
-    for (int i = 0; i < n; ++i)
-        resultado += datos[i];
-    return resultado;
-}
-```
+### Reducciones
 
-La función de abajo tiene complejidad O(n\*n), porque el bucle interno realiza n
-iteraciones, y se repite n veces, para un total de n\*n iteraciones.
+En programación competitiva todo el tiempo usamos algoritmos conocidos para
+resolver un problema.
 
-```c++
-int inversiones(int datos[], int n) {
-    int resultado = 0;
-    for (int i = 0; i < n; ++i)
-        for (int j = 0; j < n; ++j)
-            if (i < j && datos[i] > datos[j])
-                resultado += 1;
-    return resultado;
-}
-```
+Realmente, esos algoritmos son soluciones a problemas conocidos y lo que estamos
+haciendo es traducir un caso de prueba de nuestro problema a un caso de prueba
+de ese otro problema que tiene la misma respuesta.
 
-Es importante notar que a los fines de la complejidad, si un programa realiza n,
-2\*n, n+50, etc. operaciones, es todo lo mismo, y la complejidad es O(n).
+Esta idea se llama reducción. Para usar un algoritmo conocido, reducimos nuestro
+problema hacia otro problema.
 
-Lo mismo pasa si el programa realiza n operaciones rápidas (como sumar enteros),
-o n operaciones lentas (como calcular raices cuadradas): en ambos casos es O(n).
+### NP-completos
 
-Aparte, si un programa hace dos cosas con distintas complejidades, la complejidad
-del programa es la mas grande de esas dos
+Hay algunos problemas especiales en NP que son muy poderosos. Son poderosos
+porque es posible reducir cualquier problema de NP hacia ellos (y el costo de la
+reducción es polinomial).
 
-Ejemplo:
+O sea, podemos agarrar cualquier caso de prueba de cualquier problema y, en
+tiempo polinomial, convertirlo en un caso de prueba de cualquiera de esos
+problemas especiales.
 
-Este programa tiene complejidad O(n\*n)
+A este conjunto de problemas se lo conoce como \\(NP-Completo\\).
 
-```c++
-int cosa_loca(int datos[], int n) {
-    int x1 = suma(datos, n);          // complejidad O(n)
-    int x2 = inversiones(datos, n);   // complejidad O(n*n)
-    return x1 + x2;
-}
-```
+- El más importante de estos problemas es [SAT]( https://es.wikipedia.org/wiki/Problema_de_satisfacibilidad_booleana )
+- El más famoso de estos problemas es el [problema del viajante]( https://es.wikipedia.org/wiki/Problema_del_viajante )
 
-Ejercicio: dar las complejidades de estas funciones
+### P vs. NP
 
-```c++
-int f0(int n) {
-  int res = 0;
-  for (int i = 0; i < n; ++i)
-      res = res + i;
-  return res;
-}
+Si bien P está contenido en NP, nadie sabe si hay elementos de NP que están
+fuera P. O sea, nadie sabe si hay problemas cuyas soluciones se pueden verificar
+en tiempo polinomial pero no se pueden resolver en tiempo polinomial.
 
-int f1(int n) {
-  int res = 0;
-  for (int i = 0; i < n; ++i)
-      res = res + sqrt(i);
-  return res;
-}
+En particular, se cree que los problemas de \\(NP-completo\\) no pertenecen a
+\\(P\\).
 
-int f2(int n) {
-  int res = 0;
-  for (int i = n-1; i >= 0; --i)
-      res = res + 50;
-  return res;
-}
+Observe que si existiera una solución polinomial a cualquier \\(NP-completo\\),
+entonces habría solución polinomial a cualquier problema de \\(NP\\), por lo
+cual resultaría que \\(P = NP\\).
 
-int f3(int n) {
-  int res = 0;
-  for (int i = 0; i < n; ++i)
-      for (int j = 0; j < n; ++j)
-          res = res + 1;
-  return res;
-}
+### NP-completo en programación competitiva
 
-int f4(int n) {
-  int res = 0;
-  for (int i = 0; i < n; ++i)
-      for (int j = i; j < n; ++j)
-          res = res + 1;
-  return res;
-}
+Los problemas NP-completos no salen en tiempo polinomial
 
-int f5(int n) {
-  int res = 0;
-  for (int i = 0; i < n; ++i)
-      for (int j = 0; j < i; ++j)
-          res = res + 1;
-  return res;
-}
-```
+Pero muchos casos especiales de problemas NP-completos salen con técnicas
+estándar como greedy o DP
 
-## Ejercicios adicionales
+Durante un contest:
 
-```c++
-// (*)
-int f6(int n) {
-	int res = 0;
-	for (int i = 0; i * i < n; ++i) {
-		res = res + 1;
-	}
-	return res;
-}
-
-// (*)
-int f7(int n) {
-	int res = 0;
-	for (int i = 0; i * i < n; ++i) {
-		res = res + 1;
-	}
-	return res;
-}
-
-// (*)
-int f8(int n) {
-  int res = 0;
-  for (int i = 1; i < n; i = i * 2)
-      res = res + 1;
-  return res;
-}
-
-// (*)
-int f9(int n) {
-  int res = 0;
-  for (int i = n; i > 0; i = i / 2)
-      res = res + 1;
-  return res;
-}
-
-// (*)
-int f10(int n) {
-	int res = 0;
-	for (int i = 1; i < n; ++i) {
-		for (int j = 0; j < n; j += i) {
-			res = res + 1;
-		}
-	}
-	return res;
-}
-```
+- Si simplificamos un problema y nos queda NP-completo con N grande,
+  hicimos algo mal o no aprovechamos alguna limitación. Esto es clave. Si nos
+  queda algo igual a un problema NP-completo famoso pero con una pequeña
+  diferencia o limitación, entonces esa pequeña diferencia es lo que hay que
+  aprovechar para resolver el problema eficientemente.
+- De vez en cuando se toma algo NP-completo con N chico, practicar
+  implementación de búsquedas exhaustivas (DP bitmask, `next_permutation`, etc.)

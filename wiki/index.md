@@ -28,7 +28,7 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 ### Algoritmos y estructuras de datos para OIA
 
 - [Técnicas algorítmicas]( tecnicas )
-- [Complejidad asintótica]( complejidad )
+- [Analisis de costo]( costo )
 - [Algoritmos golosos]( greedy )
 - [Ordenamiento]( ordenamiento )
 - [Two pointers]( two-pointers )
@@ -68,6 +68,7 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 
 - [Compresión de coordenadas]( compresion-de-coordenadas )
 - [Geometria computacional]( geometria )
+- [Complejidad computacional]( complejidad )
 
 ### Competitividad
 
