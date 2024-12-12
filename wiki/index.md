@@ -44,7 +44,7 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 #### Recursion
 - [Fuerza bruta y backtracking]( backtracking )
 - [Programación dinámica]( dp )
-- Divide y conquista
+- [Divide y conquista]( dnc )
 - [Optimizacion de DP (Mochila / Knapsack)]( knapsack )
 
 #### Teoria de grafos

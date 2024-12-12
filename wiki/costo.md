@@ -294,11 +294,17 @@ matemática.
 Para funciones que tienen varias ramas recursivas con tamaños proporcionales al
 problema original hay una reglita mas o menos simple.
 
+<https://es.wikipedia.org/wiki/Teorema_maestro>
+
+<https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)>
+
 > TO-DO: explicar
 
 #### Teorema Akra-Bazzi
 
 Es una versión mas potente pero más dificil de aplicar del teorema maestro. No
 suele ser útil pero está bueno saber que existe.
+
+<https://en.wikipedia.org/wiki/Akra%E2%80%93Bazzi_method>
 
 > TO-DO: explicar
