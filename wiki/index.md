@@ -52,7 +52,7 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 - [Recorridos]( recorridos )
 - [Caminos mínimos]( camino-minimo )
 - [Arbol recubridor]( spanning-tree )
-- Caminos eulerianos y hamiltonianos
+- [Caminos eulerianos y hamiltonianos]( hamilton-euler )
 
 #### Estructuras de datos
 - [Arreglo]( arreglos )
