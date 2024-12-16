@@ -42,7 +42,8 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 - [Búsqueda binaria]( busqueda-binaria )
 
 #### Recursion
-- [Fuerza bruta y backtracking]( backtracking )
+- [Fuerza bruta]( fuerza-bruta )
+- [Backtracking]( backtracking )
 - [Programación dinámica]( dp )
 - [Divide y conquista]( dnc )
 - [Optimizacion de DP (Mochila / Knapsack)]( knapsack )
