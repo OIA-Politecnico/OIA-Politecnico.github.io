@@ -34,14 +34,17 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 - [Two pointers]( two-pointers )
 
 #### Matematica - Algoritmos con enteros
+
 - [Cambio de base]( cambio-de-base )
 - [Primalidad en O(raiz(N))]( primalidad-sqrt )
 - [Criba de Eratóstenes (Algoritmo)]( criba )
 
 #### Busqueda
+
 - [Búsqueda binaria]( busqueda-binaria )
 
 #### Recursion
+
 - [Fuerza bruta]( fuerza-bruta )
 - [Backtracking]( backtracking )
 - [Programación dinámica]( dp )
@@ -49,6 +52,7 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 - [Optimizacion de DP (Mochila / Knapsack)]( knapsack )
 
 #### Teoria de grafos
+
 - [Teoría de grafos]( grafos )
 - [Recorridos]( recorridos )
 - [Caminos mínimos]( camino-minimo )
@@ -56,13 +60,13 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 - [Caminos eulerianos y hamiltonianos]( hamilton-euler )
 
 #### Estructuras de datos
+
 - [Arreglo]( arreglos )
 - [Tabla aditiva]( tabla-aditiva )
 - [Union-find]( union-find )
 - [Trie]( trie )
 - [Segment Tree]( segment-tree )
 - [Fenwick Tree]( fenwick ) - [presentación de Román Castellarin](https://www.oia.unsam.edu.ar/wp-content/uploads/2017/11/Fenwick-Trees.pdf)
-- [bucketing, sqrt decomposition]( sqrt-decomposition )
 - [Segment Tree con range updates (lazy propagation)]( lazy-propagation )
 
 #### Varios
@@ -70,6 +74,11 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 - [Compresión de coordenadas]( compresion-de-coordenadas )
 - [Geometria computacional]( geometria )
 - [Complejidad computacional]( complejidad )
+
+#### Temas Adicionales (Fuera del temario de OIA)
+
+- [sqrt decomposition]( sqrt-decomposition )
+- [Binary Lifting]( binary-lifting )
 
 ### Competitividad
 
