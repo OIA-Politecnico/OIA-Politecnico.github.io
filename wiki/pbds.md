@@ -24,7 +24,10 @@ indexed_set<int> A;
 A.insert(42);
 A.insert(37);
 int val = *s.find_by_order(1); // acceso por indice, da 42
-int idx = s.order_of_key(42); // cantidad de elementos menores, da 0
+int idx = s.order_of_key(37); // cantidad de elementos menores, da 0
+int idx = s.order_of_key(38); // da 1
+int idx = s.order_of_key(42); // da 1
+int idx = s.order_of_key(43); // da 2
 ```
 
 Las PBDS tienen un gran defecto: no se pueden swappear eficientemente usando la funcion `swap()`. En C++ cualquier estrucutra de la STL se pude swappear en O(1):
