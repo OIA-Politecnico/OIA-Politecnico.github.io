@@ -76,6 +76,7 @@ void dfs(int u, int p) {
   conj[u].insert(val[u]);
 
   for (int v : g[u]) if (v != p) {
+    dfs(v, u);
     if (conj[v].size() > conj[u].size()) {
       conj[v].swap(conj[u]); // si usamos std::swap() da time limit
     }
