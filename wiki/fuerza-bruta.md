@@ -1,86 +1,175 @@
 
 # Fuerza bruta
 
-Fuerza bruta es la idea de probar todas las opciones y tomar la mejor. Como
-primera aproximación tenemos, por ejemplo, códigos que prueban todas las ternas
-de elementos de un array, hasta encontrar una que verifica alguna condición:
+Fuerza bruta o "busqueda exhaustiva" es la idea de probar todas las opciones y
+tomar la mejor.
+
+Por ejemplo, para encontrar el par de elementos cuyo producto es lo mas grande
+posible podemos probar todas las parejas.
 
 ```c++
-forn(i, n) {
-	forn(j, i) {
-		forn(k, j) {
-			if (me_sirve(k, j, i)) {
-				cout << k << " " << j << " " << i << "\n";
-				return 0;
-			}
-		}
+pair<int,int> mejor = {-1, -1}
+int puntaje_mejor   = -1;
+forn(i, n) forn(j, i) {
+	int puntaje = a[i] * a[j];
+	if (puntaje > puntaje_mejor) {
+		puntaje_mejor = puntaje;
+		mejor = {i, j};
 	}
 }
 ```
 
-Pero hay fuerzas brutas más complicadas. Por ejemplo, qué pasa si la cantidad de
-elementos que hay que elegir depende del input? O que pasa si hay que probar
-todas las posibles combinaciones? Etc.
-
-## Probar todos los conjuntos
-
-Para probar todas las posibles combinaciones podemos aprovechar la
-representación binaria de los números. En particular, la colección de los
-numeros desde cero hasta dos elevado a la N se corresponde de una forma sencilla
-con todos los posibles conjuntos formados por los numeros 1, 2, 3, ..., N.
+Hay formas mas comodas de codearlo: con `tuple` podemos usar la funcion `max()`.
 
 ```c++
-for (int s = 0; s < (1 << n); ++s) {
-	cout << "{";
-	for (int i = 0; i < n; ++i) {
-		if ((s >> i) & 1) {
-			cout << " " << i;
-		}
-	}
-	cout << " }\n";
-}
+tuple<int, int, int> mejor = {-1, -1, -1};
+forn(i, n) forn(j, i)
+	mejor = max(mejor, {a[i] * a[j], i, j});
 ```
 
-## Probar todas las permutaciones
+Pero hay fuerzas brutas más complicadas. Por ejemplo, que pasa si hay que probar
+todas las combinaciones de 10 elementos. ¿Escribimos 10 bucles anidados? ¿Y si
+la cantidad de elementos depende de la entrada?
 
-Para probar todas las permutaciones podemos aprovechar una funcion de la
-biblioteca estándar de C++: `next_permutation`.
+### Todas las combinaciones
+
+Para probar todas las posibles combinaciones podemos aprovechar que los numeros
+se guardan en binario.
+
+```c++
+forn(s, (1<<n)) {
+	forn(i, n) if (s&(1<<i)) cout << " " << i;
+	cout << "\n";
+}
+// si n = 3 imprime:
+//
+// 0
+// 1
+// 0 1
+// 2
+// 0 2
+// 1 2
+// 0 1 2
+```
+
+### Todas las combinaciones de tamaño fijo
+
+Si queremos solo las combinaciones de cierta cantidad de elementos podemos
+filtrar usando `__builtin_popcount()`, que devuelve la cantidad de bits
+prendidos de un numero.
+
+```c++
+forn(s, (1<<n)) if (__builtin_popcount(s) == 2) {
+	forn(i, n) if (s&(1<<i)) cout << " " << i;
+	cout << "\n";
+}
+// si n = 3 imprime:
+// 0 1
+// 0 2
+// 1 2
+```
+
+### Todas las permutaciones
+
+Para probar todas las permutaciones podemos usar `next_permutation`, de la
+biblioteca estandar.
 
 ```c++
 vector<int> p(n);
-for (int i = 0; i < n; ++i) {
-	p[i] = i;
-}
-
+forn(i, n) p[i] = i;
 do {
-	cout << "[";
-	for (int i = 0; i < n; ++i) {
-		cout << " " << p[i];
+	forn(i, n) cout << " " << p[i];
+	cout << "\n";
+} while (next_permutation(begin(p), end(p)));
+// si n = 3 imprime:
+// 0 1 2
+// 0 2 1
+// 1 0 2
+// 1 2 0
+// 2 0 1
+// 2 1 0
+```
+
+## Busquedas eficientes
+
+En los ejemplos de arriba hacemos la implementacion mas corta posible para no
+perder tiempo. Pero estas implementaciones no son tan eficientes. Por ejemplo,
+para iterar por las combinaciones de un cierto tamaño iteramos por todas las
+`2^N` combinaciones posibles y filtramos las del tamaño deseado.
+
+En cambio podemos diseñar programas que recorren solo los elementos deseados.
+Estos programas muchas veces son recursivos.
+
+Por ejemplo para iterar por todas las combinaciones de tamano k entre n
+elementos:
+
+```c++
+vector<int> elementos;
+int probar(int n, int k) {
+	if (n == 0) {
+		if (k == 0) {
+			for (int x : elementos) cout << " " << x;
+			cout << "\n";
+		}
+	} else {
+		elementos.push_back(n - 1);
+		probar(n - 1, k - 1); // agarro el elemento n-1
+		elementos.pop_back();
+		if (n > k) probar(n - 1, k); // no lo agarro
 	}
-	cout << " ]\n";
+}
+// al llamar probar(3, 2) imprime:
+// 2 1
+// 2 0
+// 1 0
+```
+
+Otro punto: si iteramos por todas las permutaciones y procesamos cada una vamos
+a tener costo `O(N! * N)`. En cambio, si las construimos recursivamente, podemos
+compartir computos entre las permutaciones que estan en la misma rama. Asi,
+muchas veces podemos bajar el costo a `O(N!)`.
+
+```c++
+int mejor_valor = 0;
+
+vector<int> p(n);
+forn(i, n) p[i] = i;
+do {
+	int valor = 0;
+	forr(i, 1, n) valor += p[i-1] * p[i];
+	mejor_valor = max(mejor_valor, valor);
 } while (next_permutation(begin(p), end(p)));
 ```
 
-## Probar todas las combinaciones de k elementos, dependiendo k del input
-
-Ahora ya se complica y no nos queda otra que usar recursión.
 
 ```c++
-vector<int> indices;
-int probar(int n, int k) {
-	if (n == 0) {
-		cout << "{";
-		for (int x : indices) {
-			cout << " " << x;
-		}
-		cout << " }\n";
-	} else {
-		elementos.push_back(n - 1);
-		probar(n - 1, k - 1);
-		elementos.pop_back();
-		if (k > n) {
-			probar(n - 1, k);
-		}
+int valor = 0;
+int mejor_valor = 0;
+
+int n;
+vector<int> p;
+void iniciar() {
+	p.resize(n);
+	forn(i, n) p[i] = i;
+}
+void probar(int i) {
+	if (i == n) {
+		mejor_valor = max(mejor_valor, valor);
+		return;
+	}
+	for (int j = i; j < n; ++i) {
+		swap(p[i], p[j]);
+		if (i > 0) valor += p[i-1] * p[i];
+
+		probar(i+1);
+
+		if (i > 0) valor -= p[i-1] * p[i];
+		swap(p[i], p[j]);
 	}
 }
 ```
+
+Otro truco seria cortar ramas si podemos ir dandonos cuenta que es imposible que
+superen la mejor solucion encontrada hasta el momento. Esta es la idea
+fundamental detras del [backtracking]( backtracking ), una tecnica un poco mas
+avanzada.
