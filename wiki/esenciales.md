@@ -20,32 +20,36 @@
 - Kruskal
 - Dijkstra
 
-## Roadmap de enseñanza
+## Plan de estudio
 
-- Etapa 1: Introduccion a la programacion
-  - variables
-  - entrada y salida
-  - expresiones
-  - condicionales
-  - iteracion
-  - funciones
-  - recursion
-  - razonar sobre programas
+- Etapa 1: Introduccion a la programacion (alumnos que no saben programar)
+  - [fundamentos de la programacion](aprendiendo-a-programar)
+    - variables
+    - entrada y salida
+    - expresiones
+    - condicionales
+    - iteracion
+    - arreglos
+    - funciones
+    - recursion
+  - [razonar sobre programas](semantica-de-programas)
     - razonamiento ecuacional
 	- logica de Hoare ligera
-- Etapa 2: Programacion competitiva
+- Etapa 2: Programacion competitiva (alumnos que dominan la etapa 1)
   - tecnicas de resolucion de problemas
     - tipo abstraer cosas
 	- formalizar problemas
 	- buscar invariantes
-	- analizar elementos maximos y minimos
+	- analizar elementos especiales (e.g. maximos y minimos)
+	- etc.
   - Contenidos teoricos
-    - Algoritmia: backtracking, DP, busqueda binaria
-	- Estructuras de datos: tabla aditiva, union find, segment tree, trie
-	- Grafos: DFS, BFS, Dijkstra, Kruskal
-- Etapa 3: Mejorando como competidor (si clasifica o tiene chance de clasificar a IOI)
-  - Trabajar los puntos debiles
-    - Completar encuesta de temas teoricos
-	- Upsolving
+    - Algoritmia: [ordenamiento](ordenamiento), [backtracking](backtracking), [DP](dp), [busqueda binaria](busqueda-binaria)
+	- Estructuras de datos: [tabla aditiva](tabla-aditiva), [union find](union-find), [segment tree](segment-tree), [trie](trie)
+	- Grafos: [DFS y BFS](recorridos), [Dijkstra](camino-minimo), [Kruskal](spanning-tree)
+- Etapa 3: Mejorando como competidor (alumnos clasificados o con chances de clasificar a IOI)
   - Estrategia de prueba
-	- Simular competencias reales
+	- Simular [competencias viejas](https://www.oia.unsam.edu.ar/problemas-categoria-programacion/)
+  - Trabajar los puntos debiles
+    - Identificar temas flojos de las etapas 1 y 2
+	- Upsolving
+  - Revisar el [temario extendido](temario-extendido)
