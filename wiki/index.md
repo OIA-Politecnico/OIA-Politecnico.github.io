@@ -22,6 +22,7 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 - [Temario de nivel 1]( temario-de-nivel-1 )
 - [Temario de nivel 2]( temario-de-nivel-2 )
 - [Temario de nivel 3]( temario-de-nivel-3 )
+- [Temario extendido]( temario-extendido )
 - [Archivos base para el OIAJuez]( archivos-base )
 - [Plantilla de programación competitiva]( template )
 
@@ -80,6 +81,7 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 
 - [sqrt decomposition]( sqrt-decomposition )
 - [Binary Lifting]( binary-lifting )
+- [Temario extendido]( temario-extendido )
 
 ### Competitividad
 
