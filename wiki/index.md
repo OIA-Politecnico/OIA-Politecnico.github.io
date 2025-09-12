@@ -71,6 +71,7 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 - [Fenwick Tree]( fenwick ) - [presentación de Román Castellarin](https://www.oia.unsam.edu.ar/wp-content/uploads/2017/11/Fenwick-Trees.pdf)
 - [Segment Tree con range updates (lazy propagation)]( lazy-propagation )
 - [Treap]( treap )
+- [Descomposicion de aristas livianas/pesadas]( hld )
 
 #### Varios
 
