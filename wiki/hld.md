@@ -4,7 +4,7 @@ Imaginate un arbol con raiz, de N nodos.
 
 Enfocarse en una arista (u, v), donde v es el padre de u.
 
-Decimos que (u, v) es **"pesada"** si el tamaño del subárbol de u es más de la
+Decimos que (u, v) es **"pesada"** si el tamaño del subárbol de u es al menos la
 mitad del tamaño del subárbol de v.
 
 En tal caso, decimos que u es un **"hijo pesado"** de v.
@@ -13,16 +13,57 @@ A las aristas que no son pesadas las llamamos **"livianas"**.
 
 **obs:** un nodo no puede tener más de un hijo pesado.
 
+A los caminos maximales compuestos completamente por aristas pesadas les decimos
+**"caminos pesados"**.
+
 **obs:** en un camino desde la raíz hasta una hoja puede haber a lo sumo log2(N)
-aristas livianas. (por qué? porque al cruzar una arista liviana se divide el
-tamaño del subarbol a la mitad. esto no puede pasar muchas veces)
+aristas livianas. (por qué? porque si recorremos el camino de arriba hacia
+abajo, al cruzar una arista liviana se divide el tamaño del subarbol a la mitad.
+esto no puede pasar muchas veces)
 
-**obs:** si un camino está a una gran profundidad en el grafo, el camino desde
-la raiz hacia este va a estar compuesto de largas seguidillas de aristas pesadas
-interrumpidas por unas pocas aristas livianas. A estas seguidillas de aristas
-pesadas les decimos **"caminos pesados"**.
+**obs:** si un nodo está a una gran profundidad en el grafo, el camino desde la
+raiz hacia este va a estar compuesto de largas seguidillas de aristas pesadas
+interrumpidas por unas pocas aristas livianas. Si imaginamos un tipito que va
+bajando desde la raiz, este se va moviendo mucho tiempo por el mismo camino
+pesado y de vez en cuando cruza una arista liviana para cambiar de camino pesado.
 
-**Problema:** <https://codeforces.com/contest/1174/problem/F>
+### Implementacion
+
+```c++
+int const maxn = 100000;
+
+int n;
+vector<int> g[maxn];
+int p[maxn]; // padre
+int h[maxn]; // hijo pesado (o -1 si no tiene)
+int t[maxn]; // tamaño de subarbol
+
+void dfs(int u) {
+	t[u] = 1;
+	for (int v : g[u]) if (v != p[u]) {
+		p[v] = u;
+		dfs(v);
+		t[u] += t[v];
+	}
+}
+void decompose(int root) {
+	forn(u, n) {
+		p[u] = -1;
+		h[u] = -1;
+	}
+	dfs(root);
+	forn(u, n) {
+		for (int v : g[u]) if (v != p[u]) {
+			if (t[v]*2 >= t[u]) {
+				h[u] = v;
+			}
+		}
+	}
+}
+
+```
+
+## Problema <https://codeforces.com/contest/1174/problem/F>
  
 > Problema interactivo. Te dan un árbol con raíz, de N nodos (`N <= 10^5`). Hay
 > un nodo secreto x que hay que descubrir. Para lograrlo podes hacer dos tipos
@@ -34,7 +75,7 @@ pesadas les decimos **"caminos pesados"**.
 >
 > Se pueden realizar **a lo sumo 36 consultas**.
 
-**Solucion**
+### Solucion
 
 > Nos paramos en la raiz y nos vamos a ir acercando iterativamente al nodo x.
 >
@@ -62,12 +103,74 @@ pesadas les decimos **"caminos pesados"**.
 >
 > Esto baja la cantidad de consultas a `17 + 18 = 35` en el peor caso.
 
-## Idea de procesar cada el subarbol de cada arista liviana / *Sack*
+```c++
+int const maxn = 200100;
+int n;
+vector<int> g[maxn];
+int h[maxn], p[maxn], t[maxn];
 
-TODO: introduccion
+// ... dfs(), decompose() ...
 
-> **Problema:** <https://cses.fi/problemset/task/1139>
-> 
+int d(int u) { // implementa la consulta d(u) del interactivo
+	cout << "d " << (u+1) << "\n" << flush;
+	int ans; cin >> ans; return ans;
+}
+
+int s(int u) { // implementa la consulta s(u) del interactivo
+	cout << "s " << (u+1) << "\n" << flush;
+	int ans; cin >> ans; return ans-1;
+}
+
+int main() {
+	cin >> n;
+	forn(i, n-1) {
+		int u, v; cin >> u >> v; --u; --v;
+		g[u].push_back(v);
+		g[v].push_back(u);
+	}
+
+	decompose(0);
+
+	int top = 0;
+	int d_top = d(top);
+
+	while (true) {
+
+		int steps_btm = 0;
+		int btm = top;
+		while (h[btm] != -1) cerr << btm << "\n", btm = h[btm], steps_btm++;
+		int d_btm = d(btm);
+
+		int steps_mid = d_top - (d_top + d_btm - steps_btm) / 2;
+		int mid = top;
+		forn(_, steps_mid) mid = h[mid];
+		int d_mid = d_top - steps_mid;
+
+		if (d_mid == 0) {
+			cout << "! " << mid+1 << "\n";
+			return 0;
+		}
+
+		top = s(mid);
+		d_top = d_mid - 1;
+	}
+}
+```
+
+## Idea de procesar el subarbol de cada arista liviana / *Sack*
+
+Cada nodo tiene `O(log(N))` aristas livianas en su camino hacia la raiz. Esto se
+puede dar vuelta para llegar a la siguiente observacion:
+
+**obs:** Si iteramos por todo el subarbol de cada hijo liviano, visitamos cada
+nodo `O(log(N))` veces.
+
+Esto significa que podemos hacer algoritmos bastante brutos y van a ser
+eficientes, siempre y cuando no recorramos el subarbol de cada hijo pesado
+muchas veces.
+
+## Problema <https://cses.fi/problemset/task/1139>
+
 > Hay un arbol con raiz, de N nodos (`N <= 2*10^5`), donde cada nodo tiene un
 > color. Por cada nodo, nos preguntan cuantos colores distintos aparecen en su
 > subarbol.
@@ -95,6 +198,62 @@ Esto significa que cada nodo se inserta `O(log(N))` veces, por lo que el
 algoritmo realiza a lo sumo `O(N log(N))` inserciones en un conjunto. Si usamos
 `unordered_set`, obtenemos exactamente esa complejidad.
 
+```c++
+int const maxn = 200000;
+
+int n;
+vector<int> g[maxn];
+int p[maxn], h[maxn], t[maxn];
+
+// ... dfs(), decompose() ...
+
+vector<int> post; // post-orden
+int tl[maxn], tr[maxn]; // rango de cada subarbol en el post-orden
+void dfs2(int u) {
+	tl[u] = post.size();
+	for (int v : g[u]) if (v != p[u])
+		dfs2(v);
+	post.push_back(u);
+	tr[u] = post.size();
+}
+
+int c[maxn]; //color
+
+int main() {
+	cin >> n;
+	forn(u, n) cin >> c[u];
+	forn(i, n-1) {
+		int u, v; cin >> u >> v; --u; --v;
+		g[u].push_back(v);
+		g[v].push_back(u);
+	}
+
+	decompose(0);
+	dfs2(0);
+
+	vector<int> ans(n, -1);
+	for (int u : post) if (ans[u] == -1) {
+		unordered_set<int> colors;
+		while (true) {
+			colors.insert(c[u]);
+
+			// inserto los colores del subarbol de cada hijo liviano
+			for (int v : g[u]) if (v != p[u] && v != h[u])
+				forr(i, tl[v], tr[v])
+					colors.insert(c[post[i]]);
+
+			ans[u] = colors.size();
+
+			// si v es un hijo pesado, subo. si no, freno.
+			if (p[u] != -1 && h[p[u]] == u) u = p[u];
+			else break;
+		}
+	}
+
+	forn(u, n) cout << ans[u] << " \n"[u==n-1];
+}
+```
+
 ## Idea de mover fichitas a la raiz / *small-to-large* / *DSU on trees*
 
 Una forma común de aprovechar la descomposicion en aristas livianas y pesadas
@@ -108,7 +267,74 @@ En cambio, si pudieramos simular el trayecto de cada fichitas por un camino
 pesado en O(1) y solo pagaramos las aristas individualmente en el caso de ser
 livianas, entonces tendriamos un algoritmo `O(N log(N))`.
 
-Esta misma idea se puede aplicar
+Esta misma idea se puede aplicar para el problema anterior.
+
+> La idea va a ser que podemos mantener un set de colores en cada nodo, donde
+> cada elemento del set representa una "ficha" correspondiente a cada nodo.
+>
+> Al cruzar una arista pesada, movemos todas las fichas en O(1) haciendo un
+> `std::swap` o `std::move` del set del hijo pesado hacia el set del padre
+>
+> Al cruzar una arista liviana simplemente movemos las fichas una por una al
+> set del nodo padre.
+
+```c++
+// ... definir grafo, arreglos y funciones de la descomposicion ...
+
+vector<int> post;
+void dfs2(int u) {
+	for (int v : g[u]) if (v != p[u])
+		dfs2(v);
+	post.push_back(u);
+}
+
+int c[maxn]; //color
+
+int main() {
+	cin >> n;
+	forn(u, n) {
+		cin >> c[u];
+	}
+	forn(i, n-1) {
+		int u, v; cin >> u >> v; --u; --v;
+		g[u].push_back(v);
+		g[v].push_back(u);
+	}
+
+	decompose(0);
+	dfs2(0);
+
+	vector<set<int>> colors(n);
+	vector<int> ans(n);
+
+	for (int u : post) {
+
+		// muevo todas las fichitas del hijo pesado en O(1)
+		if (h[u] != -1) colors[u] = move(colors[h[u]]);
+
+		// agrego mi fichita
+		colors[u].insert(c[u]);
+
+		// muevo fichitas de los hijos livianos una por una
+		for (int v : g[u]) if (v != p[u] && v != h[u])
+			for (int x : colors[v])
+				colors[u].insert(x);
+
+		ans[u] = colors[u].size();
+	}
+
+	forn(u, n) cout << ans[u] << " \n"[u==n-1];
+}
+```
+
+> Comentario de implementacion:
+>
+> No hace falta guardarse el post-orden y procesar posteriormente.
+> Se puede hacer lo mismo escribiendo el codigo directamente en el dfs.
+> De esa manera queda un codigo un poco mas corto y simple.
+>
+> Para la solucion anterior es un poco mas complicado de lograr.
+
 
 ## Idea de construir estructuras de datos sobre los caminos pesados
 
