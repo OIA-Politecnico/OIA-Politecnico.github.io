@@ -2,12 +2,11 @@
 
 Imaginate un arbol con raiz, de N nodos.
 
-Enfocarse en una arista (u, v), donde v es el padre de u.
+Enfocarse en una arista (u, v), donde u es el padre de v.
 
-Decimos que (u, v) es **"pesada"** si el tamaño del subárbol de u es al menos la
-mitad del tamaño del subárbol de v.
-
-En tal caso, decimos que u es un **"hijo pesado"** de v.
+Decimos que (u, v) es **"pesada"** si el tamaño del subárbol de v es al menos la
+mitad del tamaño del subárbol de u. En tal caso, decimos que v es un
+**"hijo pesado"** de u.
 
 A las aristas que no son pesadas las llamamos **"livianas"**.
 
@@ -47,16 +46,12 @@ void dfs(int u) {
 	}
 }
 void decompose(int root) {
-	forn(u, n) {
-		p[u] = -1;
-		h[u] = -1;
-	}
+	forn(u, n) h[u] = -1;
+	p[root] = -1;
 	dfs(root);
-	forn(u, n) {
-		for (int v : g[u]) if (v != p[u]) {
-			if (t[v]*2 >= t[u]) {
-				h[u] = v;
-			}
+	forn(v, n) {
+		if (int u = p[v]; u != -1 && t[v]*2 >= t[u]) {
+			h[u] = v;
 		}
 	}
 }
@@ -338,29 +333,171 @@ int main() {
 
 ## Idea de construir estructuras de datos sobre los caminos pesados
 
-Posiblemente la aplicacion mas famosa de la descomposicion, se puede usar para
-hacer consultas de suma/max o cualquier operacion asociativa en caminos de un
-arbol. (tipicamente se suponen operaciones que tambien son conmutativas para
-facilitar la implementacion)
+La aplicacion mas famosa de esta descomposicion es su uso para responder
+consultas de suma/max/gcd (o cualquier operacion asociativa) en caminos de un
+arbol, donde cada nodo tiene un valor.
 
-La idea es armar un segment tree de suma o alguna estructura similar sobre cada
-camino pesado. Ahora, para hacer una consulta de suma a lo largo de un camino,
-podemos observar lo siguiente.
+**obs:** un camino cualquiera solo toca a lo sumo `2*(log2(N)+1)` caminos
+pesados. (Porque un camino `u`--`v` esta contenido en la union entre los caminos
+`u`--`raiz` y `v`--`raiz`, que tocan a lo sumo `log2(N)+1` cada uno)
 
-Cualquier camino entre dos nodos (u,v) sube de u al LCA de u y v y despues baja
-a v.
+La idea es construir una estructura de datos que permite responder consultas de
+rangos en cada camino pesado. (Por ejemplo segment tree)
 
-Podemos responder las dos partes del camino por separado y despues sumar.
+Para responder una consulta sobre un camino, lo descomponemos en las partes que
+caen en distintos caminos pesados y respondemos cada consulta usando la
+estructura del camino pesado correspondiente.
 
-Para lograr una consulta que va de u y solo sube podemos primero responder la
-parte de la consulta que esta sobre el camino pesado de u.
+En mas detalle, imaginate que queremos calcular una consulta a lo largo del
+camino entre dos nodos `u` y `v`.
 
-Despues pasamos al padre del nodo mas alto del camino pesado y respondemos la
-parte que cae en su camino pesado.
+**obs:** Si `u` y `v` estan en el mismo camino pesado, entonces el camino
+`u`--`v` es esta contenido en este camino pesado, y podemos responder la
+consulta mediante una consulta en rango.
 
-Repetimos este algoritmo hasta llegar tan arriba como se necesite.
+**obs:** Si `u` y `v` estan en distintos caminos pesados, el camino de `u`--`v`
+contiene completamente al menos una de dos cosas:
 
-En todo este algoritmo solo podemos tocar `log2(N)+1` caminos pesados (porque
-para pasar de un camino pesado a otro tenemos que cruzar una arista liviana y
-solo hay a lo sumo `log2(N)`), entonces podemos responder todas las consultas en
-`O(log(N))` consultas de segment tree, con un costo de `O(log(N)^2)`
+- el camino `u`--`c[u]`
+- el camino `v`--`c[v]`
+
+En particular, el de mayor profundidad entre `c[u]` y `c[v]` siempre esta
+contenido. O sea que:
+
+- Si `c[v]` es el mas profundo, podemos partir la consulta sobre el camino
+  `u`--`v` en dos partes:
+
+  - `u`--`p[c[v]]` (contenido en un mismo camino pesado)
+  - `c[v]`--`v`
+
+- En cambio, si `c[u]` es el mas profundo, podemos partir en:
+
+  - `u`--`c[u]`
+  - `p[c[u]]`--`v` (contenido en un mismo camino pesado)
+
+
+## Implementacion
+
+Aca vemos una forma de implementar pero no es necesariamente la mas corta o la
+mas eficiente, si no que apunta a ser entendible. Hay implementaciones de calidad
+de competencia en distintos lados en Internet (KACTL, cp-algorithms,
+el-vasito-icpc, etc.)
+
+Aparte, nos limitamos al caso de operaciones conmutativas. Resolver el caso
+no-conmutativo no es mucho mas dificil, pero complica la implementacion y
+distrae de la idea principal. En particular, la implementacion que sigue es para
+hacer suma pero deberia ser directo adaptarla para otras operaciones asociativas
+y conmutativas (max, min, gcd, etc.)
+
+Veamos la inicializacion de la estructura.
+
+A cada camino pesado le asignamos un id unico, que es el id del nodo de mas
+arriba del camino. Aparte, en cada nodo guardamos el id del camino pesado al que
+pertenece.
+
+Despues construimos un segment tree sobre cada camino pesado (para esto primero
+calculamos el tamaño del camino en cantidad de nodos y despues asignamos valores
+al segment tree segun los nodos que componen el camino)
+
+**obs:** la posicion de un nodo en su camino pesado se puede calcular a partir
+de su profundidad en el arbol.
+
+```c++
+int const maxn = 100000;
+
+int n;               // cantidad de nodos
+vector<int> g[maxn]; // arbol como lista de adyacencia
+int val[maxn];       // valor de cada nodo
+
+int p[maxn];     // p[u] = padre de u en el arbol
+int h[maxn];     // h[u] = hijo pesado de u (o -1 si no tiene)
+int t[maxn];     // t[u] = tamaño de subarbol de u
+int c[maxn];     // c[u] = comienzo del camino pesado al que pertenece u
+int d[maxn];     // d[u] = profundidad de u en el arbol
+vector<int> pre; // pre-orden
+
+struct Segtree {
+	vector<int> data;
+	void init(int n) { /* ... */ }
+	int query(int l, int r) { /* ... */ }
+	int update(int i, int x) { /* ... */ }
+};
+Segtree ts[maxn];
+
+void dfs(int u) {
+	pre.push_back(u);
+	t[u] = 1;
+	for (int v : g[u]) if (v != p[u]) {
+		p[v] = u;
+		d[v] = d[u] + 1;
+		dfs(v);
+		t[u] += t[v];
+	}
+}
+
+void decompose(int root) {
+	forn(u, n) h[u] = -1;
+	d[root] = 0;
+	p[root] = -1;
+	dfs(root);
+
+	// asignamos ids a los caminos pesados
+	// iteramos en preorden para poder propagar c[u] "hacia abajo"
+	for (int v : pre) {
+		if (int u = p[v]; u != -1 && t[v]*2 >= t[u]) {
+			h[u] = v;
+			c[v] = c[u];
+		} else {
+			c[v] = v;
+		}
+	}
+
+	// construimos segment tree en cada camino pesado
+	forn(u, n) if (c[u] == u) {
+		int len = 1;
+		for (int v = u; v != -1; v = h[v]) {
+			len += 1;
+		}
+		ts[u].init(len);
+		for (int v = u; v != -1; v = h[v]) {
+			ts[u].update(d[v] - d[u], val[v]);
+		}
+	}
+}
+```
+
+Una consulta sobre un camino se calcula recursivamente, separando en los casos
+que hablamos antes.
+
+```c++
+int query(int u, int v) {
+	if (c[u] == c[v]) { // camino contenido en un camino pesado
+		int const w = c[u];
+		int l = d[u] - d[w];
+		int r = d[v] - d[w];
+		if (l > r) swap(l, r);
+		return ts[w].query(l, r+1);
+	}
+
+	if (d[c[u]] < d[c[v]]) { // c[v] es mas profundo
+		return query(u, p[c[v]]) + query(c[v], v);
+	} else {                 // c[u] es igual o mas profundo
+		return query(u, c[u]) + query(p[c[u]], v);
+	}
+}
+```
+
+Esta estructura tambien permite actualizar los valores.
+
+```c++
+void update(int u, int x) {
+	int w = c[u];
+	ts[w].update(d[u] - d[w], x);
+}
+```
+
+> Para soportar operaciones no conmutativas, en cada camino pesado hay que
+> guardar un segment tree con los elementos en orden inverso.
+>
+> Despues, en el caso base de la consulta, se debe usar ese segment tree en
+> orden inverso cuando `l > r` (aparte de ajustar los indices adecuadamente).
