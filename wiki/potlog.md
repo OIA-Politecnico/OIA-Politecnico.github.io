@@ -93,7 +93,7 @@ Sumas geometricas (ya sea en `int`, con o sin modulo, o con matrices)
 // devuelve 1 + x + x^2 + x^3 + ... + x^(n-1)
 int geosum(int x, int n) {
 	if (n == 0) return 0;
-	if (n%2 == 0) return (1 + x) * geosum(x*2, n/2);
+	if (n%2 == 0) return (1 + x) * geosum(x*x, n/2);
 	return 1 + x * geosum(x, n-1);
 }
 ```

@@ -15,7 +15,7 @@ solución eficiente en el caso general.
 ### Soluciones
 
 - [Fuerza bruta]( backtracking ) en \\(O(N! \cdot N)\\), anda
-  hasta \\(N=12\\)
+  hasta \\(N=10\\)
 
   ```c++
   // true si existe camino simple que visita el conjunto s y termina en u
@@ -30,8 +30,13 @@ solución eficiente en el caso general.
   }
   ```
 
+> Hay implementaciones mas eficientes. por ejemplo, fuerza bruta con
+> `next_permutation`, o backtracking usando una permutacion global como estado.
+>
+> Con esas ideas, se puede llegar a N=11 o N=12.
+
 - [Programación dinámica]( dp ) (con subconjuntos) en \\(O(2^{N} \cdot N)\\),
-  anda hasta \\(N=20\\)
+  anda hasta \\(N=22\\)
 
   ```c++
   bool visto[1<<MAXN][MAXN];
@@ -39,7 +44,7 @@ solución eficiente en el caso general.
   bool hamilton(int s, int u) {
   	if (visto[s][u]) return memo[s][u];
   	visto[s][u] = true;
-  	if (__builtin_popcount(s.size()) == 1) return memo[s][u] = true;
+  	if (__builtin_popcount(s) == 1) return memo[s][u] = true;
   	int s2 = s ^ (1<<u);
   	forn(v, n) if (s2 & (1<<v))
   		if (existe_arista(u, v) && hamilton(s2, v))
@@ -62,7 +67,7 @@ lineal!
 ### Solución
 
 Esta solución corre en tiempo lineal pero se puede hacer bastante más rápida
-usando `std::list` en vez de `std::unordered_map`.
+usando `std::list` en vez de `std::unordered_set`.
 
 ```c++
 unordered_set<int> g[maxn];

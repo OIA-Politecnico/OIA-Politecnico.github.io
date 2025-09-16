@@ -36,15 +36,19 @@ Imaginemos un caso mas complicado.
 
 - sort toma un vector y devuelve una copia ordenada, en O(N log N)
 - merge toma dos vectores ordenados y devuelve un tercero vector ordenado, con los elementos de los dos anteriores, en O(N)
-- concat toma dos vector y devuelve un tercero, su concatenacion
+- concat toma dos vectores y devuelve un tercero, su concatenacion
 
-	// todas estas expresiones son equivalentes, pero algunas son mas costosas que otras
-	// ordenar de menor a mayor costo
-	// cambia el orden si suponemos que sort es O(N) si su input ya esta ordenado
-	  sort(merge(sort(a), sort(b)))
-    = sort(concat(sort(a), sort(b)))
-	= merge(sort(a), sort(b))
-    = sort(concat(a, b))
+```
+// todas estas expresiones son equivalentes, pero algunas son mas costosas que otras
+// ejercicio: ordenar de menor a mayor costo
+
+  sort(merge(sort(a), sort(b)))
+= sort(concat(sort(a), sort(b)))
+= merge(sort(a), sort(b))
+= sort(concat(a, b))
+```
+
+> Hay algoritmos de ordenamiento que tienen costo O(N) cuando su input ya esta ordenado. Si suponemos que `sort()` tiene esta caracteristica, cambia la respuesta al ejercicio?
 
 ## Logica de Hoare
 

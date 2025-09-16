@@ -19,7 +19,7 @@ En otras palabras, si tenemos un arbol t
 
 La secuencia representada por el arbol es
 
-    inorden(t) = inorden(L) + x + inorden(R).
+    inorden(t) = inorden(L) + [x] + inorden(R).
 
 ```cpp
 

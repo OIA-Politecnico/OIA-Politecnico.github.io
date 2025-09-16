@@ -13,3 +13,6 @@
 - Z function (como se usa, no como se calcula)
 - Probabilidad de que los hashes colisionen
 - xor hashing (en mi experiencia esto es mas para codeforces pero puede llegar a servir)
+- Suffix tree
+- Suffix automaton
+- Aho-Corasick
