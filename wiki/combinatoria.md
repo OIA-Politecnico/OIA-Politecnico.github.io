@@ -105,6 +105,15 @@ Algunas ideas buenas:
   Este tipo de observaciones nos permiten resolver problemas de combinatoria
   usando [programación dinámica]( dp ).
 
+  ```c++
+  vector<int> tam_F(N+1);
+  tam_F[1] = 1;
+  tam_F[2] = 2;
+  for (int i = 3; i <= N; ++i) {
+	  tam_F[i] = tam_F[i-1] + tam_F[i-2];
+  }
+  ```
+
 - **Principio de inclusión-exclusión (cont.).** Si queremos calcular el tamaño
   de la union de varios conjuntos, podemos generalizar la idea que usamos para
   dos conjuntos.
