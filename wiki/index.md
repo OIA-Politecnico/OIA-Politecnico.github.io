@@ -40,6 +40,7 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 - [Primalidad en O(raiz(N))]( primalidad-sqrt )
 - [Criba de Eratóstenes (Algoritmo)]( criba )
 - [Potenciacion rapida]( potlog )
+- [Combinatoria]( combinatoria )
 
 #### Busqueda
 
