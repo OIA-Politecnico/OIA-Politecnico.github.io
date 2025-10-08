@@ -38,4 +38,4 @@ Aca se exponen los temas mas importantes para OIA hoy en dia (año 2025)
   - Trabajar los puntos debiles
     - Identificar temas flojos de las etapas 1 y 2
 	- Upsolving
-  - Revisar el [temario extendido](temario-extendido)
+  - Revisar el [temario extendido]( https://sebastianmestre.github.io/comp-prog-argentina/page/temario )

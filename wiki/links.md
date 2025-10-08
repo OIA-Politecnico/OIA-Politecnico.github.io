@@ -1,6 +1,7 @@
 
 # Enlaces útiles
 
+- [Sitio CPA]( https://sebastianmestre.github.io/comp-prog-argentina ) - Compilado de links utiles para programacion competitiva
 - [Juez de la OIA](https://juez.oia.unsam.edu.ar/) - Sitio para leer y enviar soluciones a problemas de la OIA
 - [Foro de la OIA](https://foro.oia.unsam.edu.ar/) - Sitio para discutir y pedir ayuda (inactivo)
 - [Wiki de la OIA](https://wiki.oia.unsam.edu.ar/) - Sitio con recursos sobre el contenido de la OIA
