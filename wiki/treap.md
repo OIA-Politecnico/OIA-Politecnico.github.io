@@ -204,7 +204,7 @@ Una idea un poco mejor seria agregar un prioridad a cada nodo, y elegir el nodo
 de mayor prioridad como raiz.
 
 Resulta que, si la prioridad de cada nodo es aleatoria, entonces el arbol va a
-estar balanceado con alta probabilidad.
+estar [balanceado con alta probabilidad](https://www.cs.cmu.edu/afs/cs/academic/class/15210-s12/www/lectures/lecture16.pdf).
 
 ```cpp
 
