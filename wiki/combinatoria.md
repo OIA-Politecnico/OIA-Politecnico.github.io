@@ -88,7 +88,11 @@ Algunas ideas buenas:
   formas lo podemos tapar con fichas de Dominó?
 
   Consideremos el conjunto de formas \\( F(N) \\). Si \\( N=1 \\) obviamente hay
-  una sola forma. Si \\( N=2 \\), hay dos formas. Si \\( N>2 \\), entonces
+  una sola forma. Si \\( N=2 \\), hay dos formas.
+
+  <img alt="casos hasta N=4" src="img/fibo-casos-chicos.png" style="image-rendering: pixelated; width: 508px">
+
+  Si \\( N>2 \\), entonces
   podemos pensar lo siguiente:
 
   Si ponemos una fichita vertical a la izquierda de todo, nos queda un hueco de
@@ -99,7 +103,9 @@ Algunas ideas buenas:
   \\( 2 \times (N-2) \\), que podemos rellenar con cualquiera de las formas de
   \\( F(N-2) \\).
 
-  Estas dos formas son mutuamente excluyentes. Entonces, por el principio de la
+  <img alt="casos hasta N=4" src="img/fibo-caso-general.png" style="image-rendering: pixelated; width: 396px">
+
+  Estos dos casos son mutuamente excluyentes. Entonces, por el principio de la
   suma, el tamaño del conjunto es \\( \\# F(N) = \\# F(N-1) + \\# F(N-2) \\).
 
   Este tipo de observaciones nos permiten resolver problemas de combinatoria
