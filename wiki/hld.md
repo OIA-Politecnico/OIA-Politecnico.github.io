@@ -1,32 +1,77 @@
 # Heavy-Light Decomposition
 
-Imaginate un arbol con raiz, de N nodos.
+Dado un arbol con raíz de N nodos, hay una observación super simple, a la cual
+le podemos sacar mucho provecho.
 
-Enfocarse en una arista (u, v), donde u es el padre de v.
+**obs:** Entre todos los hijos de la raíz, hay a lo sumo uno cuyo subarbol tiene
+`>= N/2` nodos.
 
-Decimos que (u, v) es **"pesada"** si el tamaño del subárbol de v es al menos la
-mitad del tamaño del subárbol de u. En tal caso, decimos que v es un
-**"hijo pesado"** de u.
+Esto nos sirve para optimizar algoritmos bastante brutos, como el siguiente:
 
-A las aristas que no son pesadas las llamamos **"livianas"**.
+```
+# O(N^2)
+para cada u, nodo del arbol:
+  para cada v, hijo de u:
+    dfs(v)
+```
 
-**obs:** un nodo no puede tener más de un hijo pesado.
+Si, en cambio, evitamos procesar esos subarboles con muchos nodos, el algoritmo
+es O(N log N):
 
-A los caminos maximales compuestos completamente por aristas pesadas les decimos
-**"caminos pesados"**.
+```
+# O(N log N)
+para cada u, nodo del arbol:
+  para cada v, hijo de u:
+    if tam_subarbol(v)*2 < tam_subarbol(u):
+      dfs(v)
+```
 
-**obs:** en un camino desde la raíz hasta una hoja puede haber a lo sumo log2(N)
-aristas livianas. (por qué? porque si recorremos el camino de arriba hacia
-abajo, al cruzar una arista liviana se divide el tamaño del subarbol a la mitad.
-esto no puede pasar muchas veces)
+> **¿Por qué?**
+>
+> El costo es la suma de los tamaños de los subarboles que visitamos con un dfs.
+>
+> Visto de otra manera: la suma de la cantidad de veces que cada nodo es
+> visitado por un dfs.
+>
+> Entonces, imaginate el camino desde un nodo w hasta la raíz, y considerá el
+> conjunto de nodos v desde los cuales disparamos llamadas a dfs(v).
+>
+> El tamaño de ese conjunto, es justamente la cantidad de veces que w es
+> visitado por un dfs.
+>
+> Fijate que si recorremos el camino de abajo hacia arriba, cada vez que
+> cruzamos uno de estos nodos, el tamaño del subarbol del nodo al que llegamos
+> es al menos el doble que el anterior.
+>
+> Esto puede pasar a lo sumo log2(N) veces. Si pasara más veces, habría más de N
+> nodos en el arbol, lo cual es imposible.
 
-**obs:** si un nodo está a una gran profundidad en el grafo, el camino desde la
-raiz hacia este va a estar compuesto de largas seguidillas de aristas pesadas
-interrumpidas por unas pocas aristas livianas. Si imaginamos un tipito que va
-bajando desde la raiz, este se va moviendo mucho tiempo por el mismo camino
-pesado y de vez en cuando cruza una arista liviana para cambiar de camino pesado.
+Obviamente, no recorrer uno de los hijos puede romper el algoritmo, asi que
+la dificultad de aplicar esta idea es ver cómo podemos arreglarlo. Generalmente,
+la forma de hacerlo va a ser guardar el resultado del calculo que hagamos en
+cada hijo pesado y usarlo para el calculo en el padre.
 
-### Implementacion
+## Definiciones
+
+- Dado un nodo u, su **hijo pesado** es el hijo v tal que `tam_subarbol(v)*2 >= tam_subarbol(u)`.
+
+- Dado un nodo u y un hijo v:
+
+  - si v es el hijo pesado de u, entonces la arista (u, v) es **pesada**.
+  - si v no es hijo pesado de u, entonces la arista (u, v) es **liviana**.
+
+- un **camino pesado** es un camino que:
+  - es un único nodo o es un camino que solo contiene aristas pesadas.
+  - su nodo más profundo no tiene hijo pesado.
+  - su nodo menos profundo no es un hijo pesado.
+
+- **obs**: en el camino de un nodo u a la raiz, hay a lo sumo log2(N) aristas livianas. (demostrado en la introducción)
+
+Vamos a ver varios algoritmos que surgen de tratar de manera distinta las aristas livianas y pesadas.
+
+Por ejemplo, el algoritmo que vimos antes se puede expresar así:
+
+### Implementación
 
 ```c++
 int const maxn = 100000;
@@ -59,7 +104,7 @@ void decompose(int root) {
 ```
 
 ## Problema <https://codeforces.com/contest/1174/problem/F>
- 
+
 > Problema interactivo. Te dan un árbol con raíz, de N nodos (`N <= 10^5`). Hay
 > un nodo secreto x que hay que descubrir. Para lograrlo podes hacer dos tipos
 > de consultas:
