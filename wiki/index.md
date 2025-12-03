@@ -78,6 +78,7 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 - [Compresión de coordenadas]( compresion-de-coordenadas )
 - [Geometria computacional]( geometria )
 - [Complejidad computacional]( complejidad )
+- [Permutaciones]( permutaciones )
 
 #### Temas Adicionales (Fuera del temario de OIA)
 
