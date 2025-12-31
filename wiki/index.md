@@ -60,6 +60,7 @@ Podés arrancar leyendo "Introducción a la OIA", "Técnicas algorítmicas" y
 - [Caminos mínimos]( camino-minimo )
 - [Arbol recubridor]( spanning-tree )
 - [Caminos eulerianos y hamiltonianos]( hamilton-euler )
+- [Flujo máximo y problemas relacionados]( flujo )
 
 #### Estructuras de datos
 
