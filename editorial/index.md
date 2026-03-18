@@ -5,7 +5,7 @@
 
 ## Serie 2026
 
-- [Training OIA IPS 2026 #1](2023-06-10)
+- [Training OIA IPS 2026 #1](2026-03-18)
 
 ## Serie 2023
 
