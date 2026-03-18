@@ -1,9 +1,13 @@
 
-# Competencias semanales
-
-Horario: Cada sábado a las 15hs
+# Competencias Internas
 
 [Grupo en Virtual Judge](https://vjudge.net/group/oiapolitecnico)
+
+## Serie 2026
+
+- [Training OIA IPS 2026 #1](2023-06-10)
+
+## Serie 2023
 
 - [10 de Junio, 2023](2023-06-10.md)
 - [17 de Junio, 2023](2023-06-17.md)
