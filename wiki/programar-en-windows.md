@@ -14,7 +14,9 @@ En las olimpíadas se asume acceso a un entorno basado un linux para programar. 
 +  Instalar Visual Studio Code corriendo el instalador disponible acá: https://code.visualstudio.com/
 +  Instalar la extensión de C/C++ de Microsoft (Ctrl-Shift+X abre el buscador de extensiones)
 ![4.png](https://user-images.githubusercontent.com/44166492/235027034-0f87d558-3c57-4016-bc86-ec148b7c0ef5.PNG)
-+  Hacer Ctrl-Shift+P y escribir "settings.json" para abrir el archivo de configuración de VSCode
++  Hacer Ctrl-Shift+P y escribir "settings.json" para abrir el archivo de configuración de VSCode. Asegurarse elegir la opción "Open **User** Settings (JSON)":
+<div style="text-align: center;"><img width="594" height="48" alt="image" src="https://github.com/user-attachments/assets/f72c38dd-1019-4bd4-90d1-af7bc783a421" /></div>
+
 +  Agregar el siguiente bloque de código dentro de las llaves que encierran todo (y agregar una coma al final de la línea anterior):
 ```
     "terminal.integrated.profiles.windows": {
